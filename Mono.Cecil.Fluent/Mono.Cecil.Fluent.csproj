@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CecilExtensions\MethodDefinition.Returns.cs" />
+    <Compile Include="CecilExtensions\MethodDefinition.WithParameter.cs" />
     <Compile Include="CecilExtensions\ModuleDefinition.NewType.cs" />
     <Compile Include="CecilExtensions\ModuleDefinition.SafeImport.cs" />
     <Compile Include="CecilExtensions\TypeDefinition.NewMethod.cs" />

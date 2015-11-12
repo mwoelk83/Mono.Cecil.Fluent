@@ -68,10 +68,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\MethodDefinition.Returns.cs" />
-    <Compile Include="Extensions\ModuleDefinition.SafeImport.cs" />
-    <Compile Include="Extensions\TypeDefinition.NewMethod.cs" />
-    <Compile Include="Extensions\ModuleDefinition.NewType.cs" />
+    <Compile Include="CecilExtensions\MethodDefinition.Returns.cs" />
+    <Compile Include="CecilExtensions\MethodDefinition.WithParameter.cs" />
+    <Compile Include="CecilExtensions\ModuleDefinition.SafeImport.cs" />
+    <Compile Include="CecilExtensions\TypeDefinition.NewMethod.cs" />
+    <Compile Include="CecilExtensions\ModuleDefinition.NewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestsBase.cs" />
   </ItemGroup>
