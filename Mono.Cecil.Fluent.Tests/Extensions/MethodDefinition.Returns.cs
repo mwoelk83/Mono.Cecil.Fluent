@@ -8,7 +8,7 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 	public class Extensions_MethodDefinition_Returns : TestsBase
 	{
 		static TypeDefinition TestType = CreateType();
-		static MethodDefinition TestMethod = TestType.NewMethod();
+		static MethodDefinition TestMethod = CreateMethod();
 
 		It should_return_void =
 			() => TestMethod.ReturnsVoid().ReturnType.ShouldEqual(TestModule.TypeSystem.Void);

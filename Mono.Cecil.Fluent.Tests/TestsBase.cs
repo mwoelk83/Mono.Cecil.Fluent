@@ -12,5 +12,10 @@ namespace Mono.Cecil.Fluent.Tests
 			TestModule.Types.Add(t);
 			return t;
 		}
+
+		internal static MethodDefinition CreateMethod()
+		{
+			return new MethodDefinition(Generate.Name.ForMethod(), MethodAttributes.Family, TestModule.TypeSystem.Void) { DeclaringType = CreateType() };
+		}
 	}
 }
