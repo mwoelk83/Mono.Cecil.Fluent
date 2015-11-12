@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\MethodDefinition.Returns.cs" />
     <Compile Include="Extensions\ModuleDefinition.SafeImport.cs" />
     <Compile Include="Extensions\TypeDefinition.NewMethod.cs" />
     <Compile Include="Extensions\ModuleDefinition.NewType.cs" />
