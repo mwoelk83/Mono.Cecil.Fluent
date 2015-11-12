@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.IO;
 using Machine.Specifications;
+using Should.Fluent;
+
 // ReSharper disable All
 
 namespace Mono.Cecil.Fluent.Tests.Extensions
@@ -11,15 +13,15 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 		static MethodDefinition TestMethod = CreateMethod();
 
 		It should_return_void =
-			() => TestMethod.ReturnsVoid().ReturnType.ShouldEqual(TestModule.TypeSystem.Void);
+			() => TestMethod.ReturnsVoid().ReturnType.Should().Equal(TestModule.TypeSystem.Void);
 
 		It should_return_typereference =
-			() => TestMethod.Returns(TestType).ReturnType.ShouldEqual(TestType);
+			() => TestMethod.Returns(TestType).ReturnType.Should().Equal(TestType);
 
 		It should_return_system_type =
-			() => TestMethod.Returns(typeof(ArrayList)).ReturnType.FullName.ShouldEqual(typeof(ArrayList).FullName);
+			() => TestMethod.Returns(typeof(ArrayList)).ReturnType.Should().Equal<ArrayList>();
 
 		It should_return_system_type_generic =
-			() => TestMethod.Returns<FileInfo>().ReturnType.FullName.ShouldEqual(typeof(FileInfo).FullName);
+			() => TestMethod.Returns<FileInfo>().ReturnType.Should().Equal<FileInfo>();
 	}
 }
