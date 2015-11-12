@@ -68,7 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\NewType.cs" />
+    <Compile Include="Extensions\ModuleDefinition.SafeImport.cs" />
+    <Compile Include="Extensions\TypeDefinition.NewMethod.cs" />
+    <Compile Include="Extensions\ModuleDefinition.NewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestsBase.cs" />
   </ItemGroup>

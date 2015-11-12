@@ -9,11 +9,22 @@ namespace Mono.Cecil.Fluent.Utils
 		{
 			private static readonly Random _rnd = new Random();
 			private static readonly object _syncRoot = new object();
-			private static readonly HashSet<string> _usedClassNames = new HashSet<string>();
+			private static readonly HashSet<string> UsedClassNames = new HashSet<string>();
+			private static readonly HashSet<string> UsedMethodNames = new HashSet<string>();
 			public const string IdentifierFirstLetterChars = "abcdefghijklmnopqrstuvwxyz";
 			public const string IdentifierChars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
+			public static string ForMethod()
+			{
+				return genereateInternal(UsedMethodNames);
+			}
+
 			public static string ForClass()
+			{
+				return genereateInternal(UsedClassNames);
+			}
+
+			private static string genereateInternal(HashSet<string> used)
 			{
 				var ret = "";
 				ret += IdentifierFirstLetterChars[_rnd.Next(0, IdentifierFirstLetterChars.Length - 1)];
@@ -29,14 +40,14 @@ namespace Mono.Cecil.Fluent.Utils
 
 					lock (_syncRoot)
 					{
-						if (_usedClassNames.Contains(ret))
+						if (used.Contains(ret))
 							continue;
-						_usedClassNames.Add(ret);
+						used.Add(ret);
 						return ret;
 					}
 				}
 			}
-			
+
 		}
 	}
 }
