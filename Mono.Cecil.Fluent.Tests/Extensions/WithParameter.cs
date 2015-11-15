@@ -9,7 +9,7 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.CecilExtensions
 {
-	public class Extensions_MethodDefinition_WithParameter : TestsBase
+	public class Extensions_WithParameter : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 

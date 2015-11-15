@@ -11,7 +11,7 @@ namespace Mono.Cecil.Fluent
 			if (!string.IsNullOrEmpty(name))
 				var.Name = name;
 			method.Body.Variables.Add(var);
-			return method;
+			return new FluentMethodBody(method);
 		}
 
 		public static FluentMethodBody WithVariable(this MethodDefinition method, Type varType, string name = null)
@@ -20,7 +20,7 @@ namespace Mono.Cecil.Fluent
 			if (!string.IsNullOrEmpty(name))
 				var.Name = name;
 			method.Body.Variables.Add(var);
-			return method;
+			return new FluentMethodBody(method);
 		}
 
 		public static FluentMethodBody WithVariable<T>(this MethodDefinition method, string name = null)
@@ -29,7 +29,7 @@ namespace Mono.Cecil.Fluent
 			if (!string.IsNullOrEmpty(name))
 				var.Name = name;
 			method.Body.Variables.Add(var);
-			return method;
+			return new FluentMethodBody(method);
 		}
 	}
 }

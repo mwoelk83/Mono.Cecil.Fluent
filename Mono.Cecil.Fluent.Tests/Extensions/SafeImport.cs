@@ -8,7 +8,7 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.CecilExtensions
 {
-	public class Extensions_ModuleDefinition_SafeImport : TestsBase
+	public class Extensions_SafeImport : TestsBase
 	{
 		It schould_import_type_reference = () => 
 			TestModule

@@ -49,6 +49,8 @@ namespace Mono.Cecil.Fluent
 
 		public bool HasCustomAttributes => MethodDefinition.HasCustomAttributes;
 
+		public Collection<ParameterDefinition> Parameters => MethodDefinition.Parameters;
+
 		internal FluentMethodBody(MethodDefinition methodDefinition)
 		{
 			MethodDefinition = methodDefinition;

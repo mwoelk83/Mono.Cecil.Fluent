@@ -6,7 +6,7 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.CecilExtensions
 {
-	public class Extensions_ModuleDefinition_NewType : TestsBase
+	public class Extensions_NewType : TestsBase
 	{
 		It should_create_type = () => 
 			TestModule

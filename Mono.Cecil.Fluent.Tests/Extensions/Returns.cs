@@ -8,7 +8,7 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.CecilExtensions
 {
-	public class Extensions_MethodDefinition_Returns : TestsBase
+	public class Extensions_Returns : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 		static readonly MethodDefinition TestMethod = CreateMethod();

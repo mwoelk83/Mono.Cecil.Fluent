@@ -12,7 +12,7 @@ namespace Mono.Cecil.Fluent.Tests
 			that.Apply(Action<T>);
 		}
 
-		private static async void Action<T>(object t, IAssertProvider _, bool arg3)
+		private static void Action<T>(object t, IAssertProvider _, bool arg3)
 		{
 			Assert.IsType<TypeReference>(t);
 			((TypeReference)t).FullName.Should().Equal(typeof(T).FullName);
