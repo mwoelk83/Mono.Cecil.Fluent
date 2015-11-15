@@ -11,20 +11,20 @@ namespace Mono.Cecil.Fluent.Utils
 			private static readonly object _syncRoot = new object();
 			private static readonly HashSet<string> UsedClassNames = new HashSet<string>();
 			private static readonly HashSet<string> UsedMethodNames = new HashSet<string>();
-			public const string IdentifierFirstLetterChars = "abcdefghijklmnopqrstuvwxyz";
-			public const string IdentifierChars = "abcdefghijklmnopqrstuvwxyz0123456789";
+			private const string IdentifierFirstLetterChars = "abcdefghijklmnopqrstuvwxyz";
+			private const string IdentifierChars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 			public static string ForMethod()
 			{
-				return genereateInternal(UsedMethodNames);
+				return GenereateInternal(UsedMethodNames);
 			}
 
 			public static string ForClass()
 			{
-				return genereateInternal(UsedClassNames);
+				return GenereateInternal(UsedClassNames);
 			}
 
-			private static string genereateInternal(HashSet<string> used)
+			private static string GenereateInternal(HashSet<string> used)
 			{
 				var ret = "";
 				ret += IdentifierFirstLetterChars[_rnd.Next(0, IdentifierFirstLetterChars.Length - 1)];
