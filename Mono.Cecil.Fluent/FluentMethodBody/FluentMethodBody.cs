@@ -1,4 +1,5 @@
-﻿using Mono.Collections.Generic;
+﻿using Mono.Cecil.Cil;
+using Mono.Collections.Generic;
 
 namespace Mono.Cecil.Fluent
 {
@@ -50,6 +51,8 @@ namespace Mono.Cecil.Fluent
 		public bool HasCustomAttributes => MethodDefinition.HasCustomAttributes;
 
 		public Collection<ParameterDefinition> Parameters => MethodDefinition.Parameters;
+
+		public Collection<VariableDefinition> Variables => MethodDefinition.Body.Variables;
 
 		internal FluentMethodBody(MethodDefinition methodDefinition)
 		{

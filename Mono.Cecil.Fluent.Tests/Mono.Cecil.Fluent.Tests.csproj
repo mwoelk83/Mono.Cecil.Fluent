@@ -73,6 +73,7 @@
     <Compile Include="Extensions\SafeImport.cs" />
     <Compile Include="Extensions\NewMethod.cs" />
     <Compile Include="Extensions\NewType.cs" />
+    <Compile Include="Extensions\WithVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestsBase.cs" />
     <Compile Include="TestUtils.cs" />
