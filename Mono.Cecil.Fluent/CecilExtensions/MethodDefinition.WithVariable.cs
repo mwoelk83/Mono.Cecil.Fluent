@@ -5,7 +5,7 @@ namespace Mono.Cecil.Fluent
 {
 	public static partial class MethodDefinitionExtensions
 	{
-		public static MethodDefinition WithVariable(this MethodDefinition method, TypeReference varType, string name = null)
+		public static FluentMethodBody WithVariable(this MethodDefinition method, TypeReference varType, string name = null)
 		{
 			var var = new VariableDefinition(method.Module.SafeImport(varType));
 			if (!string.IsNullOrEmpty(name))
@@ -14,7 +14,7 @@ namespace Mono.Cecil.Fluent
 			return method;
 		}
 
-		public static MethodDefinition WithVariable(this MethodDefinition method, Type varType, string name = null)
+		public static FluentMethodBody WithVariable(this MethodDefinition method, Type varType, string name = null)
 		{
 			var var = new VariableDefinition(method.Module.SafeImport(varType));
 			if (!string.IsNullOrEmpty(name))
@@ -23,7 +23,7 @@ namespace Mono.Cecil.Fluent
 			return method;
 		}
 
-		public static MethodDefinition WithVariable<T>(this MethodDefinition method, string name = null)
+		public static FluentMethodBody WithVariable<T>(this MethodDefinition method, string name = null)
 		{
 			var var = new VariableDefinition(method.Module.SafeImport(typeof(T)));
 			if (!string.IsNullOrEmpty(name))

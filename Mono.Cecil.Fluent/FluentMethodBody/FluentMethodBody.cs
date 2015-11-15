@@ -1,6 +1,6 @@
 ﻿using Mono.Collections.Generic;
 
-namespace Mono.Cecil.Fluent.FluentMethodBody
+namespace Mono.Cecil.Fluent
 {
 	public sealed class FluentMethodBody : IMemberDefinition
 	{
