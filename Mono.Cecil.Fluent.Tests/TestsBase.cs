@@ -18,6 +18,11 @@ namespace Mono.Cecil.Fluent.Tests
 			return new MethodDefinition(Generate.Name.ForMethod(), MethodAttributes.Family, TestModule.TypeSystem.Void) { DeclaringType = CreateType() };
 		}
 
+		internal static MethodDefinition CreateStaticMethod()
+		{
+			return new MethodDefinition(Generate.Name.ForMethod(), MethodAttributes.Family | MethodAttributes.Static, TestModule.TypeSystem.Void) { DeclaringType = CreateType() };
+		}
+
 		internal static FieldDefinition CreateField()
 		{
 			return new FieldDefinition(Generate.Name.ForMethod(), FieldAttributes.Family, TestModule.TypeSystem.Object) { DeclaringType = CreateType() };

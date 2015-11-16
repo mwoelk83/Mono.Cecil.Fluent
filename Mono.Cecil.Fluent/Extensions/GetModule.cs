@@ -4,7 +4,7 @@
 	{
 		public static ModuleDefinition GetModule(this IMemberDefinition member)
 		{
-			return member is TypeReference ? ((TypeReference)member).Resolve().Module : member.DeclaringType.Module;
+			return member is TypeReference ? ((TypeReference) member).Resolve().Module : member.DeclaringType.Module;
 		}
 	}
 }

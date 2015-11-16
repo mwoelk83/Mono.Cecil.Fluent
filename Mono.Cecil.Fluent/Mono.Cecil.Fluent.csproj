@@ -63,17 +63,20 @@
     <Compile Include="Extensions\NewType.cs" />
     <Compile Include="Extensions\SafeImport.cs" />
     <Compile Include="Extensions\NewMethod.cs" />
-    <Compile Include="FluentMethodBody\Emit.cs" />
-    <Compile Include="FluentMethodBody\FluentMethodBody.cs" />
+    <Compile Include="FluentMethodBody.Emit.cs" />
+    <Compile Include="FluentMethodBody.cs" />
+    <Compile Include="FluentMethodBody.ToDynamicMethod.cs" />
+    <Compile Include="FluentMethodBody\Ldc.cs" />
+    <Compile Include="FluentMethodBody\Nop.cs" />
+    <Compile Include="FluentMethodBody\Ret.cs" />
+    <Compile Include="Helpers\TypeLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Generate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Emitters\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
