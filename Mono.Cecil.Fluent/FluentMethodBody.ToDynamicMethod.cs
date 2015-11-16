@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
 using Mono.Cecil.Cil;
 using OpCode = System.Reflection.Emit.OpCode;
@@ -29,6 +27,7 @@ namespace Mono.Cecil.Fluent
 
 		public DynamicMethod ToDynamicMethod()
 		{
+			// todo: exception blocks, if .. else, scopes ...
 			if(!MethodDefinition.IsStatic)
 				throw new InvalidOperationException("only static methods can be converted to dynamic methods");
 

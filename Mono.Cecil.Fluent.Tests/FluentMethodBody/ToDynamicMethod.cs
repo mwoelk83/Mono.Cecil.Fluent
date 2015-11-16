@@ -14,7 +14,7 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 			CreateStaticMethod()
 			.Returns<string>()
 				.LdStr("teststring")
-				.Ret
+				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal("teststring");
 	}

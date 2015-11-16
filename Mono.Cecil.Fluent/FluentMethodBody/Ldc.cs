@@ -10,5 +10,12 @@ namespace Mono.Cecil.Fluent
 				Emit(OpCodes.Ldstr, arg);
 			return this;
 		}
+
+		public FluentMethodBody Ldc(params NumberArgument[] args)
+		{
+			foreach (var arg in args)
+				arg.EmitLdc(this);
+			return this;
+		}
 	}
 }
