@@ -14,6 +14,8 @@ namespace Mono.Cecil.Fluent
 			set { MethodDefinition.Name = value; }
 		}
 
+		public MethodBody Body => MethodDefinition.Body;
+
 		public string FullName => MethodDefinition.FullName;
 
 		public bool IsSpecialName

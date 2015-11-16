@@ -7,7 +7,7 @@ using Should.Fluent;
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
 
-namespace Mono.Cecil.Fluent.Tests.CecilExtensions
+namespace Mono.Cecil.Fluent.Tests.Extensions
 {
 	public class Extensions_WithParameter : TestsBase
 	{

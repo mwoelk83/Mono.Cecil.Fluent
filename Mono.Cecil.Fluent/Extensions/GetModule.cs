@@ -1,7 +1,4 @@
-﻿using System;
-using Mono.Cecil.Fluent.Utils;
-
-namespace Mono.Cecil.Fluent
+﻿namespace Mono.Cecil.Fluent
 {
 	static partial class IMemberDefinitionExtensions
 	{

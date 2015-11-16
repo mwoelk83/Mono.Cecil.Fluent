@@ -6,7 +6,7 @@ using Should.Fluent;
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
 
-namespace Mono.Cecil.Fluent.Tests.CecilExtensions
+namespace Mono.Cecil.Fluent.Tests.Extensions
 {
 	public class Extensions_NewMethod : TestsBase
 	{
@@ -42,9 +42,17 @@ namespace Mono.Cecil.Fluent.Tests.CecilExtensions
 			.NewMethod<FileInfo>("named_method2")
 			.Name.Should().Equal("named_method2");
 
-		It should_create_method_with_name = () => 
+		It should_create_method_with_name = () =>
 			TestType
 			.NewMethod("named_method3")
 			.Name.Should().Equal("named_method3");
+
+		It should_create_many_methods = () =>
+			TestType
+				.NewMethod()
+				.NewMethod()
+				.NewMethod()
+			.DeclaringType
+			.Methods.Count.Should().Be.GreaterThanOrEqualTo(3);
 	}
 }

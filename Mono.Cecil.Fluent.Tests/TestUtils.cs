@@ -1,5 +1,4 @@
-﻿
-using Should.Core.Assertions;
+﻿using Should.Core.Assertions;
 using Should.Fluent;
 using Should.Fluent.Model;
 
