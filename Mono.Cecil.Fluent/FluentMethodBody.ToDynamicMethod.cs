@@ -106,6 +106,10 @@ namespace Mono.Cecil.Fluent
 					ilgen.Emit(opcode, (uint)instruction.Operand);
 				else if (instruction.Operand is ulong)
 					ilgen.Emit(opcode, (ulong)instruction.Operand);
+				else if (instruction.Operand is float)
+					ilgen.Emit(opcode, (float)instruction.Operand);
+				else if (instruction.Operand is double)
+					ilgen.Emit(opcode, (double)instruction.Operand);
 			}
 
 			return method;

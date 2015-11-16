@@ -4,6 +4,9 @@ namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody
 	{
-		public FluentMethodBody Nop => Emit(OpCodes.Nop);
+		public FluentMethodBody Nop()
+		{
+			return Emit(OpCodes.Nop);
+		}
 	}
 }

@@ -7,9 +7,9 @@ namespace Mono.Cecil.Fluent
 	public class NumberArgument
 	{
 		internal readonly object Number;
-		internal readonly bool IsFP = false;
-		internal readonly bool Is64Bit = false;
-		internal readonly bool IsUnsigned = false;
+		internal readonly bool IsFP;
+		internal readonly bool Is64Bit;
+		internal readonly bool IsUnsigned;
 
 		internal NumberArgument(object num, bool is64bit, bool isfp, bool isunsigned)
 		{
@@ -27,6 +27,11 @@ namespace Mono.Cecil.Fluent
 					? method.Emit(OpCodes.Ldc_R8, (double) Number)
 					: method.Emit(OpCodes.Ldc_R4, (float) Number);
 			}
+
+			if (Is64Bit && !IsUnsigned)
+				return method.Emit(OpCodes.Ldc_I8, (long)Number);
+			if (Is64Bit)
+				return method.Emit(OpCodes.Ldc_I8, ((IConvertible) Number).ToInt64(CultureInfo.InvariantCulture));
 
 			var snum = ((IConvertible) Number).ToInt64(CultureInfo.InvariantCulture);
 
@@ -96,7 +101,7 @@ namespace Mono.Cecil.Fluent
 
 		public static implicit operator NumberArgument(float val)
 		{
-			return new NumberArgument(val, true, true, false);
+			return new NumberArgument(val, false, true, false);
 		}
 
 		public static implicit operator NumberArgument(double val)

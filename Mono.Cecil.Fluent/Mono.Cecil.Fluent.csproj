@@ -67,6 +67,7 @@
     <Compile Include="FluentMethodBody.cs" />
     <Compile Include="FluentMethodBody.ToDynamicMethod.cs" />
     <Compile Include="FluentMethodBody\BasicMath.cs" />
+    <Compile Include="FluentMethodBody\Conv.cs" />
     <Compile Include="FluentMethodBody\Ldc.cs" />
     <Compile Include="FluentMethodBody\Nop.cs" />
     <Compile Include="FluentMethodBody\Ret.cs" />

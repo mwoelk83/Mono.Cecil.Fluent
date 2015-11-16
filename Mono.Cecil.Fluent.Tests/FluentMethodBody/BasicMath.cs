@@ -16,7 +16,7 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 			CreateStaticMethod()
 			.Returns<byte>()
 				.Ldc((byte)10)
-				.Rem((long)4)
+				.Rem(4)
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal((byte)2);
@@ -34,21 +34,31 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 		It should_return_remainder_of_twenty_by_seven_unsigned = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(20uL)
-				.RemUn(7uL)
+				.Ldc(20)
+				.RemUn(7)
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(6);
 
-		It should_return_remainder_of_tenbillion_by_1303_UL = () =>
+		It should_return_remainder_of_tenmillion_by_1303 = () =>
+			CreateStaticMethod()
+			.Returns<uint>()
+				.Ldc(10000000U)
+				.Ldc(1303U)
+				.RemUn()
+				.Ret()
+			.ToDynamicMethod()
+			.Invoke(null, null).Should().Equal(778U);
+
+		It should_return_remainder_of_tenmillion_by_1303_ulong = () =>
 			CreateStaticMethod()
 			.Returns<ulong>()
-				.Ldc(10000000000UL)
+				.Ldc(10000000UL)
 				.Ldc(1303UL)
 				.RemUn()
 				.Ret()
 			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(109UL);
+			.Invoke(null, null).Should().Equal(778UL);
 
 		It schould_add_3 = () =>
 			CreateStaticMethod()
@@ -63,8 +73,8 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 		It should_add_3_with_arg = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(0L)
-				.Add(3uL)
+				.Ldc(0)
+				.Add(3u)
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(3);
@@ -82,8 +92,8 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 		It should_sub_3_with_arg = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(0UL)
-				.Sub(3L)
+				.Ldc(0U)
+				.Sub(3)
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(-3);
@@ -102,7 +112,7 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 			CreateStaticMethod()
 			.Returns<int>()
 				.Ldc(5)
-				.Mul(3UL)
+				.Mul(3U)
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(15);
@@ -121,7 +131,7 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 			CreateStaticMethod()
 			.Returns<int>()
 				.Ldc(15)
-				.Div(3UL)
+				.Div(3U)
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(5);
@@ -140,7 +150,7 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 			CreateStaticMethod()
 			.Returns<int>()
 				.Ldc(15)
-				.DivUn(3UL)
+				.DivUn(3U)
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(5);

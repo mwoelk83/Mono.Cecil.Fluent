@@ -5,6 +5,7 @@ namespace Mono.Cecil.Fluent.Tests
 	public class TestsBase
 	{
 		internal static readonly ModuleDefinition TestModule = ModuleDefinition.CreateModule(Generate.Name.ForClass(), ModuleKind.Dll);
+		internal static TypeDefinition methodsholdertype = CreateType();
 
 		internal static TypeDefinition CreateType()
 		{
@@ -15,17 +16,23 @@ namespace Mono.Cecil.Fluent.Tests
 
 		internal static MethodDefinition CreateMethod()
 		{
-			return new MethodDefinition(Generate.Name.ForMethod(), MethodAttributes.Family, TestModule.TypeSystem.Void) { DeclaringType = CreateType() };
+			var m = new MethodDefinition(Generate.Name.ForMethod(), MethodAttributes.Family, TestModule.TypeSystem.Void) { DeclaringType = methodsholdertype };
+			methodsholdertype.Methods.Add(m);
+			return m;
 		}
 
 		internal static MethodDefinition CreateStaticMethod()
 		{
-			return new MethodDefinition(Generate.Name.ForMethod(), MethodAttributes.Family | MethodAttributes.Static, TestModule.TypeSystem.Void) { DeclaringType = CreateType() };
+			var m = new MethodDefinition(Generate.Name.ForMethod(), MethodAttributes.Family | MethodAttributes.Static, TestModule.TypeSystem.Void) { DeclaringType = methodsholdertype };
+			methodsholdertype.Methods.Add(m);
+			return m;
 		}
 
 		internal static FieldDefinition CreateField()
 		{
-			return new FieldDefinition(Generate.Name.ForMethod(), FieldAttributes.Family, TestModule.TypeSystem.Object) { DeclaringType = CreateType() };
+			var f = new FieldDefinition(Generate.Name.ForMethod(), FieldAttributes.Family, TestModule.TypeSystem.Object) { DeclaringType = methodsholdertype };
+			methodsholdertype.Fields.Add(f);
+			return f;
 		}
 	}
 }
