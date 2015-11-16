@@ -3,7 +3,7 @@ using Mono.Collections.Generic;
 
 namespace Mono.Cecil.Fluent
 {
-	public sealed class FluentMethodBody : IMemberDefinition
+	public sealed partial class FluentMethodBody : IMemberDefinition
 	{
 		public readonly MethodDefinition MethodDefinition;
 		public readonly ModuleDefinition Module;

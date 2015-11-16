@@ -9,13 +9,11 @@ namespace Mono.Cecil.Fluent.Tests
 	{
 		public static void Equal<T>(this Should<object, Be<object>> that)
 		{
-			that.Apply(Action<T>);
-		}
-
-		private static void Action<T>(object t, IAssertProvider _, bool arg3)
-		{
-			Assert.IsType<TypeReference>(t);
-			((TypeReference)t).FullName.Should().Equal(typeof(T).FullName);
+			that.Apply((t, _, __) =>
+			{
+				Assert.IsType<TypeReference>(t);
+				((TypeReference)t).FullName.Should().Equal(typeof(T).FullName);
+			});
 		}
 	}
 }

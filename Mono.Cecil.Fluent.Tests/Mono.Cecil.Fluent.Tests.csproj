@@ -74,6 +74,7 @@
     <Compile Include="Extensions\NewMethod.cs" />
     <Compile Include="Extensions\NewType.cs" />
     <Compile Include="Extensions\WithVariable.cs" />
+    <Compile Include="FluentMethodBody\Emit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestsBase.cs" />
     <Compile Include="TestUtils.cs" />
@@ -87,9 +88,7 @@
       <Name>Mono.Cecil.Fluent</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FluentMethodBody\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

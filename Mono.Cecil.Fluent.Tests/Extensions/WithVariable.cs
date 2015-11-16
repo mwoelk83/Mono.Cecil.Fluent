@@ -15,42 +15,42 @@ namespace Mono.Cecil.Fluent.Tests.CecilExtensions
 
 		static MethodDefinition NewTestMethod => CreateMethod();
 
-		It should_create_param = () =>
+		It should_create_var = () =>
 			NewTestMethod
 			.WithVariable(TestType)
 			.Variables.Should().Not.Be.Empty();
 
-		It should_create_param_with_typerefernce = () =>
+		It should_create_var_with_typerefernce = () =>
 			NewTestMethod
 			.WithVariable(TestType)
 			.Variables.First().VariableType.Should().Equal(TestType);
 
-		It should_create_param_with_system_type = () =>
+		It should_create_var_with_system_type = () =>
 			NewTestMethod
 			.WithVariable(typeof(ArrayList))
 			.Variables.First().VariableType.Should().Equal<ArrayList>();
 
-		It should_create_param_with_system_type_generic = () =>
+		It should_create_var_with_system_type_generic = () =>
 			NewTestMethod
 			.WithVariable<FileInfo>()
 			.Variables.First().VariableType.Should().Equal<FileInfo>();
 
-		It should_create_named_param_with_typerefernce = () =>
+		It should_create_named_var_with_typerefernce = () =>
 			NewTestMethod
 			.WithVariable(TestType, "param1")
 			.Variables.First().Name.Should().Equal("param1");
 
-		It should_create_named_param_with_system_type = () =>
+		It should_create_named_var_with_system_type = () =>
 			NewTestMethod
 			.WithVariable(typeof(ArrayList), "param2")
 			.Variables.First().Name.Should().Equal("param2");
 
-		It should_create_named_param_with_system_type_generic = () =>
+		It should_create_named_var_with_system_type_generic = () =>
 			NewTestMethod
 			.WithVariable<FileInfo>("param3")
 			.Variables.First().Name.Should().Equal("param3");
 
-		It should_create_three_parameters = () =>
+		It should_create_three_variables = () =>
 			NewTestMethod
 			.WithVariable<bool>()
 			.WithVariable(typeof(int))
