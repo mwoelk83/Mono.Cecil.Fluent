@@ -74,6 +74,7 @@
     <Compile Include="Extensions\NewMethod.cs" />
     <Compile Include="Extensions\NewType.cs" />
     <Compile Include="Extensions\WithVariable.cs" />
+    <Compile Include="FluentMethodBody\Basics.cs" />
     <Compile Include="FluentMethodBody\Conv.cs" />
     <Compile Include="FluentMethodBody\Emit.cs" />
     <Compile Include="FluentMethodBody\BasicMath.cs" />
