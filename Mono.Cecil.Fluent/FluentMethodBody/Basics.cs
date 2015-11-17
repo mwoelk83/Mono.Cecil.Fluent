@@ -18,5 +18,15 @@ namespace Mono.Cecil.Fluent
 		{
 			return Emit(OpCodes.Pop);
 		}
+
+		public FluentMethodBody Not()
+		{
+			return Emit(OpCodes.Not);
+		}
+
+		public FluentMethodBody LdNull()
+		{
+			return Emit(OpCodes.Ldnull);
+		}
 	}
 }

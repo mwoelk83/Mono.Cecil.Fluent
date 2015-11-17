@@ -78,6 +78,7 @@
     <Compile Include="FluentMethodBody\Conv.cs" />
     <Compile Include="FluentMethodBody\Emit.cs" />
     <Compile Include="FluentMethodBody\BasicMath.cs" />
+    <Compile Include="FluentMethodBody\Locals.cs" />
     <Compile Include="FluentMethodBody\ToDynamicMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestsBase.cs" />

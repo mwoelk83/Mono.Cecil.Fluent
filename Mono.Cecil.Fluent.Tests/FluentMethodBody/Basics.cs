@@ -37,6 +37,23 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 				.Pop()
 				.Ret()
 			.ToDynamicMethod()
-			.Invoke(null,null);
+			.Invoke(null, null);
+
+		It shoud_invert_bitwise = () =>
+			CreateStaticMethod()
+				.Returns<ushort>()
+				.Ldc((ushort)0x00FF)
+				.Not()
+				.Ret()
+			.ToDynamicMethod()
+			.Invoke(null, null).Should().Equal((ushort)0xFF00);
+
+		It shoud_ldnull = () =>
+			CreateStaticMethod()
+				.Returns<object>()
+				.LdNull()
+				.Ret()
+			.ToDynamicMethod()
+			.Invoke(null, null).Should().Equal(null);
 	}
 }

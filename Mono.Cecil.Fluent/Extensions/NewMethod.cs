@@ -11,10 +11,13 @@ namespace Mono.Cecil.Fluent
 			var module = member.GetModule();
 			returnType = returnType != null ? module.SafeImport(returnType) : module.TypeSystem.Void;
 			var method = new MethodDefinition(name ?? Generate.Name.ForMethod(), attributes ?? 0, returnType ?? module.TypeSystem.Void);
-			if(member is TypeDefinition) 
-				((TypeDefinition)member).Resolve().Methods.Add(method);
+
+			var definition = member as TypeDefinition;
+			if(definition != null) 
+				definition.Resolve().Methods.Add(method);
 			else
 				member.DeclaringType.Methods.Add(method);
+
 			return new FluentMethodBody(method);
 		}
 

@@ -70,6 +70,7 @@
     <Compile Include="FluentMethodBody\Basics.cs" />
     <Compile Include="FluentMethodBody\Conv.cs" />
     <Compile Include="FluentMethodBody\Ldc.cs" />
+    <Compile Include="FluentMethodBody\Locals.cs" />
     <Compile Include="FluentMethodBody\Ret.cs" />
     <Compile Include="Helpers\TypeLoader.cs" />
     <Compile Include="NumberArgument.cs" />

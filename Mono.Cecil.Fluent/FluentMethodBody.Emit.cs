@@ -94,6 +94,11 @@ namespace Mono.Cecil.Fluent
 			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
 		}
 
+		public FluentMethodBody Emit(OpCode opcode, VariableDefinition arg)
+		{
+			return Emit(Instruction.Create(opcode, arg));
+		}
+
 		public FluentMethodBody Emit(OpCode opcode, Instruction arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
