@@ -19,6 +19,11 @@ namespace Mono.Cecil.Fluent
 		{
 			return new FluentMethodBody(method).WithVariable<T>(name);
 		}
+
+		public static FluentMethodBody WithVariable(this MethodDefinition method, VariableDefinition var)
+		{
+			return new FluentMethodBody(method).WithVariable(var);
+		}
 	}
 
 	public static partial class FluentMethodBodyExtensions
@@ -46,6 +51,12 @@ namespace Mono.Cecil.Fluent
 			var var = new VariableDefinition(method.Module.SafeImport(typeof(T)));
 			if (!string.IsNullOrEmpty(name))
 				var.Name = name;
+			method.Variables.Add(var);
+			return method;
+		}
+
+		public static FluentMethodBody WithVariable(this FluentMethodBody method, VariableDefinition var)
+		{
 			method.Variables.Add(var);
 			return method;
 		}

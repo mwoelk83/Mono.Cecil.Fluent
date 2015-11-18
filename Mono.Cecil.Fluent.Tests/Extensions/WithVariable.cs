@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Machine.Specifications;
+using Mono.Cecil.Cil;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
@@ -49,6 +50,13 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 			NewTestMethod
 			.WithVariable<FileInfo>("param3")
 			.Variables.First().Name.Should().Equal("param3");
+
+		It should_add_variable_definition = () =>
+			NewTestMethod
+			.WithVariable(new VariableDefinition(TestModule.SafeImport<bool>()))
+			.WithVariable(new VariableDefinition(TestModule.SafeImport<uint>()))
+			.WithVariable(new VariableDefinition(TestModule.SafeImport<object>()))
+			.Variables.Last().Index.Should().Equal(2);
 
 		It should_create_three_variables = () =>
 			NewTestMethod

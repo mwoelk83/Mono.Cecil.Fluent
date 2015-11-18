@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mono.Cecil.Cil;
 
 namespace Mono.Cecil.Fluent
@@ -27,6 +28,9 @@ namespace Mono.Cecil.Fluent
 
 			foreach (var i in indexes)
 			{
+				if(Variables.Count <= i)
+					throw new IndexOutOfRangeException($"no variable found at index {i}");
+
 				switch (i)
 				{
 					case 0:
@@ -60,7 +64,25 @@ namespace Mono.Cecil.Fluent
 
 			return this;
 		}
-		
+
+		public FluentMethodBody Ldloc(params VariableDefinition[] vars)
+		{
+			if (vars == null)
+				throw new ArgumentNullException(nameof(vars));
+
+			foreach (var var in vars)
+			{
+				if(var == null)
+					throw new ArgumentNullException($"variable is null");
+				if (Variables.All(v => v != var))
+					throw new ArgumentException("variable must be declared in method body before using it");
+
+				Ldloc((uint)var.Index);
+			}
+
+			return this;
+		}
+
 		public FluentMethodBody Stloc(params uint[] indexes)
 		{
 			if (indexes == null)
@@ -68,6 +90,9 @@ namespace Mono.Cecil.Fluent
 
 			foreach (var i in indexes)
 			{
+				if (Variables.Count <= i)
+					throw new IndexOutOfRangeException($"no variable found at index {i}");
+
 				switch (i)
 				{
 					case 0:
@@ -115,6 +140,24 @@ namespace Mono.Cecil.Fluent
 
 			for (var i = 0; i < count; i++)
 				Stloc(GetVariableIndex(names[i]));
+
+			return this;
+		}
+
+		public FluentMethodBody Stloc(params VariableDefinition[] vars)
+		{
+			if (vars == null)
+				throw new ArgumentNullException(nameof(vars));
+
+			foreach (var var in vars)
+			{
+				if (var == null)
+					throw new ArgumentNullException($"variable is null");
+				if(Variables.All(v => v != var))
+					throw new ArgumentException("variable must be declared in method body before using it");
+
+				Stloc((uint)var.Index);
+			}
 
 			return this;
 		}

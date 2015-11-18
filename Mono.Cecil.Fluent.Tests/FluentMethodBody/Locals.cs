@@ -1,4 +1,6 @@
-﻿using Machine.Specifications;
+﻿using System.ComponentModel;
+using Machine.Specifications;
+using Mono.Cecil.Cil;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
@@ -69,5 +71,18 @@ namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(6);
+
+		static VariableDefinition vardef = new VariableDefinition(TestModule.SafeImport(typeof(bool)));
+
+		It should_store_and_load_local_using_variabledefinition = () =>
+			CreateStaticMethod()
+				.Returns<bool>()
+				.WithVariable(vardef)
+				.Ldc(1)
+				.Stloc(vardef)
+				.Ldloc(vardef)
+				.Ret()
+			.ToDynamicMethod()
+			.Invoke(null, null).Should().Equal(true);
 	}
 }
