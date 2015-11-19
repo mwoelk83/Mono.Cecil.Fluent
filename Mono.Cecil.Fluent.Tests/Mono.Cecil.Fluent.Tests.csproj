@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Disassembler\MethodBody.cs" />
     <Compile Include="Extensions\Returns.cs" />
     <Compile Include="Extensions\WithParameter.cs" />
     <Compile Include="Extensions\SafeImport.cs" />

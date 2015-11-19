@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 using Mono.Cecil.Cil;
 using Should.Fluent;
 

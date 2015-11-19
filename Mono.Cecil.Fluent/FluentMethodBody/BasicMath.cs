@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using Mono.Cecil.Cil;
 
 namespace Mono.Cecil.Fluent
@@ -17,7 +16,7 @@ namespace Mono.Cecil.Fluent
 
 		public FluentMethodBody Rem(NumberArgument divisor)
 		{
-			if (((IConvertible)divisor.Number).ToInt64(CultureInfo.InvariantCulture) == 0)
+			if (divisor.Number.IsZero())
 				throw new DivideByZeroException();
 
 			return divisor.EmitLdc(this)
@@ -26,7 +25,7 @@ namespace Mono.Cecil.Fluent
 
 		public FluentMethodBody RemUn(NumberArgument divisor)
 		{
-			if (((IConvertible)divisor.Number).ToInt64(CultureInfo.InvariantCulture) == 0)
+			if (divisor.Number.IsZero())
 				throw new DivideByZeroException();
 
 			return divisor.EmitLdc(this)
@@ -73,7 +72,7 @@ namespace Mono.Cecil.Fluent
 
 		public FluentMethodBody Div(NumberArgument divisor)
 		{
-			if (((IConvertible)divisor.Number).ToInt64(CultureInfo.InvariantCulture) == 0)
+			if (divisor.Number.IsZero())
 				throw new DivideByZeroException();
 
 			return divisor.EmitLdc(this)
@@ -87,7 +86,7 @@ namespace Mono.Cecil.Fluent
 
 		public FluentMethodBody DivUn(NumberArgument divisor)
 		{
-			if (((IConvertible)divisor.Number).ToInt64(CultureInfo.InvariantCulture) == 0)
+			if (divisor.Number.IsZero())
 				throw new DivideByZeroException();
 
 			return divisor.EmitLdc(this)

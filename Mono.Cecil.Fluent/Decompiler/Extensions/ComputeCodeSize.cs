@@ -1,0 +1,18 @@
+﻿using System.Linq;
+using Mono.Cecil.Cil;
+
+namespace Mono.Cecil.Fluent
+{
+	public static partial class MethodBodyExtensions
+	{
+		public static int ComputeCodeSize(this MethodBody body)
+		{
+			return body.Instructions.Sum(instruction => instruction.GetSize());
+		}
+
+		public static int ComputeCodeSize(this FluentMethodBody method)
+		{
+			return method.Body.ComputeCodeSize();
+		}
+	}
+}

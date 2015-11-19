@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Machine.Specifications, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Machine.Specifications.0.10.0-unstable0039\lib\net45\Machine.Specifications.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Machine.Specifications.Clr4, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Machine.Specifications.0.10.0-unstable0039\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.dll</HintPath>
       <Private>True</Private>
@@ -46,6 +54,10 @@
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Should.Fluent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ShouldFluent.1.1.19\lib\Should.Fluent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,7 +68,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decompiler\Disassembler\DisassemblerHelper.cs" />
+    <Compile Include="Decompiler\Disassembler\ILStructure.cs" />
+    <Compile Include="Decompiler\Disassembler\MethodBodyDisassembler.cs" />
+    <Compile Include="Decompiler\OpCodeInfo.cs" />
+    <Compile Include="Decompiler\PlainTextOutputWriter.cs" />
+    <Compile Include="Decompiler\Extensions\ComputeOffsets.cs" />
+    <Compile Include="Decompiler\Extensions\ComputeStackSize.cs" />
+    <Compile Include="Extensions\Disassemble.cs" />
     <Compile Include="Extensions\GetModule.cs" />
+    <Compile Include="Extensions\Misc.cs" />
     <Compile Include="Extensions\Returns.cs" />
     <Compile Include="Extensions\WithParameter.cs" />
     <Compile Include="Extensions\WithVariable.cs" />
@@ -68,6 +89,7 @@
     <Compile Include="FluentMethodBody.ToDynamicMethod.cs" />
     <Compile Include="FluentMethodBody\BasicMath.cs" />
     <Compile Include="FluentMethodBody\Basics.cs" />
+    <Compile Include="Decompiler\Extensions\ComputeCodeSize.cs" />
     <Compile Include="FluentMethodBody\Conv.cs" />
     <Compile Include="FluentMethodBody\Ldc.cs" />
     <Compile Include="FluentMethodBody\Locals.cs" />
