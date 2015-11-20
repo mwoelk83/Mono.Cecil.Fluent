@@ -56,6 +56,12 @@ namespace Mono.Cecil.Fluent
 
 		public Collection<VariableDefinition> Variables => MethodDefinition.Body.Variables;
 
+		public MethodAttributes Attributes
+		{
+			get { return MethodDefinition.Attributes; }
+			set { MethodDefinition.Attributes = value; }
+		}
+
 		internal FluentMethodBody(MethodDefinition methodDefinition)
 		{
 			MethodDefinition = methodDefinition;

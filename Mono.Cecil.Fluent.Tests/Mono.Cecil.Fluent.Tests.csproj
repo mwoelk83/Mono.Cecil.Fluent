@@ -75,6 +75,8 @@
     <Compile Include="Disassembler\Property.cs" />
     <Compile Include="Disassembler\Type.cs" />
     <Compile Include="Extensions\Returns.cs" />
+    <Compile Include="Extensions\SetAttributes.cs" />
+    <Compile Include="Extensions\UnsetAttributes.cs" />
     <Compile Include="Extensions\WithParameter.cs" />
     <Compile Include="Extensions\SafeImport.cs" />
     <Compile Include="Extensions\NewMethod.cs" />
