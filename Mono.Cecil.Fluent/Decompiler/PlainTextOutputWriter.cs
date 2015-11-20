@@ -91,5 +91,10 @@ namespace ICSharpCode.Decompiler
 		{
 			WriteLine(string.Format(format, args));
 		}
+
+		public void WriteDefinition(string text, object definition, bool isLocal = true)
+		{
+			Write(text);
+		}
 	}
 }

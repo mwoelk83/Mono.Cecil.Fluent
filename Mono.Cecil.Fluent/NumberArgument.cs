@@ -64,6 +64,11 @@ namespace Mono.Cecil.Fluent
 			return new NumberArgument(val, false, false, true);
 		}
 
+		public static implicit operator NumberArgument(bool val)
+		{
+			return new NumberArgument(val, false, false, true);
+		}
+
 		public static implicit operator NumberArgument(sbyte val)
 		{
 			return new NumberArgument(val, false, false, false);

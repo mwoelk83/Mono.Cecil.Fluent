@@ -21,11 +21,10 @@ using System.Diagnostics;
 using System.Linq;
 using ICSharpCode.Decompiler.FlowAnalysis;
 using Mono.Cecil.Cil;
-using Mono.Cecil.Fluent;
 
 namespace ICSharpCode.Decompiler.Disassembler
 {
-	internal enum ILStructureType
+	internal enum IlStructureType
 	{
 		Root,
 		Loop,
@@ -34,26 +33,26 @@ namespace ICSharpCode.Decompiler.Disassembler
 		Filter
 	}
 	
-	internal sealed class ILStructure
+	internal sealed class IlStructure
 	{
-		public readonly ILStructureType Type;
+		public readonly IlStructureType Type;
 		public readonly int StartOffset;
 		public readonly int EndOffset;
 		public readonly ExceptionHandler ExceptionHandler;
 		public readonly Instruction LoopEntryPoint;
-		public readonly List<ILStructure> Children = new List<ILStructure>();
+		public readonly List<IlStructure> Children = new List<IlStructure>();
 
-		public ILStructure(MethodBody body, int codesize) : this(ILStructureType.Root, 0, codesize)
+		public IlStructure(MethodBody body, int codesize) : this(IlStructureType.Root, 0, codesize)
 		{
 			// Build the tree of exception structures:
 			for (var i = 0; i < body.ExceptionHandlers.Count; i++)
 			{
 				var eh = body.ExceptionHandlers[i];
 				if (!body.ExceptionHandlers.Take(i).Any(oldEh => oldEh.TryStart == eh.TryStart && oldEh.TryEnd == eh.TryEnd))
-					AddNestedStructure(new ILStructure(ILStructureType.Try, eh.TryStart.Offset, eh.TryEnd.Offset, eh));
+					AddNestedStructure(new IlStructure(IlStructureType.Try, eh.TryStart.Offset, eh.TryEnd.Offset, eh));
 				if (eh.HandlerType == ExceptionHandlerType.Filter)
-					AddNestedStructure(new ILStructure(ILStructureType.Filter, eh.FilterStart.Offset, eh.HandlerStart.Offset, eh));
-				AddNestedStructure(new ILStructure(ILStructureType.Handler, eh.HandlerStart.Offset, eh.HandlerEnd?.Offset ?? codesize, eh));
+					AddNestedStructure(new IlStructure(IlStructureType.Filter, eh.FilterStart.Offset, eh.HandlerStart.Offset, eh));
+				AddNestedStructure(new IlStructure(IlStructureType.Handler, eh.HandlerStart.Offset, eh.HandlerEnd?.Offset ?? codesize, eh));
 			}
 			// Very simple loop detection: look for backward branches
 			var allBranches = FindAllBranches(body);
@@ -91,13 +90,13 @@ namespace ICSharpCode.Decompiler.Disassembler
 				}
 				if (!multipleEntryPoints)
 				{
-					AddNestedStructure(new ILStructure(ILStructureType.Loop, loopStart, loopEnd, entryPoint));
+					AddNestedStructure(new IlStructure(IlStructureType.Loop, loopStart, loopEnd, entryPoint));
 				}
 			}
 			SortChildren();
 		}
 
-		public ILStructure(ILStructureType type, int startOffset, int endOffset, ExceptionHandler handler = null)
+		public IlStructure(IlStructureType type, int startOffset, int endOffset, ExceptionHandler handler = null)
 		{
 			Debug.Assert(startOffset < endOffset);
 			Type = type;
@@ -106,7 +105,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 			ExceptionHandler = handler;
 		}
 
-		public ILStructure(ILStructureType type, int startOffset, int endOffset, Instruction loopEntryPoint)
+		public IlStructure(IlStructureType type, int startOffset, int endOffset, Instruction loopEntryPoint)
 		{
 			Debug.Assert(startOffset < endOffset);
 			Type = type;
@@ -115,10 +114,10 @@ namespace ICSharpCode.Decompiler.Disassembler
 			LoopEntryPoint = loopEntryPoint;
 		}
 
-		private bool AddNestedStructure(ILStructure newStructure)
+		private bool AddNestedStructure(IlStructure newStructure)
 		{
 			// special case: don't consider the loop-like structure of "continue;" statements to be nested loops
-			if (Type == ILStructureType.Loop && newStructure.Type == ILStructureType.Loop && newStructure.StartOffset == StartOffset)
+			if (Type == IlStructureType.Loop && newStructure.Type == IlStructureType.Loop && newStructure.StartOffset == StartOffset)
 				return false;
 
 			// use <= for end-offset comparisons because both end and EndOffset are exclusive

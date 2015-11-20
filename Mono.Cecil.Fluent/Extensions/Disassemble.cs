@@ -23,5 +23,53 @@ namespace Mono.Cecil.Fluent
 			dasm.Disassemble(body);
 			return writer.ToString();
 		}
+
+		public static string Disassemble(this MethodDefinition method)
+		{
+			var writer = new PlainTextOutput();
+			var dasm = new ReflectionDisassembler(writer);
+			dasm.DisassembleMethod(method);
+			return writer.ToString();
+		}
+
+		public static string Disassemble(this FluentMethodBody method)
+		{
+			var writer = new PlainTextOutput();
+			var dasm = new ReflectionDisassembler(writer);
+			dasm.DisassembleMethod(method.MethodDefinition);
+			return writer.ToString();
+		}
+
+		public static string Disassemble(this TypeDefinition type)
+		{
+			var writer = new PlainTextOutput();
+			var dasm = new ReflectionDisassembler(writer);
+			dasm.DisassembleType(type);
+			return writer.ToString();
+		}
+
+		public static string Disassemble(this PropertyDefinition prop)
+		{
+			var writer = new PlainTextOutput();
+			var dasm = new ReflectionDisassembler(writer);
+			dasm.DisassembleProperty(prop);
+			return writer.ToString();
+		}
+
+		public static string Disassemble(this FieldDefinition field)
+		{
+			var writer = new PlainTextOutput();
+			var dasm = new ReflectionDisassembler(writer);
+			dasm.DisassembleField(field);
+			return writer.ToString();
+		}
+
+		public static string Disassemble(this EventDefinition @event)
+		{
+			var writer = new PlainTextOutput();
+			var dasm = new ReflectionDisassembler(writer);
+			dasm.DisassembleEvent(@event);
+			return writer.ToString();
+		}
 	}
 }

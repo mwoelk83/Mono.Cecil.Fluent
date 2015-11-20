@@ -23,7 +23,7 @@ using Mono.Cecil.Cil;
 
 namespace ICSharpCode.Decompiler.Disassembler
 {
-	internal enum ILNameSyntax
+	internal enum IlNameSyntax
 	{
 		/// <summary>
 		/// class/valuetype + TypeName (built-in types use keyword syntax)
@@ -50,48 +50,24 @@ namespace ICSharpCode.Decompiler.Disassembler
 			writer.Write($"IL_{instruction.Offset:x4}");
 		}
 
-		public static void WriteTo(this ExceptionHandler exceptionHandler, PlainTextOutput writer)
-		{
-			writer.Write("Try ");
-			WriteOffsetReference(writer, exceptionHandler.TryStart);
-			writer.Write('-');
-			WriteOffsetReference(writer, exceptionHandler.TryEnd);
-			writer.Write(' ');
-			writer.Write(exceptionHandler.HandlerType.ToString());
-			if (exceptionHandler.FilterStart != null)
-			{
-				writer.Write(' ');
-				WriteOffsetReference(writer, exceptionHandler.FilterStart);
-				writer.Write(" handler ");
-			}
-			if (exceptionHandler.CatchType != null)
-			{
-				writer.Write(' ');
-				exceptionHandler.CatchType.WriteTo(writer);
-			}
-			writer.Write(' ');
-			WriteOffsetReference(writer, exceptionHandler.HandlerStart);
-			writer.Write('-');
-			WriteOffsetReference(writer, exceptionHandler.HandlerEnd);
-		}
-
 		public static void WriteTo(this Instruction instruction, PlainTextOutput writer)
 		{
 			writer.Write($"IL_{instruction.Offset:x4}");
 			writer.Write(": ");
 			writer.Write(instruction.OpCode.Name);
-			if (instruction.Operand != null)
+
+			if (instruction.Operand == null)
+				return;
+
+			writer.Write(' ');
+			if (instruction.OpCode == OpCodes.Ldtoken)
 			{
-				writer.Write(' ');
-				if (instruction.OpCode == OpCodes.Ldtoken)
-				{
-					if (instruction.Operand is MethodReference)
-						writer.Write("method ");
-					else if (instruction.Operand is FieldReference)
-						writer.Write("field ");
-				}
-				WriteOperand(writer, instruction.Operand);
+				if (instruction.Operand is MethodReference)
+					writer.Write("method ");
+				else if (instruction.Operand is FieldReference)
+					writer.Write("field ");
 			}
+			WriteOperand(writer, instruction.Operand);
 		}
 
 		private static void WriteLabelList(PlainTextOutput writer, Instruction[] instructions)
@@ -121,11 +97,11 @@ namespace ICSharpCode.Decompiler.Disassembler
 			{
 				writer.Write("instance ");
 			}
-			method.ReturnType.WriteTo(writer, ILNameSyntax.SignatureNoNamedTypeParameters);
+			method.ReturnType.WriteTo(writer, IlNameSyntax.SignatureNoNamedTypeParameters);
 			writer.Write(' ');
 			if (method.DeclaringType != null)
 			{
-				method.DeclaringType.WriteTo(writer, ILNameSyntax.TypeName);
+				method.DeclaringType.WriteTo(writer, IlNameSyntax.TypeName);
 				writer.Write("::");
 			}
 			var md = method as MethodDefinition;
@@ -154,16 +130,16 @@ namespace ICSharpCode.Decompiler.Disassembler
 			for (var i = 0; i < parameters.Count; ++i)
 			{
 				if (i > 0) writer.Write(", ");
-				parameters[i].ParameterType.WriteTo(writer, ILNameSyntax.SignatureNoNamedTypeParameters);
+				parameters[i].ParameterType.WriteTo(writer, IlNameSyntax.SignatureNoNamedTypeParameters);
 			}
 			writer.Write(")");
 		}
 
 		private static void WriteTo(this FieldReference field, PlainTextOutput writer)
 		{
-			field.FieldType.WriteTo(writer, ILNameSyntax.SignatureNoNamedTypeParameters);
+			field.FieldType.WriteTo(writer, IlNameSyntax.SignatureNoNamedTypeParameters);
 			writer.Write(' ');
-			field.DeclaringType.WriteTo(writer, ILNameSyntax.TypeName);
+			field.DeclaringType.WriteTo(writer, IlNameSyntax.TypeName);
 			writer.Write("::");
 			writer.Write(Escape(field.Name));
 		}
@@ -190,7 +166,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 			return true;
 		}
 
-		private static readonly HashSet<string> ilKeywords = BuildKeywordList(
+		private static readonly HashSet<string> IlKeywords = BuildKeywordList(
 		"abstract", "algorithm", "alignment", "ansi", "any", "arglist",
 		"array", "as", "assembly", "assert", "at", "auto", "autochar", "beforefieldinit",
 		"blob", "blob_object", "bool", "brnull", "brnull.s", "brzero", "brzero.s", "bstr",
@@ -231,7 +207,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 
 		public static string Escape(string identifier)
 		{
-			if (IsValidIdentifier(identifier) && !ilKeywords.Contains(identifier))
+			if (IsValidIdentifier(identifier) && !IlKeywords.Contains(identifier))
 			{
 				return identifier;
 			}
@@ -240,9 +216,9 @@ namespace ICSharpCode.Decompiler.Disassembler
 			return "'" + ConvertString(identifier).Replace("'", "\\'") + "'";
 		}
 
-		public static void WriteTo(this TypeReference type, PlainTextOutput writer, ILNameSyntax syntax = ILNameSyntax.Signature)
+		public static void WriteTo(this TypeReference type, PlainTextOutput writer, IlNameSyntax syntax = IlNameSyntax.Signature)
 		{
-			var syntaxForElementTypes = syntax == ILNameSyntax.SignatureNoNamedTypeParameters ? syntax : ILNameSyntax.Signature;
+			var syntaxForElementTypes = syntax == IlNameSyntax.SignatureNoNamedTypeParameters ? syntax : IlNameSyntax.Signature;
 			if (type is PinnedType)
 			{
 				((PinnedType)type).ElementType.WriteTo(writer, syntaxForElementTypes);
@@ -261,7 +237,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 				writer.Write('!');
 				if (((GenericParameter)type).Owner.GenericParameterType == GenericParameterType.Method)
 					writer.Write('!');
-				if (string.IsNullOrEmpty(type.Name) || type.Name[0] == '!' || syntax == ILNameSyntax.SignatureNoNamedTypeParameters)
+				if (string.IsNullOrEmpty(type.Name) || type.Name[0] == '!' || syntax == IlNameSyntax.SignatureNoNamedTypeParameters)
 					writer.Write(((GenericParameter)type).Position.ToString());
 				else
 					writer.Write(Escape(type.Name));
@@ -293,37 +269,30 @@ namespace ICSharpCode.Decompiler.Disassembler
 			{
 				((OptionalModifierType)type).ElementType.WriteTo(writer, syntax);
 				writer.Write(" modopt(");
-				((OptionalModifierType)type).ModifierType.WriteTo(writer, ILNameSyntax.TypeName);
+				((OptionalModifierType)type).ModifierType.WriteTo(writer, IlNameSyntax.TypeName);
 				writer.Write(") ");
 			}
 			else if (type is RequiredModifierType)
 			{
 				((RequiredModifierType)type).ElementType.WriteTo(writer, syntax);
 				writer.Write(" modreq(");
-				((RequiredModifierType)type).ModifierType.WriteTo(writer, ILNameSyntax.TypeName);
+				((RequiredModifierType)type).ModifierType.WriteTo(writer, IlNameSyntax.TypeName);
 				writer.Write(") ");
 			}
 			else
 			{
 				var name = PrimitiveTypeName(type.FullName);
-				if (syntax == ILNameSyntax.ShortTypeName)
-				{
-					if (name != null)
-						writer.Write(name);
-					else
-						writer.Write(Escape(type.Name));
-				}
-				else if ((syntax == ILNameSyntax.Signature || syntax == ILNameSyntax.SignatureNoNamedTypeParameters) && name != null)
+				if ((syntax == IlNameSyntax.Signature || syntax == IlNameSyntax.SignatureNoNamedTypeParameters) && name != null)
 				{
 					writer.Write(name);
 				}
 				else
 				{
-					if (syntax == ILNameSyntax.Signature || syntax == ILNameSyntax.SignatureNoNamedTypeParameters)
+					if (syntax == IlNameSyntax.Signature || syntax == IlNameSyntax.SignatureNoNamedTypeParameters)
 						writer.Write(type.IsValueType ? "valuetype " : "class ");
 					if (type.DeclaringType != null)
 					{
-						type.DeclaringType.WriteTo(writer, ILNameSyntax.TypeName);
+						type.DeclaringType.WriteTo(writer, IlNameSyntax.TypeName);
 						writer.Write('/');
 						writer.Write(Escape(type.Name));
 					}
@@ -380,7 +349,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 			var typeRef = operand as TypeReference;
 			if (typeRef != null)
 			{
-				typeRef.WriteTo(writer, ILNameSyntax.TypeName);
+				typeRef.WriteTo(writer, IlNameSyntax.TypeName);
 				return;
 			}
 			var fieldRef = operand as FieldReference;
@@ -403,7 +372,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 				var val = (float)operand;
 				if (val == 0)
 				{
-					if (1 / val == float.NegativeInfinity)
+					if (float.IsNegativeInfinity(1 / val))
 					{
 						// negative zero is a special case
 						writer.Write('-');
@@ -432,7 +401,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 				var val = (double)operand;
 				if (val == 0)
 				{
-					if (1 / val == double.NegativeInfinity)
+					if (double.IsNegativeInfinity(1 / val))
 					{
 						// negative zero is a special case
 						writer.Write('-');
@@ -550,7 +519,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 				case '\\':
 					return "\\\\";
 				default:
-					if (char.IsControl(ch) || char.IsSurrogate(ch) || char.IsWhiteSpace(ch) && (int)ch != 32)
+					if (char.IsControl(ch) || char.IsSurrogate(ch) || char.IsWhiteSpace(ch) && ch != 32)
 						return "\\u" + ((int)ch).ToString("x4");
 					return ch.ToString();
 			}

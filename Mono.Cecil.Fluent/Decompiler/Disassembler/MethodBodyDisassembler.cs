@@ -28,13 +28,13 @@ namespace ICSharpCode.Decompiler.Disassembler
 	/// </summary>
 	internal sealed class MethodBodyDisassembler
 	{
-		private readonly PlainTextOutput o;
+		private readonly PlainTextOutput _o;
 
 		public MethodBodyDisassembler(PlainTextOutput output)
 		{
 			if (output == null)
 				throw new ArgumentNullException(nameof(output));
-			o = output;
+			_o = output;
 		}
 
 		public void Disassemble(MethodBody body)
@@ -45,52 +45,46 @@ namespace ICSharpCode.Decompiler.Disassembler
 			var maxstacksize = body.ComputeMaxStackSize();
 			body.ComputeOffsets();
 			
-			o.WriteLine("// Code size {0} (0x{0:x})", codesize);
-			o.WriteLine(".maxstack {0}", maxstacksize);
+			_o.WriteLine("// Code size {0} (0x{0:x})", codesize);
+			_o.WriteLine(".maxstack {0}", maxstacksize);
 			if (method.DeclaringType.Module.Assembly != null && method.DeclaringType.Module.Assembly.EntryPoint == method)
-				o.WriteLine(".entrypoint");
+				_o.WriteLine(".entrypoint");
 
 			if (method.Body.HasVariables)
 			{
-				o.Write(".locals ");
+				_o.Write(".locals ");
 				if (body.InitLocals)
-					o.Write("init ");
-				o.WriteLine("(");
-				o.Indent();
+					_o.Write("init ");
+				_o.WriteLine("(");
+				_o.Indent();
 				foreach (var v in body.Variables)
 				{
-					o.Write("[" + v.Index + "] ");
-					v.VariableType.WriteTo(o);
+					_o.Write("[" + v.Index + "] ");
+					v.VariableType.WriteTo(_o);
 					if (!string.IsNullOrEmpty(v.Name))
 					{
-						o.Write(' ');
-						o.Write(DisassemblerHelpers.Escape(v.Name));
+						_o.Write(' ');
+						_o.Write(DisassemblerHelpers.Escape(v.Name));
 					}
 					if (v.Index + 1 < body.Variables.Count)
-						o.Write(',');
-					o.WriteLine();
+						_o.Write(',');
+					_o.WriteLine();
 				}
-				o.Unindent();
-				o.WriteLine(")");
+				_o.Unindent();
+				_o.WriteLine(")");
 			}
-			o.WriteLine();
+			_o.WriteLine();
 
 			if (body.Instructions.Count > 0)
 			{
 				var inst = body.Instructions[0];
 				var branchTargets = GetBranchTargets(body.Instructions);
-				WriteStructureBody(new ILStructure(body, codesize), branchTargets, ref inst, codesize);
+				WriteStructureBody(new IlStructure(body, codesize), branchTargets, ref inst, codesize);
 			}
 			else
 			{
-				if (!method.Body.HasExceptionHandlers)
-					return;
-				o.WriteLine();
-				foreach (var eh in method.Body.ExceptionHandlers)
-				{
-					eh.WriteTo(o);
-					o.WriteLine();
-				}
+				// we ignore method without instructions (but it can have exception handlers)
+				_o.WriteLine();
 			}
 		}
 
@@ -110,59 +104,59 @@ namespace ICSharpCode.Decompiler.Disassembler
 			return branchTargets;
 		}
 
-		private void WriteStructureHeader(ILStructure s)
+		private void WriteStructureHeader(IlStructure s)
 		{
 			switch (s.Type)
 			{
-				case ILStructureType.Loop:
-					o.Write("// loop start");
+				case IlStructureType.Loop:
+					_o.Write("// loop start");
 					if (s.LoopEntryPoint != null)
 					{
-						o.Write(" (head: ");
-						DisassemblerHelpers.WriteOffsetReference(o, s.LoopEntryPoint);
-						o.Write(')');
+						_o.Write(" (head: ");
+						DisassemblerHelpers.WriteOffsetReference(_o, s.LoopEntryPoint);
+						_o.Write(')');
 					}
-					o.WriteLine();
+					_o.WriteLine();
 					break;
-				case ILStructureType.Try:
-					o.WriteLine(".try");
-					o.WriteLine("{");
+				case IlStructureType.Try:
+					_o.WriteLine(".try");
+					_o.WriteLine("{");
 					break;
-				case ILStructureType.Handler:
+				case IlStructureType.Handler:
 					switch (s.ExceptionHandler.HandlerType)
 					{
 						case ExceptionHandlerType.Catch:
 						case ExceptionHandlerType.Filter:
-							o.Write("catch");
+							_o.Write("catch");
 							if (s.ExceptionHandler.CatchType != null)
 							{
-								o.Write(' ');
-								s.ExceptionHandler.CatchType.WriteTo(o, ILNameSyntax.TypeName);
+								_o.Write(' ');
+								s.ExceptionHandler.CatchType.WriteTo(_o, IlNameSyntax.TypeName);
 							}
-							o.WriteLine();
+							_o.WriteLine();
 							break;
 						case ExceptionHandlerType.Finally:
-							o.WriteLine("finally");
+							_o.WriteLine("finally");
 							break;
 						case ExceptionHandlerType.Fault:
-							o.WriteLine("fault");
+							_o.WriteLine("fault");
 							break;
 						default:
 							throw new NotSupportedException();
 					}
-					o.WriteLine("{");
+					_o.WriteLine("{");
 					break;
-				case ILStructureType.Filter:
-					o.WriteLine("filter");
-					o.WriteLine("{");
+				case IlStructureType.Filter:
+					_o.WriteLine("filter");
+					_o.WriteLine("{");
 					break;
 				default:
 					throw new NotSupportedException();
 			}
-			o.Indent();
+			_o.Indent();
 		}
 
-		private void WriteStructureBody(ILStructure s, HashSet<int> branchTargets, ref Instruction inst, int codeSize)
+		private void WriteStructureBody(IlStructure s, HashSet<int> branchTargets, ref Instruction inst, int codeSize)
 		{
 			var isFirstInstructionInStructure = true;
 			var prevInstructionWasBranch = false;
@@ -181,11 +175,11 @@ namespace ICSharpCode.Decompiler.Disassembler
 				{
 					if (!isFirstInstructionInStructure && (prevInstructionWasBranch || branchTargets.Contains(offset)))
 					{
-						o.WriteLine(); // put an empty line after branches, and in front of branch targets
+						_o.WriteLine(); // put an empty line after branches, and in front of branch targets
 					}
-					inst.WriteTo(o);
+					inst.WriteTo(_o);
 
-					o.WriteLine();
+					_o.WriteLine();
 
 					prevInstructionWasBranch = inst.OpCode.FlowControl == FlowControl.Branch
 						|| inst.OpCode.FlowControl == FlowControl.Cond_Branch
@@ -198,22 +192,22 @@ namespace ICSharpCode.Decompiler.Disassembler
 			}
 		}
 
-		private void WriteStructureFooter(ILStructure s)
+		private void WriteStructureFooter(IlStructure s)
 		{
-			o.Unindent();
+			_o.Unindent();
 			switch (s.Type)
 			{
-				case ILStructureType.Loop:
-					o.WriteLine("// end loop");
+				case IlStructureType.Loop:
+					_o.WriteLine("// end loop");
 					break;
-				case ILStructureType.Try:
-					o.WriteLine("} // end .try");
+				case IlStructureType.Try:
+					_o.WriteLine("} // end .try");
 					break;
-				case ILStructureType.Handler:
-					o.WriteLine("} // end handler");
+				case IlStructureType.Handler:
+					_o.WriteLine("} // end handler");
 					break;
-				case ILStructureType.Filter:
-					o.WriteLine("} // end filter");
+				case IlStructureType.Filter:
+					_o.WriteLine("} // end filter");
 					break;
 				default:
 					throw new NotSupportedException();
