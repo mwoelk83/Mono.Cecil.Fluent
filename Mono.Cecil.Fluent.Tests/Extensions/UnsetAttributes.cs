@@ -46,10 +46,40 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 				.UnsetAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName)
 				.Attributes.Should().Equal(PropertyAttributes.HasDefault);
 
-		It should_unset_attributes_for_field = () =>
+		It should_unset_all_attributes_for_field = () =>
 			CreateField()
 				.SetAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
 				.UnsetAttributes(FieldAttributes.Assembly | FieldAttributes.Family)
 				.Attributes.Should().Equal(FieldAttributes.HasDefault);
+
+		It should_unset_all_attributes_for_method = () =>
+			TestMethod
+				.SetAttributes(MethodAttributes.Abstract, MethodAttributes.Family, MethodAttributes.Final)
+				.MethodDefinition.UnsetAllAttributes()
+				.Attributes.Should().Equal((MethodAttributes) 0);
+
+		It should_unset_all_attributes_for_type = () =>
+			TestType
+				.SetAttributes(TypeAttributes.Abstract, TypeAttributes.Class, TypeAttributes.AutoClass)
+				.UnsetAllAttributes()
+				.Attributes.Should().Equal((TypeAttributes) 0);
+
+		It should_unset_all_attributes_for_event = () =>
+			CreateEvent()
+				.SetAttributes(EventAttributes.SpecialName | EventAttributes.RTSpecialName)
+				.UnsetAllAttributes()
+				.Attributes.Should().Equal(EventAttributes.None);
+
+		It should_unset_all_attributes_for_property = () =>
+			CreateProperty()
+				.SetAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName | PropertyAttributes.HasDefault)
+				.UnsetAllAttributes()
+				.Attributes.Should().Equal(PropertyAttributes.None);
+
+		It should_unset_attributes_for_field = () =>
+			CreateField()
+				.SetAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
+				.UnsetAllAttributes()
+				.Attributes.Should().Equal((FieldAttributes) 0);
 	}
 }
