@@ -18,6 +18,7 @@ namespace Mono.Cecil.Fluent
 			return field;
 		}
 	}
+
 	public static partial class PropertyDefinitionExtensions
 	{
 		public static PropertyDefinition UnsetAttributes(this PropertyDefinition property, params PropertyAttributes[] attributes)
@@ -32,6 +33,7 @@ namespace Mono.Cecil.Fluent
 			return property;
 		}
 	}
+
 	public static partial class EventDefinitionExtensions
 	{
 		public static EventDefinition UnsetAttributes(this EventDefinition @event, params EventAttributes[] attributes)
@@ -46,6 +48,7 @@ namespace Mono.Cecil.Fluent
 			return @event;
 		}
 	}
+
 	public static partial class TypeDefinitionExtensions
 	{
 		public static TypeDefinition UnsetAttributes(this TypeDefinition type, params TypeAttributes[] attributes)
