@@ -29,18 +29,18 @@ namespace Mono.Cecil.Fluent
 		{
 			// todo: exception blocks, if .. else, scopes ...
 			if(!MethodDefinition.IsStatic)
-				throw new InvalidOperationException("only static methods can be converted to dynamic methods");
+				throw new InvalidOperationException("only static methods can be converted to dynamic methods"); // ncrunch: no coverage
 
 			var returntype = TypeLoader.Instance.Load(ReturnType);
 			if(returntype == null)
-				throw new InvalidOperationException($"can not find return type {ReturnType.FullName} in current appdomain");
+				throw new InvalidOperationException($"can not find return type {ReturnType.FullName} in current appdomain"); // ncrunch: no coverage
 
 			var paramtypes = new List<Type>();
 			foreach (var param in Parameters)
 			{
 				var paramtype = TypeLoader.Instance.Load(param.ParameterType);
 				if(paramtype == null)
-					throw new InvalidOperationException($"can not find parameter type {param.ParameterType.FullName} in current appdomain");
+					throw new InvalidOperationException($"can not find parameter type {param.ParameterType.FullName} in current appdomain"); // ncrunch: no coverage
 				paramtypes.Add(paramtype);
 			}
 
@@ -56,7 +56,7 @@ namespace Mono.Cecil.Fluent
 			{
 				var vartype = TypeLoader.Instance.Load(var.VariableType);
 				if(vartype == null)
-					throw new InvalidOperationException($"can not find variable type {var.VariableType.FullName} in current appdomain");
+					throw new InvalidOperationException($"can not find variable type {var.VariableType.FullName} in current appdomain"); // ncrunch: no coverage
 				locals.Add(ilgen.DeclareLocal(vartype));
 			}
 
@@ -78,20 +78,20 @@ namespace Mono.Cecil.Fluent
 					var operand = TypeLoader.Instance.Load((MethodReference) instruction.Operand);
 					ilgen.Emit(opcode, operand);
 					if (operand == null)
-						throw new InvalidOperationException($"can not find operand method {instruction.Operand} in current appdomain");
+						throw new InvalidOperationException($"can not find operand method {instruction.Operand} in current appdomain"); // ncrunch: no coverage
 				}
 				else if (instruction.Operand is FieldReference)
 				{
 					var operand = TypeLoader.Instance.Load((FieldReference) instruction.Operand);
 					if (operand == null)
-						throw new InvalidOperationException($"can not find operand field {instruction.Operand} in current appdomain");
+						throw new InvalidOperationException($"can not find operand field {instruction.Operand} in current appdomain"); // ncrunch: no coverage
 					ilgen.Emit(opcode, operand);
 				}
 				else if (instruction.Operand is TypeReference)
 				{
 					var operand = TypeLoader.Instance.Load((TypeReference) instruction.Operand);
 					if(operand == null)
-						throw new InvalidOperationException($"can not find operand type {instruction.Operand} in current appdomain");
+						throw new InvalidOperationException($"can not find operand type {instruction.Operand} in current appdomain"); // ncrunch: no coverage
 					ilgen.Emit(opcode, operand);
 				}
 				else if (instruction.Operand is byte)

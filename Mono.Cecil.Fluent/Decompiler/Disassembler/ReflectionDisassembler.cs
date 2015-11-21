@@ -32,14 +32,12 @@ namespace ICSharpCode.Decompiler.Disassembler
 		private readonly PlainTextOutput _o;
 
 		private bool _isInType; // whether we are currently disassembling a whole type (-> defaultCollapsed for foldings)
-		private readonly MethodBodyDisassembler _methodBodyDisassembler;
 
 		public ReflectionDisassembler(PlainTextOutput output)
 		{
 			if (output == null)
 				throw new ArgumentNullException(nameof(output));
 			_o = output;
-			_methodBodyDisassembler = new MethodBodyDisassembler(output);
 		}
 
 		#region Disassemble Method
@@ -224,7 +222,8 @@ namespace ICSharpCode.Decompiler.Disassembler
 
 			if (method.HasBody)
 			{
-				_methodBodyDisassembler.Disassemble(method.Body);
+				new MethodBodyDisassembler(_o)
+					.Disassemble(method.Body);
 			}
 
 			CloseBlock("end of method " + DisassemblerHelpers.Escape(method.DeclaringType.Name) + "::" + DisassemblerHelpers.Escape(method.Name));
@@ -241,6 +240,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 				_o.Write(".permissionset ");
 				switch (secdecl.Action)
 				{
+					//ncrunch: no coverage start
 					case SecurityAction.Request:
 						_o.Write("request");
 						break;
@@ -289,6 +289,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 					default:
 						_o.Write(secdecl.Action.ToString());
 						break;
+					//ncrunch: no coverage end
 				}
 				_o.WriteLine(" = {");
 				_o.Indent();
@@ -383,13 +384,8 @@ namespace ICSharpCode.Decompiler.Disassembler
 				}
 			}
 			if (anr != null)
-			{
 				return type.FullName + ", " + anr.FullName;
-			}
-			else
-			{
-				return type.FullName;
-			}
+			return type.FullName;
 		}
 		#endregion
 
@@ -404,6 +400,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 
 		private void WriteNativeType(NativeType nativeType, MarshalInfo marshalInfo = null)
 		{
+			//ncrunch: no coverage start
 			switch (nativeType)
 			{
 				case NativeType.None: break;
@@ -495,6 +492,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 				case NativeType.Error: _o.Write("error"); break;
 				default: _o.Write(nativeType.ToString()); break;
 			}
+			//ncrunch: no coverage end
 		}
 		#endregion
 

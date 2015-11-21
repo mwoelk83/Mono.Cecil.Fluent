@@ -17,7 +17,7 @@ public class TypeLoader
 	}
 
 	/// <summary>
-	/// Liefert den System.Type einer TypeReference.
+	/// Get the System.Type from a TypeReference. Type must exist in current AppDomain.
 	/// </summary>
 	public Type Load(TypeReference typeReference)
 	{
@@ -38,19 +38,13 @@ public class TypeLoader
 
 		return type;
 	}
-
-	/// <summary>
-	/// Liefert den System.Type einer TypeReference.
-	/// </summary>
+	
 	public FieldInfo Load(FieldReference fieldReference)
 	{
 		return Load(fieldReference.DeclaringType)?
 			.GetField(fieldReference.Name);
 	}
-
-	/// <summary>
-	/// Liefert den System.Type einer TypeReference.
-	/// </summary>
+	
 	public MethodInfo Load(MethodReference methodReference)
 	{
 		Type[] paramTypes = methodReference.Parameters.Select(p => Load(p.ParameterType)).ToArray();

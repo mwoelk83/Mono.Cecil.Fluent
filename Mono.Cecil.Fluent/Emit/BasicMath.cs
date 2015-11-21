@@ -17,7 +17,7 @@ namespace Mono.Cecil.Fluent
 		public FluentMethodBody Rem(NumberArgument divisor)
 		{
 			if (divisor.Number.IsZero())
-				throw new DivideByZeroException();
+				throw new DivideByZeroException(); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Rem);
@@ -26,7 +26,7 @@ namespace Mono.Cecil.Fluent
 		public FluentMethodBody RemUn(NumberArgument divisor)
 		{
 			if (divisor.Number.IsZero())
-				throw new DivideByZeroException();
+				throw new DivideByZeroException(); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Rem_Un);
@@ -73,7 +73,7 @@ namespace Mono.Cecil.Fluent
 		public FluentMethodBody Div(NumberArgument divisor)
 		{
 			if (divisor.Number.IsZero())
-				throw new DivideByZeroException();
+				throw new DivideByZeroException(); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Div);
@@ -87,7 +87,7 @@ namespace Mono.Cecil.Fluent
 		public FluentMethodBody DivUn(NumberArgument divisor)
 		{
 			if (divisor.Number.IsZero())
-				throw new DivideByZeroException();
+				throw new DivideByZeroException(); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Div_Un);

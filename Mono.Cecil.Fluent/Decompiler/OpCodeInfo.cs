@@ -28,6 +28,7 @@ namespace ICSharpCode.Decompiler.FlowAnalysis
 	{
 		public static bool IsUnconditionalBranch(OpCode opcode)
 		{
+			//ncrunch: no coverage start
 			if (opcode.OpCodeType == OpCodeType.Prefix)
 				return false;
 			switch (opcode.FlowControl)
@@ -43,6 +44,7 @@ namespace ICSharpCode.Decompiler.FlowAnalysis
 				default:
 					throw new NotSupportedException(opcode.FlowControl.ToString());
 			}
+			//ncrunch: no coverage end
 		}
 
 		private static readonly OpCodeInfo[] knownOpCodes = {

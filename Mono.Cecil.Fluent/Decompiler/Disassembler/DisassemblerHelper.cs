@@ -90,13 +90,9 @@ namespace ICSharpCode.Decompiler.Disassembler
 		public static void WriteTo(this MethodReference method, PlainTextOutput writer)
 		{
 			if (method.ExplicitThis)
-			{
 				writer.Write("instance explicit ");
-			}
 			else if (method.HasThis)
-			{
 				writer.Write("instance ");
-			}
 			method.ReturnType.WriteTo(writer, IlNameSyntax.SignatureNoNamedTypeParameters);
 			writer.Write(' ');
 			if (method.DeclaringType != null)
@@ -309,7 +305,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 		public static void WriteOperand(PlainTextOutput writer, object operand)
 		{
 			if (operand == null)
-				throw new ArgumentNullException(nameof(operand));
+				throw new ArgumentNullException(nameof(operand)); // ncrunch: no coverage
 			var targetInstruction = operand as Instruction;
 			if (targetInstruction != null)
 			{
@@ -373,10 +369,8 @@ namespace ICSharpCode.Decompiler.Disassembler
 				if (val == 0)
 				{
 					if (float.IsNegativeInfinity(1 / val))
-					{
 						// negative zero is a special case
 						writer.Write('-');
-					}
 					writer.Write("0.0");
 				}
 				else if (float.IsInfinity(val) || float.IsNaN(val))
@@ -402,10 +396,8 @@ namespace ICSharpCode.Decompiler.Disassembler
 				if (val == 0)
 				{
 					if (double.IsNegativeInfinity(1 / val))
-					{
 						// negative zero is a special case
 						writer.Write('-');
-					}
 					writer.Write("0.0");
 				}
 				else if (double.IsInfinity(val) || double.IsNaN(val))
@@ -500,6 +492,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 		{
 			switch (ch)
 			{
+				//ncrunch: no coverage start
 				case char.MinValue:
 					return "\\0";
 				case '\a':
@@ -518,6 +511,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 					return "\\r";
 				case '\\':
 					return "\\\\";
+				//ncrunch: no coverage end
 				default:
 					if (char.IsControl(ch) || char.IsSurrogate(ch) || char.IsWhiteSpace(ch) && ch != 32)
 						return "\\u" + ((int)ch).ToString("x4");

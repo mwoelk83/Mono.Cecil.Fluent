@@ -62,9 +62,7 @@ namespace Mono.Cecil.Fluent
 		{
 			if (member == null)
 				return false;
-			if (member.IsCompilerGenerated())
-				return true;
-			return IsCompilerGeneratedOrIsInCompilerGeneratedClass(member.DeclaringType);
+			return member.IsCompilerGenerated() || IsCompilerGeneratedOrIsInCompilerGeneratedClass(member.DeclaringType);
 		}
 
 		public static TypeReference GetEnumUnderlyingType(this TypeDefinition type)

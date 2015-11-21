@@ -89,8 +89,8 @@ namespace Mono.Cecil.Fluent
 		private static void CopyBranchStackSize(ref Dictionary<Instruction, int> stack_sizes, Instruction target, int stack_size)
 		{
 			if (stack_sizes == null)
-				stack_sizes = new Dictionary<Instruction, int>();
-			var branch_stack_size = stack_size;
+				stack_sizes = new Dictionary<Instruction, int>(); // ncrunch: no coverage
+            var branch_stack_size = stack_size;
 			int computed_size;
 			if (stack_sizes.TryGetValue(target, out computed_size))
 				branch_stack_size = System.Math.Max(branch_stack_size, computed_size);
