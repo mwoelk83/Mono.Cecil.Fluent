@@ -4,6 +4,7 @@ using Mono.Cecil.Cil;
 using Mono.Collections.Generic;
 using OpCode = Mono.Cecil.Cil.OpCode;
 
+// ReSharper disable MemberCanBePrivate.Global
 namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody
@@ -98,6 +99,11 @@ namespace Mono.Cecil.Fluent
 		}
 
 		public FluentMethodBody Emit(OpCode opcode, VariableDefinition arg)
+		{
+			return Emit(Instruction.Create(opcode, arg));
+		}
+
+		public FluentMethodBody Emit(OpCode opcode, ParameterDefinition arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}

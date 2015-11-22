@@ -10,12 +10,12 @@ namespace Mono.Cecil.Fluent
 		/// <summary>
 		/// Useful for Debugging.
 		/// </summary>
-		public string DisassembledBody => this.DisassembleBody();
+		public string DisassembledBody => this.DisassembleBody(); // ncrunch: no coverage
 
 		/// <summary>
 		/// Useful for Debugging.
 		/// </summary>
-		public string DisassembledMethod => this.Disassemble();
+		public string DisassembledMethod => this.Disassemble(); // ncrunch: no coverage
 
 		public readonly MethodDefinition MethodDefinition;
 		public readonly ModuleDefinition Module;
@@ -79,7 +79,7 @@ namespace Mono.Cecil.Fluent
 			MethodDefinition = methodDefinition;
 			Module = methodDefinition.Module;
 		}
-
+		
 		public override string ToString()
 		{
 			return FullName;

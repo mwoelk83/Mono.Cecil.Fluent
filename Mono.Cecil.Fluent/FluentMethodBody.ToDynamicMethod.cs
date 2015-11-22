@@ -39,7 +39,7 @@ namespace Mono.Cecil.Fluent
 			foreach (var param in Parameters)
 			{
 				var paramtype = TypeLoader.Instance.Load(param.ParameterType);
-				if(paramtype == null)
+				if (paramtype == null)
 					throw new InvalidOperationException($"can not find parameter type {param.ParameterType.FullName} in current appdomain"); // ncrunch: no coverage
 				paramtypes.Add(paramtype);
 			}
@@ -50,6 +50,16 @@ namespace Mono.Cecil.Fluent
 			};
 
 			var ilgen = method.GetILGenerator();
+
+			var parameters = new List<ParameterBuilder>();
+			foreach (var p in Parameters)
+			{
+				var paramtype = TypeLoader.Instance.Load(p.ParameterType);
+				if(paramtype == null)
+					throw new InvalidOperationException($"can not find parameter type {p.ParameterType.FullName} in current appdomain"); // ncrunch: no coverage
+				var param = method.DefineParameter(p.Index, (System.Reflection.ParameterAttributes) p.Attributes, p.Name);
+				parameters.Add(param);
+			}
 			var locals = new List<LocalBuilder>();
 
 			foreach (var var in Variables)
@@ -67,6 +77,8 @@ namespace Mono.Cecil.Fluent
 					ilgen.Emit(opcode);
 				else if (instruction.Operand is VariableReference)
 					ilgen.Emit(opcode, locals[((VariableReference)instruction.Operand).Index]);
+				else if (instruction.Operand is ParameterReference)
+					ilgen.Emit(opcode, ((ParameterReference)instruction.Operand).Index);
 				else if (instruction.Operand is int)
 					ilgen.Emit(opcode, (int)instruction.Operand);
 				else if (instruction.Operand is long)
@@ -110,6 +122,8 @@ namespace Mono.Cecil.Fluent
 					ilgen.Emit(opcode, (float)instruction.Operand);
 				else if (instruction.Operand is double)
 					ilgen.Emit(opcode, (double)instruction.Operand);
+				else
+					throw new NotImplementedException();
 			}
 
 			return method;

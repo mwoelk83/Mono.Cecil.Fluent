@@ -4,13 +4,13 @@ using Should.Fluent;
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
 
-namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
+namespace Mono.Cecil.Fluent.Tests.Emit
 {
 	public class FluentMethodBody_BasicMath : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		static Fluent.FluentMethodBody NewTestMethod => new Fluent.FluentMethodBody(CreateMethod());
+		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
 
 		It should_return_remainder_of_ten_by_four = () =>
 			CreateStaticMethod()

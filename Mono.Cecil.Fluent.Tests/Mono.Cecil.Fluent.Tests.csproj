@@ -74,6 +74,7 @@
     <Compile Include="Disassembler\MethodBody.cs" />
     <Compile Include="Disassembler\Property.cs" />
     <Compile Include="Disassembler\Type.cs" />
+    <Compile Include="Emit\Parameters.cs" />
     <Compile Include="Extensions\Returns.cs" />
     <Compile Include="Extensions\SetAttributes.cs" />
     <Compile Include="Extensions\UnsetAttributes.cs" />
@@ -82,12 +83,12 @@
     <Compile Include="Extensions\NewMethod.cs" />
     <Compile Include="Extensions\NewType.cs" />
     <Compile Include="Extensions\WithVariable.cs" />
-    <Compile Include="FluentMethodBody\Basics.cs" />
-    <Compile Include="FluentMethodBody\Conv.cs" />
-    <Compile Include="FluentMethodBody\Emit.cs" />
-    <Compile Include="FluentMethodBody\BasicMath.cs" />
-    <Compile Include="FluentMethodBody\Locals.cs" />
-    <Compile Include="FluentMethodBody\ToDynamicMethod.cs" />
+    <Compile Include="Emit\Basics.cs" />
+    <Compile Include="Emit\Conv.cs" />
+    <Compile Include="Emit\Emit.cs" />
+    <Compile Include="Emit\BasicMath.cs" />
+    <Compile Include="Emit\Locals.cs" />
+    <Compile Include="Emit\ToDynamicMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestsBase.cs" />
     <Compile Include="TestUtils.cs" />

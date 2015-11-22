@@ -4,13 +4,13 @@ using Should.Fluent;
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
 
-namespace Mono.Cecil.Fluent.Tests.FluentMethodBody
+namespace Mono.Cecil.Fluent.Tests.Emit
 {
 	public class FluentMethodBody_Conv : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		static Fluent.FluentMethodBody NewTestMethod => new Fluent.FluentMethodBody(CreateMethod());
+		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
 
 		It should_conv_I8_to_I = () =>
 			CreateStaticMethod()

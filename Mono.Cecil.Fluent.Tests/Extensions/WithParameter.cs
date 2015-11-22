@@ -20,10 +20,16 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 			.WithParameter(TestType)
 			.Parameters.Should().Not.Be.Empty();
 
-		It should_create_param_with_typerefernce = () => 
+		It should_create_param_with_typerefernce = () =>
 			NewTestMethod
 			.WithParameter(TestType)
 			.Parameters.First().ParameterType.Should().Equal(TestType);
+
+		static readonly ParameterDefinition testparam = new ParameterDefinition(TestModule.TypeSystem.String);
+		It should_add_parameterdefinition = () =>
+			NewTestMethod
+			.WithParameter(testparam)
+			.Parameters.First().ParameterType.Should().Equal(testparam.ParameterType);
 
 		It should_create_param_with_system_type = () => 
 			NewTestMethod

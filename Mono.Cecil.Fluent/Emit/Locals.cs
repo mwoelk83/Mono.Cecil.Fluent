@@ -12,7 +12,7 @@ namespace Mono.Cecil.Fluent
 			if(string.IsNullOrEmpty(varname))
 				throw new ArgumentException("varname cannot be null or empty"); //ncrunch: no coverage
 
-			var vars = Body.Variables.ToArray();
+			var vars = Variables.ToArray();
 
 			for(var i = 0; i < vars.Length; ++i)
 				if (vars[i].Name == varname)
@@ -46,7 +46,7 @@ namespace Mono.Cecil.Fluent
 						Emit(OpCodes.Ldloc_3);
 						break;
 					default:
-						Emit(i < sbyte.MaxValue ? OpCodes.Ldloc_S : OpCodes.Ldloc, Body.Variables[(int)i]);
+						Emit(i < sbyte.MaxValue ? OpCodes.Ldloc_S : OpCodes.Ldloc, Variables[(int)i]);
 						break;
 				}
 			}
@@ -108,7 +108,7 @@ namespace Mono.Cecil.Fluent
 						Emit(OpCodes.Stloc_3);
 						break;
 					default:
-						Emit(i < sbyte.MaxValue ? OpCodes.Stloc_S : OpCodes.Stloc, Body.Variables[(int) i]);
+						Emit(i < sbyte.MaxValue ? OpCodes.Stloc_S : OpCodes.Stloc, Variables[(int) i]);
 						break;
 				}
 			}
