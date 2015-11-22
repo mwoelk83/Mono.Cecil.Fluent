@@ -7,7 +7,7 @@ namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody
 	{
-		public FluentMethodBody Ldthis()
+		public FluentMethodBody LdThis()
 		{
 			if(!MethodDefinition.HasThis)
 				throw new InvalidOperationException("can not load this parameter for static methods"); // ncrunch: no coverage
@@ -15,18 +15,17 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Ldarg_0);
 		}
 
-		public uint GetParameterIndex(string paramname)
+		public ParameterDefinition GetParameter(string paramname)
 		{
 			if (string.IsNullOrEmpty(paramname))
 				throw new ArgumentException("paramname cannot be null or empty"); //ncrunch: no coverage
 
-			var @params = Parameters.ToArray();
+			var param = Parameters.FirstOrDefault(v => v.Name == paramname);
 
-			for (var i = 0; i < @params.Length; ++i)
-				if (@params[i].Name == paramname)
-					return MethodDefinition.IsStatic ? (uint)i : (uint) i + 1;
+			if (param == null)
+				throw new KeyNotFoundException($"found no parameter with name '{paramname}'"); //ncrunch: no coverage
 
-			throw new KeyNotFoundException($"found no parameter with name '{paramname}'"); //ncrunch: no coverage
+			return param;
 		}
 
 		public FluentMethodBody LdParam(params uint[] indexes)
@@ -90,7 +89,7 @@ namespace Mono.Cecil.Fluent
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
 
 			foreach (var name in names)
-				Ldarg(GetParameterIndex(name));
+				Ldarg((uint) GetParameter(name).Index);
 
 			return this;
 		}
@@ -135,24 +134,50 @@ namespace Mono.Cecil.Fluent
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
 
 			foreach (var name in names)
-				Starg(GetParameterIndex(name));
+				Starg((uint) GetParameter(name).Index);
 
 			return this;
 		}
 
-		public FluentMethodBody Starg(NumberArgument value, params string[] names)
+		public FluentMethodBody Starg(MagicNumberArgument value, params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
 
-			value.EmitLdc(this);
-
 			var count = names.Length;
-			for (var i = 1; i < count; i++)
-				Dup();
 
-			for (var i = 0; i < count; i++)
-				Starg(GetParameterIndex(names[i]));
+			var paramgroups = names
+				.Select(GetParameter)
+				.GroupBy(p => p.ParameterType.GetILType())
+				.OrderBy(pgroup => pgroup.Sum(p => p.Index));
+
+			foreach (var paramgroup in paramgroups)
+			{
+				var isfirst = true;
+				foreach (var param in paramgroup.OrderBy(p => p.Index))
+				{
+					if (isfirst)
+					{
+						switch (param.ParameterType.GetILType())
+						{
+							case ILType.I4: value.EmitLdcI4(this); break;
+							case ILType.I8: value.EmitLdcI8(this); break;
+							case ILType.R8: value.EmitLdcR8(this); break;
+							case ILType.R4: value.EmitLdcR4(this); break;
+							default:
+								throw new NotSupportedException( // ncrunch: no coverage
+							   "variable type must be primitive valuetype in system namespace and convertible to I4, I8, R4 or R8");
+						}
+						isfirst = false;
+					}
+					else
+						Dup();
+				}
+				foreach (var param in paramgroup)
+				{
+					Starg((uint)param.Index);
+				}
+			}
 
 			return this;
 		}

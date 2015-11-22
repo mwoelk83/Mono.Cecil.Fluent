@@ -15,7 +15,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
 
 		It should_load_this_parameter = () =>
-			NewTestMethod.Ldthis()
+			NewTestMethod.LdThis()
 				.Body.Instructions.First().OpCode.Should().Equal(OpCodes.Ldarg_0);
 
 		It should_load_arg_and_return_parameter = () =>
@@ -134,5 +134,27 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ret()
 				.ToDynamicMethod()
 				.Invoke(null, new[] { (object) 1 }).Should().Equal(10);
+
+		It should_store_and_load_params_with_differnt_types = () =>
+			CreateStaticMethod()
+				.Returns<double>()
+				.WithParameter<long>("arg1")
+				.WithParameter<int>("arg2")
+				.WithParameter<float>("arg3")
+				.WithParameter<double>("arg4")
+				.Starg(10, "arg1", "arg2", "arg3", "arg4")
+				.Ldarg(0)
+				.Ldarg(1)
+				.ConvI8()
+				.Add()
+				.ConvR4()
+				.Ldarg(2)
+				.Add()
+				.ConvR8()
+				.Ldarg(3)
+				.Add()
+				.Ret()
+			.ToDynamicMethod()
+			.Invoke(null, new object[] {0L,0,0f,0d}).Should().Equal(40.0d);
 	}
 }

@@ -7,18 +7,17 @@ namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody
 	{
-		public uint GetVariableIndex(string varname)
+		public VariableDefinition GetVariable(string varname)
 		{
 			if(string.IsNullOrEmpty(varname))
 				throw new ArgumentException("varname cannot be null or empty"); //ncrunch: no coverage
 
-			var vars = Variables.ToArray();
+			var var = Variables.FirstOrDefault(v => v.Name == varname);
 
-			for(var i = 0; i < vars.Length; ++i)
-				if (vars[i].Name == varname)
-					return (uint)i;
+			if (var == null)
+				throw new KeyNotFoundException($"found no variable with name '{varname}'"); //ncrunch: no coverage
 
-			throw new KeyNotFoundException($"found no variable with name '{varname}'"); //ncrunch: no coverage
+			return var;
 		}
 
 		public FluentMethodBody Ldloc(params uint[] indexes)
@@ -60,7 +59,7 @@ namespace Mono.Cecil.Fluent
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
 
 			foreach (var name in names)
-				Ldloc(GetVariableIndex(name));
+				Ldloc((uint) GetVariable(name).Index);
 
 			return this;
 		}
@@ -122,24 +121,49 @@ namespace Mono.Cecil.Fluent
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
 
 			foreach (var name in names)
-				Stloc(GetVariableIndex(name));
+				Stloc((uint) GetVariable(name).Index);
 
 			return this;
 		}
 
-		public FluentMethodBody Stloc(NumberArgument value, params string[] names)
+		public FluentMethodBody Stloc(MagicNumberArgument value, params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
 
-			value.EmitLdc(this);
-
 			var count = names.Length;
-			for (var i = 1; i < count; i++)
-				Dup();
 
-			for (var i = 0; i < count; i++)
-				Stloc(GetVariableIndex(names[i]));
+			var variablegroups = names
+				.Select(GetVariable)
+				.GroupBy(v => v.VariableType.GetILType())
+				.OrderBy(vgroup => vgroup.Sum(v => v.Index));
+
+			foreach (var vargroup in variablegroups)
+			{
+				var isfirst = true;
+				foreach (var variable in vargroup.OrderBy(v => v.Index))
+				{
+					if (isfirst)
+					{
+						switch (variable.VariableType.GetILType())
+						{
+							case ILType.I4: value.EmitLdcI4(this); break;
+							case ILType.I8: value.EmitLdcI8(this); break;
+							case ILType.R8: value.EmitLdcR8(this); break;
+							case ILType.R4: value.EmitLdcR4(this); break;
+							default: throw new NotSupportedException( // ncrunch: no coverage
+									"variable type must be primitive valuetype in system namespace and convertible to I4, I8, R4 or R8");
+						}
+						isfirst = false;
+					}
+					else
+						Dup();
+				}
+				foreach (var variable in vargroup)
+				{
+					Stloc((uint) variable.Index);
+				}
+			}
 
 			return this;
 		}

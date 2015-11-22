@@ -14,18 +14,18 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Rem_Un);
 		}
 
-		public FluentMethodBody Rem(NumberArgument divisor)
+		public FluentMethodBody Rem(MagicNumberArgument divisor)
 		{
-			if (divisor.Number.IsZero())
+			if (divisor.IsZero)
 				throw new DivideByZeroException(); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Rem);
 		}
 
-		public FluentMethodBody RemUn(NumberArgument divisor)
+		public FluentMethodBody RemUn(MagicNumberArgument divisor)
 		{
-			if (divisor.Number.IsZero())
+			if (divisor.IsZero)
 				throw new DivideByZeroException(); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
@@ -37,7 +37,7 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Add);
 		}
 
-		public FluentMethodBody Add(NumberArgument arg)
+		public FluentMethodBody Add(MagicNumberArgument arg)
 		{
 			return arg.EmitLdc(this)
 				.Emit(OpCodes.Add);
@@ -48,7 +48,7 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Sub);
 		}
 
-		public FluentMethodBody Sub(NumberArgument arg)
+		public FluentMethodBody Sub(MagicNumberArgument arg)
 		{
 			return arg.EmitLdc(this)
 				.Emit(OpCodes.Sub);
@@ -59,7 +59,7 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Mul);
 		}
 
-		public FluentMethodBody Mul(NumberArgument arg)
+		public FluentMethodBody Mul(MagicNumberArgument arg)
 		{
 			return arg.EmitLdc(this)
 				.Emit(OpCodes.Mul);
@@ -70,9 +70,9 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Div);
 		}
 
-		public FluentMethodBody Div(NumberArgument divisor)
+		public FluentMethodBody Div(MagicNumberArgument divisor)
 		{
-			if (divisor.Number.IsZero())
+			if (divisor.IsZero)
 				throw new DivideByZeroException(); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
@@ -84,9 +84,9 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Div_Un);
 		}
 
-		public FluentMethodBody DivUn(NumberArgument divisor)
+		public FluentMethodBody DivUn(MagicNumberArgument divisor)
 		{
-			if (divisor.Number.IsZero())
+			if (divisor.IsZero)
 				throw new DivideByZeroException(); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)

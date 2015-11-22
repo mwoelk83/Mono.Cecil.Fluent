@@ -154,5 +154,16 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(5);
+
+		// improves code coverage
+		It schould_add_a_bool_and_a_sbyte = () => 
+			CreateStaticMethod()
+			.Returns<byte>()
+			.Ldc(true)
+			.Ldc((sbyte) 2)
+			.Add()
+			.Ret()
+			.ToDynamicMethod()
+			.Invoke(null, null).Should().Equal((byte) 3);
 	}
 }

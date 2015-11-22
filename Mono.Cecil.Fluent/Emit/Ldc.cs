@@ -12,7 +12,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ldc(params NumberArgument[] args)
+		public FluentMethodBody Ldc(params MagicNumberArgument[] args)
 		{
 			foreach (var arg in args)
 				arg.EmitLdc(this);

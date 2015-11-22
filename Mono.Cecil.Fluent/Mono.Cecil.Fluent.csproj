@@ -80,6 +80,7 @@
     <Compile Include="Extensions\GetModule.cs" />
     <Compile Include="Extensions\Misc.cs" />
     <Compile Include="Extensions\Returns.cs" />
+    <Compile Include="Extensions\SafeEquals.cs" />
     <Compile Include="Extensions\UnsetAttribute.cs" />
     <Compile Include="Extensions\WithParameter.cs" />
     <Compile Include="Extensions\WithVariable.cs" />
@@ -96,8 +97,14 @@
     <Compile Include="Emit\Ldc.cs" />
     <Compile Include="Emit\Locals.cs" />
     <Compile Include="Emit\Ret.cs" />
+    <Compile Include="Helpers\GetILTypeExtension.cs" />
     <Compile Include="Helpers\TypeLoader.cs" />
-    <Compile Include="NumberArgument.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.I4.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.I8.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.R4.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.R8.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.Bool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Generate.cs" />
   </ItemGroup>

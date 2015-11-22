@@ -59,7 +59,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.WithVariable<int>("var3")
 				.WithVariable<int>("var4")
 				.WithVariable<int>("var5")
-				.WithVariable<int>("var6")
+				.WithVariable<int>("var6").DebuggerBreak()
 				.Stloc(1, "var1", "var2", "var3", "var4", "var5", "var6")
 				.Ldloc("var1", "var2", "var3", "var4", "var5", "var6")
 				.Add()
@@ -83,5 +83,27 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(true);
+		
+		It should_store_and_load_locals_with_differnt_types = () =>
+			CreateStaticMethod()
+				.Returns<double>()
+				.WithVariable<long>("var1")
+				.WithVariable<int>("var2")
+				.WithVariable<float>("var3")
+				.WithVariable<double>("var4")
+				.Stloc(10, "var1", "var2", "var3", "var4")
+				.Ldloc(0)
+				.Ldloc(1)
+				.ConvI8()
+				.Add()
+				.ConvR4()
+				.Ldloc(2)
+				.Add()
+				.ConvR8()
+				.Ldloc(3)
+				.Add()
+				.Ret().DebuggerBreak()
+			.ToDynamicMethod()
+			.Invoke(null, null).Should().Equal(40.0d);
 	}
 }

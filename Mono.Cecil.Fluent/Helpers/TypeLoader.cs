@@ -21,6 +21,9 @@ public class TypeLoader
 	/// </summary>
 	public Type Load(TypeReference typeReference)
 	{
+		// from SO
+		//Type.GetType(tr.FullName + ", " + tr.Module.Assembly.FullName);
+		// will look up in all assemnblies loaded into the current appDomain and fire the AppDomain.Resolve event if no Type could be found
 		var fullName = typeReference.FullName.Replace('/', '+');
 		Type type;
 

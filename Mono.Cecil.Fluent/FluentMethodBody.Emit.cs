@@ -10,15 +10,16 @@ namespace Mono.Cecil.Fluent
 	partial class FluentMethodBody
 	{
 		private Action<Instruction> _emitAction;
+		internal Instruction LastEmittedInstruction = null;
 
 		public FluentMethodBody Emit(Instruction instruction)
 		{
-			// it is just covered by all other emit() methods
-			//ncrunch: no coverage start
+			//ncrunch: no coverage start // it is just covered by all other emit() methods
 			if (_emitAction == null)
 				_emitAction = i => MethodDefinition.Body.Instructions.Add(i);
 
 			_emitAction(instruction);
+			LastEmittedInstruction = instruction;
 			return this;
 			//ncrunch: no coverage end
 		}
