@@ -12,6 +12,7 @@ namespace Mono.Cecil.Fluent.Utils
 			private static readonly object _syncRoot = new object();
 			private static readonly HashSet<string> UsedClassNames = new HashSet<string>();
 			private static readonly HashSet<string> UsedMethodNames = new HashSet<string>();
+
 			// ncrunch: no coverage end
 			private const string IdentifierFirstLetterChars = "abcdefghijklmnopqrstuvwxyz";
 			private const string IdentifierChars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -25,7 +26,7 @@ namespace Mono.Cecil.Fluent.Utils
 			{
 				return GenereateInternal(UsedClassNames);
 			}
-
+			
 			private static string GenereateInternal(HashSet<string> used)
 			{
 				var ret = "";

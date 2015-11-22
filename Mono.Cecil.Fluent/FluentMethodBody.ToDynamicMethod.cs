@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
 using Mono.Cecil.Cil;
 using OpCode = System.Reflection.Emit.OpCode;
@@ -27,7 +28,7 @@ namespace Mono.Cecil.Fluent
 
 		public DynamicMethod ToDynamicMethod()
 		{
-			// todo: exception blocks, if .. else, scopes ...
+			// todo: exception blocks, scopes ...
 			if(!MethodDefinition.IsStatic)
 				throw new InvalidOperationException("only static methods can be converted to dynamic methods"); // ncrunch: no coverage
 
@@ -70,8 +71,18 @@ namespace Mono.Cecil.Fluent
 				locals.Add(ilgen.DeclareLocal(vartype));
 			}
 
+			var labelstomark = new Dictionary<int, string>(); // key is instruction index, value is labelname
+			var labels = new Dictionary<int, Label>();
+
+			foreach (var instr in Body.Instructions.Where(i => i.Operand is Instruction))
+				labels.Add(Body.Instructions.IndexOf((Instruction)instr.Operand), ilgen.DefineLabel());
+
+			var index = 0;
 			foreach (var instruction in Body.Instructions)
 			{
+				if(labels.ContainsKey(index))
+					ilgen.MarkLabel(labels[index]);
+
 				var opcode = ToSystem(instruction.OpCode);
 				if (instruction.Operand == null)
 					ilgen.Emit(opcode);
@@ -122,8 +133,12 @@ namespace Mono.Cecil.Fluent
 					ilgen.Emit(opcode, (float)instruction.Operand);
 				else if (instruction.Operand is double)
 					ilgen.Emit(opcode, (double)instruction.Operand);
-				else
-					throw new NotImplementedException();
+				else if (instruction.Operand is Instruction)
+					ilgen.Emit(opcode, labels[Body.Instructions.IndexOf((Instruction)instruction.Operand)]);
+				else 
+					throw new NotImplementedException(instruction.Operand.GetType().FullName);
+
+				++index;
 			}
 
 			return method;

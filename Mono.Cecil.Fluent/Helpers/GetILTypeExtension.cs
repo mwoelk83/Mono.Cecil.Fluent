@@ -12,7 +12,7 @@ namespace Mono.Cecil.Fluent
 			switch (type.FullName)
 			{
 				case "System.String": return ILType.String;
-				case "System.Bool":
+				case "System.Boolean":
 				case "System.Int16":
 				case "System.UInt16": 
 				case "System.Byte": 

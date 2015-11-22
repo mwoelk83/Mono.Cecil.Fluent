@@ -68,6 +68,7 @@
     <Compile Include="Decompiler\PlainTextOutputWriter.cs" />
     <Compile Include="Decompiler\Extensions\ComputeOffsets.cs" />
     <Compile Include="Decompiler\Extensions\ComputeStackSize.cs" />
+    <Compile Include="Emit\Branches.cs" />
     <Compile Include="Emit\Parameters.cs" />
     <Compile Include="Extensions\Attributes\Attributes.cs" />
     <Compile Include="Extensions\Attributes\Events.cs" />
