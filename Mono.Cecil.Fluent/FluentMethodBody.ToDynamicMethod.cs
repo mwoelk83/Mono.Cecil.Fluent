@@ -75,7 +75,12 @@ namespace Mono.Cecil.Fluent
 			var labels = new Dictionary<int, Label>();
 
 			foreach (var instr in Body.Instructions.Where(i => i.Operand is Instruction))
-				labels.Add(Body.Instructions.IndexOf((Instruction)instr.Operand), ilgen.DefineLabel());
+			{	try
+				{
+					labels.Add(Body.Instructions.IndexOf((Instruction) instr.Operand), ilgen.DefineLabel());
+				}
+				catch (ArgumentException) { }
+			}
 
 			var index = 0;
 			foreach (var instruction in Body.Instructions)

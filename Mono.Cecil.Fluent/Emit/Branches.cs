@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Linq;
 using Mono.Cecil.Cil;
 
 namespace Mono.Cecil.Fluent
@@ -62,19 +64,50 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
+		public FluentMethodBody Else()
+		{
+			Nop();
+			var jumpstart = LastEmittedInstruction;
+			EndIf();
+			var block = new IfBlock() { StartInstruction = jumpstart, OpCode = OpCodes.Br }; // it jumps if value top on stack is true
+			IfBlocks.Push(block);
+			return this;
+		}
+
 		public FluentMethodBody EndIf()
 		{
 			if(IfBlocks.Count == 0)
 				throw new NotSupportedException("no if-block to close"); // ncrunch: no coverage
 
 			var block = IfBlocks.Pop();
+
+			if (block.StartInstruction?.Previous.OpCode == OpCodes.Ret)
+			{
+				Body.Instructions.Remove(block.StartInstruction);
+				return this;
+			}
+
 			var firstinstructionafterblock = LastEmittedInstruction.Next;
 			if(firstinstructionafterblock == null)
 			{
 				Nop(); // todo: remove the nop later
 				firstinstructionafterblock = LastEmittedInstruction;
 			}
-			Body.GetILProcessor().Replace(block.StartInstruction, Instruction.Create(block.OpCode, firstinstructionafterblock));
+			var newstartinstruction = Instruction.Create(block.OpCode, firstinstructionafterblock);
+			Body.GetILProcessor().Replace(block.StartInstruction, newstartinstruction);
+
+			// remove Nops
+			Func<FluentMethodBody, bool> postemitaction = (body) =>
+			{
+				if (firstinstructionafterblock.Next == null)
+					return false;
+				foreach (var instruction in body.Body.Instructions.Where(i => i.Operand == firstinstructionafterblock))
+					instruction.Operand = firstinstructionafterblock.Next;
+				Body.GetILProcessor().Remove(firstinstructionafterblock);
+				return true;
+			};
+
+			PostEmitActions.Enqueue(postemitaction);
 			
 			return this;
 		}

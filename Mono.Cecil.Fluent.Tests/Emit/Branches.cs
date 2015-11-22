@@ -99,5 +99,54 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_be_greater_than_or_equal = () => GreaterThanOrEqualMethod(100, 100).Should().Equal(true);
 		It should_be_greater_than_or_equal_2 = () => GreaterThanOrEqualMethod(1000, 100).Should().Equal(true);
 		It should_not_be_greater_than_or_equal = () => GreaterThanOrEqualMethod(5, 100).Should().Equal(false);
+
+		static Func<int, int, int> NestedNumberComparisonFunction => CreateStaticMethod()
+			.Returns<int>()
+			.WithParameter<int>()
+			.WithParameter<int>()
+				.Ldarg(0)
+				.Ldarg(1)
+				.Ifgt()
+					.Ret(1)
+				.Else()
+					.Ldarg(0)
+					.Ldarg(1)
+					.Iflt()
+						.Ret(-1)
+					.Else()
+						.Ret(0)
+					.EndIf()
+				.EndIf()
+			.ToDynamicMethod().CreateDelegate(typeof(Func<int, int, int>)) as Func<int, int, int>;
+
+		It should_compare_numbers = () => NestedNumberComparisonFunction(100, 100).Should().Equal(0);
+		It should_compare_numbers_2 = () => NestedNumberComparisonFunction(1000, 100).Should().Equal(1);
+		It should_compare_numbers_3 = () => NestedNumberComparisonFunction(5, 100).Should().Equal(-1);
+
+		static Func<int, int, int> NestedNumberComparisonFunctionWithLocal => CreateStaticMethod()
+			.Returns<int>()
+			.WithParameter<int>()
+			.WithParameter<int>()
+			.WithVariable<int>("ret")
+				.Ldarg(0)
+				.Ldarg(1)
+				.Ifgt()
+					.Stloc(1, "ret")
+				.Else()
+					.Ldarg(0)
+					.Ldarg(1)
+					.Iflt()
+						.Stloc(-1, "ret")
+					.Else()
+						.Stloc(0, "ret")
+					.EndIf()
+				.EndIf()
+				.Ldloc("ret")
+				.Ret()
+			.ToDynamicMethod().CreateDelegate(typeof(Func<int, int, int>)) as Func<int, int, int>;
+
+		It should_compare_numbers_with_locals = () => NestedNumberComparisonFunctionWithLocal(100, 100).Should().Equal(0);
+		It should_compare_numbers_with_locals_2 = () => NestedNumberComparisonFunctionWithLocal(1000, 100).Should().Equal(1);
+		It should_compare_numbers_with_locals_3 = () => NestedNumberComparisonFunctionWithLocal(5, 100).Should().Equal(-1);
 	}
 }

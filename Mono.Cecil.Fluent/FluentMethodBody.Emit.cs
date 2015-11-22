@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Mono.Cecil.Cil;
 using Mono.Collections.Generic;
@@ -11,17 +12,24 @@ namespace Mono.Cecil.Fluent
 	{
 		private Action<Instruction> _emitAction;
 		internal Instruction LastEmittedInstruction = null;
+		internal readonly Queue<Func<FluentMethodBody, bool>> PostEmitActions = new Queue<Func<FluentMethodBody, bool>>(); 
 
 		public FluentMethodBody Emit(Instruction instruction)
 		{
-			//ncrunch: no coverage start // it is just covered by all other emit() methods
 			if (_emitAction == null)
 				_emitAction = i => MethodDefinition.Body.Instructions.Add(i);
 
 			_emitAction(instruction);
 			LastEmittedInstruction = instruction;
+			
+			while (PostEmitActions.Count != 0)
+			{
+				var action = PostEmitActions.Dequeue();
+				if(!action(this))
+					PostEmitActions.Enqueue(action);
+			}
+
 			return this;
-			//ncrunch: no coverage end
 		}
 
 		public FluentMethodBody Emit(OpCode opcode)
