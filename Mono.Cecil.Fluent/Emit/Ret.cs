@@ -1,4 +1,5 @@
-﻿using Mono.Cecil.Cil;
+﻿using System;
+using Mono.Cecil.Cil;
 
 namespace Mono.Cecil.Fluent
 {
@@ -9,26 +10,19 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Ret);
 		}
 
-		//public FluentMethodBody Ret(bool value)
-		//{
-		//	var allowedTypes = new List<string>
-		//	{
-		//		typeof (bool).FullName,
-		//		typeof (byte).FullName,
-		//		typeof (sbyte).FullName,
-  //              typeof (short).FullName,
-		//		typeof (ushort).FullName,
-  //              typeof (int).FullName,
-		//		typeof (uint).FullName,
-		//		typeof (long).FullName,
-		//		typeof (ulong).FullName,
-		//	};
-
-		//	if(allowedTypes.All(t => t != ReturnType.FullName))
-		//		throw new NotSupportedException("cannot return bool for this return type");
-
-		//	return Emit(value ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0)
-		//		.Emit(OpCodes.Ret);
-		//}
+		public FluentMethodBody Ret(MagicNumberArgument Value)
+		{
+			switch (ReturnType.GetILType())
+			{
+				case ILType.I4: Value.EmitLdcI4(this); break;
+				case ILType.I8: Value.EmitLdcI8(this); break;
+				case ILType.R8: Value.EmitLdcR8(this); break;
+				case ILType.R4: Value.EmitLdcR4(this); break;
+				default:
+					throw new NotSupportedException( // ncrunch: no coverage
+						"return value type must be primitive valuetype in system namespace and convertible to I4, I8, R4 or R8");
+			}
+			return Ret();
+		}
 	}
 }
