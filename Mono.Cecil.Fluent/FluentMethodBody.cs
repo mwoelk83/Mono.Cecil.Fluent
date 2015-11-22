@@ -1,10 +1,22 @@
-﻿using Mono.Cecil.Cil;
+﻿using System;
+using System.Diagnostics;
+using Mono.Cecil.Cil;
 using Mono.Collections.Generic;
 
 namespace Mono.Cecil.Fluent
 {
-	public sealed partial class FluentMethodBody : IMemberDefinition
+	public partial class FluentMethodBody : IMemberDefinition
 	{
+		/// <summary>
+		/// Useful for Debugging.
+		/// </summary>
+		public string DisassembledBody => this.DisassembleBody();
+
+		/// <summary>
+		/// Useful for Debugging.
+		/// </summary>
+		public string DisassembledMethod => this.Disassemble();
+
 		public readonly MethodDefinition MethodDefinition;
 		public readonly ModuleDefinition Module;
 
@@ -66,6 +78,11 @@ namespace Mono.Cecil.Fluent
 		{
 			MethodDefinition = methodDefinition;
 			Module = methodDefinition.Module;
+		}
+
+		public override string ToString()
+		{
+			return FullName;
 		}
 	}
 }
