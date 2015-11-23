@@ -24,5 +24,70 @@ namespace Mono.Cecil.Fluent
 			}
 			return Ret();
 		}
+
+		public FluentMethodBody RetLoc(string varname)
+		{
+			var var = GetVariable(varname);
+
+			if (var.VariableType.GetILType() != ReturnType.GetILType())
+				throw new InvalidOperationException("variable type and return type must be oft same type"); // ncrunch: no coverage
+			
+			// todo: better check, e.g. for inherited classes or generics
+			if (var.VariableType.GetILType() == ILType.Object || var.VariableType.GetILType() == ILType.ValueType)
+				if (var.VariableType.FullName != ReturnType.FullName)                                           // ncrunch: no coverage
+					throw new InvalidOperationException("variable type and return type must be oft same type"); // ncrunch: no coverage
+
+			return Ldloc((uint)var.Index)
+				.Ret();
+		}
+
+		public FluentMethodBody RetLoc(uint varindex)
+		{
+			if (varindex >= Variables.Count)
+				throw new ArgumentException($"no variable at index {varindex}"); // ncrunch: no coverage
+
+			var var = Variables[(int)varindex];
+
+			if (var.VariableType.GetILType() != ReturnType.GetILType())
+				throw new InvalidOperationException("variable type and return type must be oft same type"); // ncrunch: no coverage
+
+			// todo: better check, e.g. for inherited classes or generics
+			if (var.VariableType.GetILType() == ILType.Object || var.VariableType.GetILType() == ILType.ValueType)
+				if (var.VariableType.FullName != ReturnType.FullName)                                           // ncrunch: no coverage
+					throw new InvalidOperationException("variable type and return type must be oft same type"); // ncrunch: no coverage
+
+			return Ldloc((uint)var.Index)
+				.Ret();
+		}
+
+		public FluentMethodBody RetThis()
+		{
+			if (DeclaringType.GetILType() != ReturnType.GetILType())
+				throw new InvalidOperationException("declaring type and return type must be oft same type"); // ncrunch: no coverage
+
+			// todo: better check, e.g. for inherited classes or generics
+			if (DeclaringType.GetILType() == ILType.Object || DeclaringType.GetILType() == ILType.ValueType)
+				if (DeclaringType.FullName != ReturnType.FullName)												// ncrunch: no coverage
+					throw new InvalidOperationException("declaring type and return type must be oft same type");// ncrunch: no coverage
+
+			return LdThis()
+				.Ret();
+		}
+
+		public FluentMethodBody RetArg(string varname)
+		{
+			var arg = GetParameter(varname);
+
+			if (arg.ParameterType.GetILType() != ReturnType.GetILType())
+				throw new InvalidOperationException("parameter type and return type must be oft same type"); // ncrunch: no coverage
+			
+			// todo: better check, e.g. for inherited classes or generics
+			if (arg.ParameterType.GetILType() == ILType.Object || arg.ParameterType.GetILType() == ILType.ValueType)
+				if (arg.ParameterType.FullName != ReturnType.FullName)                                           // ncrunch: no coverage
+					throw new InvalidOperationException("parameter type and return type must be oft same type"); // ncrunch: no coverage
+
+			return Ldarg((uint)arg.Index)
+				.Ret();
+		}
 	}
 }

@@ -141,8 +141,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 						.Stloc(0, "ret")
 					.EndIf()
 				.EndIf()
-				.Ldloc("ret")
-				.Ret()
+				.RetLoc("ret")
 			.ToDynamicMethod().CreateDelegate(typeof(Func<int, int, int>)) as Func<int, int, int>;
 
 		It should_compare_numbers_with_locals = () => NestedNumberComparisonFunctionWithLocal(100, 100).Should().Equal(0);

@@ -83,5 +83,31 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ret(10f)
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(10d);
+
+		It shoud_ret_loc_with_name = () =>
+			CreateStaticMethod()
+				.WithVariable<int>("ret")
+				.Returns<int>()
+				.Stloc(100, "ret")
+				.RetLoc("ret")
+			.ToDynamicMethod()
+			.Invoke(null, null).Should().Equal(100);
+
+		It shoud_ret_loc_with_index = () =>
+			CreateStaticMethod()
+				.WithVariable<int>("ret")
+				.Returns<int>()
+				.Stloc(1100, "ret")
+				.RetLoc(0)
+			.ToDynamicMethod()
+			.Invoke(null, null).Should().Equal(1100);
+
+		It shoud_ret_arg_with_name = () =>
+			CreateStaticMethod()
+				.WithParameter<int>("ret")
+				.Returns<int>()
+				.RetArg("ret")
+			.ToDynamicMethod()
+			.Invoke(null, new object[] { 100 }).Should().Equal(100);
 	}
 }

@@ -90,7 +90,7 @@ namespace Mono.Cecil.Fluent
 			var firstinstructionafterblock = LastEmittedInstruction.Next;
 			if(firstinstructionafterblock == null)
 			{
-				Nop(); // todo: remove the nop later
+				Nop();
 				firstinstructionafterblock = LastEmittedInstruction;
 			}
 			var newstartinstruction = Instruction.Create(block.OpCode, firstinstructionafterblock);
