@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using Mono.Collections.Generic;
 
 namespace Mono.Cecil.Fluent

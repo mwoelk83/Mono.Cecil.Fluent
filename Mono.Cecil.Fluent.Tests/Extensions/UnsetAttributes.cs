@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.IO;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 using Mono.Cecil.Fluent.Utils;
 using Should.Fluent;
 

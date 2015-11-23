@@ -1,35 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using Mono.Cecil.Cil;
-using OpCode = System.Reflection.Emit.OpCode;
-using OpCodes = System.Reflection.Emit.OpCodes;
 
 namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody
 	{
-		private static readonly Dictionary<string, OpCode> SystemOpcodes = new Dictionary<string, OpCode>();
-
-		static FluentMethodBody()
-		{
-			var fields = typeof(OpCodes).GetFields();
-			foreach (var field in fields)
-			{
-				SystemOpcodes.Add(field.Name.ToLower().Replace('_', '.'), (OpCode)field.GetValue(null));
-			}
-		}
-
-		private static OpCode ToSystem(Cil.OpCode that)
-		{
-			return SystemOpcodes[that.Name];
-		}
-
 		public DynamicMethod ToDynamicMethod()
 		{
+			return ToDynamicMethod(null) as DynamicMethod;
+		}
+
+        public MethodInfo ToDynamicMethod(TypeBuilder declaringtype = null, MethodInfo method = null)
+		{
 			// todo: exception blocks, scopes ...
-			if(!MethodDefinition.IsStatic)
+			if(!MethodDefinition.IsStatic && declaringtype == null)
 				throw new InvalidOperationException("only static methods can be converted to dynamic methods"); // ncrunch: no coverage
 
 			var returntype = TypeLoader.Instance.Load(ReturnType);
@@ -44,13 +32,16 @@ namespace Mono.Cecil.Fluent
 					throw new InvalidOperationException($"can not find parameter type {param.ParameterType.FullName} in current appdomain"); // ncrunch: no coverage
 				paramtypes.Add(paramtype);
 			}
+			
+			if(method == null)
+				method = new DynamicMethod(Name, returntype, paramtypes.ToArray()) { InitLocals = true };
 
-			var method = new DynamicMethod(Name, returntype, paramtypes.ToArray())
-			{
-				InitLocals = true
-			};
+			ILGenerator ilgen;
 
-			var ilgen = method.GetILGenerator();
+			if (method is MethodBuilder)
+				ilgen = ((MethodBuilder)method).GetILGenerator();
+			else
+				ilgen = ((DynamicMethod)method).GetILGenerator();
 
 			var parameters = new List<ParameterBuilder>();
 			foreach (var p in Parameters)
@@ -58,7 +49,9 @@ namespace Mono.Cecil.Fluent
 				var paramtype = TypeLoader.Instance.Load(p.ParameterType);
 				if(paramtype == null)
 					throw new InvalidOperationException($"can not find parameter type {p.ParameterType.FullName} in current appdomain"); // ncrunch: no coverage
-				var param = method.DefineParameter(p.Index, (System.Reflection.ParameterAttributes) p.Attributes, p.Name);
+				var param = method is MethodBuilder 
+					? ((MethodBuilder)method).DefineParameter(p.Index, (System.Reflection.ParameterAttributes) p.Attributes, p.Name)
+					: ((DynamicMethod)method).DefineParameter(p.Index, (System.Reflection.ParameterAttributes)p.Attributes, p.Name);
 				parameters.Add(param);
 			}
 			var locals = new List<LocalBuilder>();
@@ -88,7 +81,7 @@ namespace Mono.Cecil.Fluent
 				if(labels.ContainsKey(index))
 					ilgen.MarkLabel(labels[index]);
 
-				var opcode = ToSystem(instruction.OpCode);
+				var opcode = instruction.OpCode.ToSystem();
 				if (instruction.Operand == null)
 					ilgen.Emit(opcode);
 				else if (instruction.Operand is VariableReference)

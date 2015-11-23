@@ -1,11 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 
 namespace Mono.Cecil.Fluent
 {
 	public static partial class CecilExtensions
 	{
+		private static readonly Dictionary<string, OpCode> SystemOpcodes = new Dictionary<string, OpCode>();
+
+		static CecilExtensions()
+		{
+			var fields = typeof(OpCodes).GetFields();
+			foreach (var field in fields)
+			{
+				SystemOpcodes.Add(field.Name.ToLower().Replace('_', '.'), (OpCode)field.GetValue(null));
+			}
+		}
+
 		public static bool IsVoid(this TypeReference type)
 		{
 			while (type is OptionalModifierType || type is RequiredModifierType)
@@ -38,6 +51,11 @@ namespace Mono.Cecil.Fluent
 				   value.Equals((decimal)0) ||
 				   (value as IConvertible)?.ToInt32(CultureInfo.InvariantCulture) == 0;
 
+		}
+
+		public static OpCode ToSystem(this Cil.OpCode that)
+		{
+			return SystemOpcodes[that.Name];
 		}
 
 		public static bool IsValueTypeOrVoid(this TypeReference type)

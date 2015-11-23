@@ -1,6 +1,4 @@
-﻿using System;
-using Mono.Cecil.Fluent.Attributes;
-using Mono.CompilerServices.SymbolWriter;
+﻿using Mono.Cecil.Fluent.Attributes;
 
 // ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent

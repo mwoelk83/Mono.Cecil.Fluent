@@ -4,7 +4,7 @@ using Should.Fluent;
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
 
-namespace Mono.Cecil.Fluent.Tests.Emit
+namespace Mono.Cecil.Fluent.Tests.Extensions
 {
 	public class FluentMethodBody_ToDynamicMethod : TestsBase
 	{

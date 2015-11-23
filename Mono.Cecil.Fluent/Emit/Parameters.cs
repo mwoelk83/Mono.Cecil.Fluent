@@ -57,7 +57,7 @@ namespace Mono.Cecil.Fluent
 
 			foreach (var i in indexes)
 			{
-				if (Parameters.Count <= i)
+				if (Parameters.Count + (MethodDefinition.HasThis ? 1 : 0) <= i)
 					throw new IndexOutOfRangeException($"no parameter found at index {i}"); //ncrunch: no coverage
 
 				switch (i)

@@ -78,6 +78,7 @@
     <Compile Include="Emit\Parameters.cs" />
     <Compile Include="Extensions\Returns.cs" />
     <Compile Include="Extensions\SetAttributes.cs" />
+    <Compile Include="Extensions\ToDynamicType.cs" />
     <Compile Include="Extensions\UnsetAttributes.cs" />
     <Compile Include="Extensions\WithParameter.cs" />
     <Compile Include="Extensions\SafeImport.cs" />
@@ -89,7 +90,7 @@
     <Compile Include="Emit\Emit.cs" />
     <Compile Include="Emit\BasicMath.cs" />
     <Compile Include="Emit\Locals.cs" />
-    <Compile Include="Emit\ToDynamicMethod.cs" />
+    <Compile Include="Extensions\ToDynamicMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestsBase.cs" />
     <Compile Include="TestUtils.cs" />

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-namespace Mono.Cecil.Fluent
+﻿namespace Mono.Cecil.Fluent
 {
 	public static partial class FieldDefinitionExtensions
 	{

@@ -82,7 +82,9 @@
     <Compile Include="Extensions\Misc.cs" />
     <Compile Include="Extensions\Returns.cs" />
     <Compile Include="Extensions\SafeEquals.cs" />
+    <Compile Include="Extensions\ToDynamic.cs" />
     <Compile Include="Extensions\UnsetAttribute.cs" />
+    <Compile Include="Extensions\WithField.cs" />
     <Compile Include="Extensions\WithParameter.cs" />
     <Compile Include="Extensions\WithVariable.cs" />
     <Compile Include="Extensions\NewType.cs" />
@@ -90,7 +92,8 @@
     <Compile Include="Extensions\NewMethod.cs" />
     <Compile Include="FluentMethodBody.Emit.cs" />
     <Compile Include="FluentMethodBody.cs" />
-    <Compile Include="FluentMethodBody.ToDynamicMethod.cs" />
+    <Compile Include="ToDynamic\DynamicTypeBuilder.cs" />
+    <Compile Include="ToDynamic\ToDynamicMethod.cs" />
     <Compile Include="Emit\BasicMath.cs" />
     <Compile Include="Emit\Basics.cs" />
     <Compile Include="Decompiler\Extensions\ComputeCodeSize.cs" />

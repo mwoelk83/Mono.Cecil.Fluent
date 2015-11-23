@@ -1,6 +1,5 @@
 ﻿using System;
 using Machine.Specifications;
-using Mono.Cecil.Fluent.Utils;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming

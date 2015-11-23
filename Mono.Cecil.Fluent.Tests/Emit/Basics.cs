@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
 using Machine.Specifications;
-using Mono.Cecil.Cil;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
@@ -118,12 +115,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		{
 			var m = new FluentMethodBody(TestModule.SafeImport(typeof (string).GetMethod("Compare",
 				new[] {typeof (string), typeof (string), typeof (StringComparison)})).Resolve());
-				m.Body.Instructions.Aggregate(0, (_, i) =>
-				{
-					Debugger.Break();
-					SimpleStackValidator.ValidatePostEmit(i, m);
-					return _++;
-				});
+				foreach(var instruction in m.Body.Instructions)
+					SimpleStackValidator.ValidatePostEmit(instruction, m);
 		};
 	}
 }

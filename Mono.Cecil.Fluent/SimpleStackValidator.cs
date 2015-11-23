@@ -14,9 +14,7 @@ namespace Mono.Cecil.Fluent
 			var lastinstructions = new List<Instruction>();
 
 			var curinstr = instruction.Previous;
-			while (curinstr != null && curinstr.OpCode.FlowControl != FlowControl.Branch && curinstr.OpCode.FlowControl != FlowControl.Break
-			       && curinstr.OpCode.FlowControl != FlowControl.Throw && curinstr.OpCode.FlowControl != FlowControl.Return 
-				   && curinstr.OpCode.FlowControl != FlowControl.Cond_Branch)
+			while (curinstr != null && !FlowControlIsBreakReturnBranchOrThrow(curinstr))
 			{
 				if (method.IfBlocks.Any(block => block.StartInstruction == curinstr))
 					break;
@@ -40,9 +38,7 @@ namespace Mono.Cecil.Fluent
 				popdelta = Math.Abs(popdelta);
 
 			var msg = "";
-			if (stacksize != popdelta && (instruction.OpCode.FlowControl == FlowControl.Branch 
-				|| instruction.OpCode.FlowControl == FlowControl.Break || instruction.OpCode.FlowControl == FlowControl.Throw
-				|| instruction.OpCode.FlowControl == FlowControl.Return || instruction.OpCode.FlowControl == FlowControl.Cond_Branch))
+			if (stacksize != popdelta && FlowControlIsBreakReturnBranchOrThrow(instruction))
 			{
 				ThrowFlowControl(instruction, lastinstructions, stacksize, popdelta, method);
 			}
@@ -51,6 +47,15 @@ namespace Mono.Cecil.Fluent
 				return;
 
 			ThrowStackTooSmall(instruction, lastinstructions, stacksize, popdelta, method);
+		}
+
+		private static bool FlowControlIsBreakReturnBranchOrThrow(Instruction instruction)
+		{
+			return instruction.OpCode.FlowControl == FlowControl.Branch
+			       || instruction.OpCode.FlowControl == FlowControl.Break 
+				   || instruction.OpCode.FlowControl == FlowControl.Throw
+			       || instruction.OpCode.FlowControl == FlowControl.Return 
+				   || instruction.OpCode.FlowControl == FlowControl.Cond_Branch;
 		}
 
 		private static void ThrowFlowControl(Instruction instruction, List<Instruction> lastinstructions, int stacksize, int popdelta, FluentMethodBody method)
