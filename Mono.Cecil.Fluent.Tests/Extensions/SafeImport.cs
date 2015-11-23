@@ -20,47 +20,47 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 
 		static FieldDefinition NewTestField => CreateField();
 
-		It schould_import_typereference = () =>
+		It should_import_typereference = () =>
 			TestModule
 			.SafeImport(CreateType())
 			.Should().Not.Be.Null();
 
-		It schould_import_methodreference = () =>
+		It should_import_methodreference = () =>
 			TestModule
 			.SafeImport(CreateMethod())
 			.Should().Not.Be.Null();
 
-		It schould_import_fieldreference = () =>
+		It should_import_fieldreference = () =>
 			TestModule
 			.SafeImport(CreateField())
 			.Should().Not.Be.Null();
 
-		It schould_import_system_type_generic = () => 
+		It should_import_system_type_generic = () => 
 			TestModule
 			.SafeImport<FileInfo>()
 			.Should().Not.Be.Null();
 
-		It schould_import_system_type = () =>
+		It should_import_system_type = () =>
 			TestModule
 			.SafeImport(typeof(XNode))
 			.Should().Not.Be.Null();
 
-		It schould_import_system_typeinfo = () =>
+		It should_import_system_typeinfo = () =>
 			TestModule
 			.SafeImport(typeof(XNode).GetTypeInfo())
 			.Should().Not.Be.Null();
 
-		It schould_import_system_fieldinfo = () =>
+		It should_import_system_fieldinfo = () =>
 			TestModule
 			.SafeImport(typeof(Tuple<string, string>).GetInstanceFields().First())
 			.Should().Not.Be.Null();
 
-		It schould_import_system_methodinfo = () =>
+		It should_import_system_methodinfo = () =>
 			TestModule
 			.SafeImport(typeof(Console).GetMethods().First())
 			.Should().Not.Be.Null();
 
-		It schould_import_system_constructorinfo = () =>
+		It should_import_system_constructorinfo = () =>
 			TestModule
 			.SafeImport(typeof(Tuple<string, string>).GetConstructors().First())
 			.Should().Not.Be.Null();

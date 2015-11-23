@@ -13,7 +13,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
 
-		It shoud_dup_value = () =>
+		It should_dup_value = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.Ldc(10)
@@ -23,7 +23,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(20);
 
-		It shoud_add_nops = () =>
+		It should_add_nops = () =>
 			CreateStaticMethod()
 				.ReturnsVoid()
 				.Nop()
@@ -31,7 +31,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Nop()
 			.Body.Instructions.Count.Should().Equal(3);
 
-		It shoud_pop_value = () =>
+		It should_pop_value = () =>
 			CreateStaticMethod()
 				.ReturnsVoid()
 				.Ldc(0)
@@ -40,7 +40,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null);
 
-		It shoud_invert_bitwise = () =>
+		It should_invert_bitwise = () =>
 			CreateStaticMethod()
 				.Returns<ushort>()
 				.Ldc((ushort)0x00FF)
@@ -49,7 +49,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal((ushort)0xFF00);
 
-		It shoud_ldnull = () =>
+		It should_ldnull = () =>
 			CreateStaticMethod()
 				.Returns<object>()
 				.LdNull()
@@ -57,35 +57,35 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(null);
 
-		It shoud_ret_int = () =>
+		It should_ret_int = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.Ret(10d)
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(10);
 
-		It shoud_ret_long = () =>
+		It should_ret_long = () =>
 			CreateStaticMethod()
 				.Returns<long>()
 				.Ret(1f)
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(1L);
 
-		It shoud_ret_float = () =>
+		It should_ret_float = () =>
 			CreateStaticMethod()
 				.Returns<float>()
 				.Ret(10d)
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(10f);
 
-		It shoud_ret_double = () =>
+		It should_ret_double = () =>
 			CreateStaticMethod()
 				.Returns<double>()
 				.Ret(10f)
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(10d);
 
-		It shoud_ret_loc_with_name = () =>
+		It should_ret_loc_with_name = () =>
 			CreateStaticMethod()
 				.WithVariable<int>("ret")
 				.Returns<int>()
@@ -94,7 +94,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(100);
 
-		It shoud_ret_loc_with_index = () =>
+		It should_ret_loc_with_index = () =>
 			CreateStaticMethod()
 				.WithVariable<int>("ret")
 				.Returns<int>()
@@ -103,7 +103,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(1100);
 
-		It shoud_ret_arg_with_name = () =>
+		It should_ret_arg_with_name = () =>
 			CreateStaticMethod()
 				.WithParameter<int>("ret")
 				.Returns<int>()

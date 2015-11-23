@@ -60,7 +60,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(778UL);
 
-		It schould_add_3 = () =>
+		It should_add_3 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
 				.Ldc(0)
@@ -79,7 +79,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(3);
 
-		It schould_sub_3 = () =>
+		It should_sub_3 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
 				.Ldc(0)
@@ -156,7 +156,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Invoke(null, null).Should().Equal(5);
 
 		// improves code coverage
-		It schould_add_a_bool_and_a_sbyte = () => 
+		It should_add_a_bool_and_a_sbyte = () => 
 			CreateStaticMethod()
 			.Returns<byte>()
 			.Ldc(true)

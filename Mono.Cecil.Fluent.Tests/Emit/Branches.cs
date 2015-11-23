@@ -13,7 +13,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
 
-		It shoud_emit_if_block = () =>
+		It should_emit_if_block = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithParameter<bool>()
@@ -25,7 +25,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, new object[] { false }).Should().Equal(100);
 
-		It shoud_emit_ifnot_block = () =>
+		It should_emit_ifnot_block = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithParameter<bool>()

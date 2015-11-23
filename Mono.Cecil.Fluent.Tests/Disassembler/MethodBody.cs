@@ -42,7 +42,7 @@ namespace Mono.Cecil.Fluent.Tests.Disassembler
 								  "IL_003e: call instance bool System.Uri::get_IsNotAbsoluteUri()" + LF +
 								  "IL_0043: brfalse.s IL_0065");
 
-		It should_decompile_method_with_loop = () =>
+		It should_disassemble_method_with_loop = () =>
 			TestModule.SafeImport(typeof (string).GetMethod("Join", new[] {typeof (string), typeof (object[])})).Resolve()
 				.DisassembleBody()
 				.Should().Contain("\tIL_006f: conv.i4" + LF +

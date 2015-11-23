@@ -13,7 +13,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
 
-		It shoud_load_and_store_local = () =>
+		It should_load_and_store_local = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithVariable<int>()
@@ -26,7 +26,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(3);
 
-		It shoud_load_and_store_named_local = () =>
+		It should_load_and_store_named_local = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithVariable<int>("var1")
@@ -39,7 +39,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(3);
 
-		It shoud_store_locals_with_value = () =>
+		It should_store_locals_with_value = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithVariable<int>("var1")
@@ -51,7 +51,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(2);
 
-		It shoud_store_and_load_many_locals_with_value = () =>
+		It should_store_and_load_many_locals_with_value = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithVariable<int>("var1")
@@ -84,7 +84,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal(true);
 		
-		It should_store_and_load_locals_with_differnt_types = () =>
+		It should_store_and_load_locals_with_differnt_types_with_manual_convert_instructions = () =>
 			CreateStaticMethod()
 				.Returns<double>()
 				.WithVariable<long>("var1")

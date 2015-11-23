@@ -66,7 +66,8 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 				.SetAttributes<FamORAssem, UnmanagedExport, RTSpecialName, HasSecurity, RequireSecObject, ReuseSlot, CompilerControlled>() // last two are 0
 				.Attributes.Should().Equal(MethodAttributes.FamORAssem | MethodAttributes.UnmanagedExport | MethodAttributes.RTSpecialName | MethodAttributes.HasSecurity | MethodAttributes.RequireSecObject);
 		
-		// improve code coverage
+	// improve code coverage ...
+
 		It should_set_attributes_for_method_generic_part4 = () =>
 			TestMethod
 				.UnsetAllAttributes()

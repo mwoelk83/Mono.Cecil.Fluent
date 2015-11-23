@@ -16,7 +16,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
 
-		It schould_emit_instruction = () =>
+		It should_emit_instruction = () =>
 			NewTestMethod
 				.Emit(Instruction.Create(OpCodes.Nop))
 			.Body.Instructions.Count.Should().Equal(1);

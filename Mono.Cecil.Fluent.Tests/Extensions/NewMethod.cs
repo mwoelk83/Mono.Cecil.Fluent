@@ -52,7 +52,10 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 				.NewMethod()
 				.NewMethod()
 				.NewMethod()
+				.NewMethod()
+				.NewMethod()
+				.NewMethod()
 			.DeclaringType
-			.Methods.Count.Should().Be.GreaterThanOrEqualTo(3);
+			.Methods.Count.Should().Be.GreaterThanOrEqualTo(6);
 	}
 }

@@ -10,7 +10,7 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		It schould_emit_instruction = () =>
+		It should_create_and_invoke_simple_dynamic_method_that_returns_a_string = () =>
 			CreateStaticMethod()
 			.Returns<string>()
 				.LdStr("teststring")

@@ -44,6 +44,12 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 				.UnsetAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName)
 				.Attributes.Should().Equal(PropertyAttributes.HasDefault);
 
+		It should_unset_attributes_for_field = () =>
+			CreateField()
+				.SetAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
+				.UnsetAllAttributes()
+				.Attributes.Should().Equal((FieldAttributes) 0);
+
 		It should_unset_all_attributes_for_field = () =>
 			CreateField()
 				.SetAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
@@ -73,11 +79,5 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 				.SetAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName | PropertyAttributes.HasDefault)
 				.UnsetAllAttributes()
 				.Attributes.Should().Equal(PropertyAttributes.None);
-
-		It should_unset_attributes_for_field = () =>
-			CreateField()
-				.SetAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
-				.UnsetAllAttributes()
-				.Attributes.Should().Equal((FieldAttributes) 0);
 	}
 }
