@@ -29,6 +29,8 @@ namespace Mono.Cecil.Fluent
 					PostEmitActions.Enqueue(action);
 			}
 
+			SimpleStackValidator.ValidatePostEmit(instruction, this);
+
 			return this;
 		}
 

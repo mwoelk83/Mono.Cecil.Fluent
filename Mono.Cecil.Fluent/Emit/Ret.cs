@@ -59,7 +59,7 @@ namespace Mono.Cecil.Fluent
 			return Ldloc((uint)var.Index)
 				.Ret();
 		}
-
+		
 		public FluentMethodBody RetThis()
 		{
 			if (DeclaringType.GetILType() != ReturnType.GetILType())

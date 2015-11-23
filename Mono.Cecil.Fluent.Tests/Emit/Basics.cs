@@ -1,4 +1,8 @@
-﻿using Machine.Specifications;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using Machine.Specifications;
+using Mono.Cecil.Cil;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
@@ -109,5 +113,17 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.RetArg("ret")
 			.ToDynamicMethod()
 			.Invoke(null, new object[] { 100 }).Should().Equal(100);
+
+		It should_validate_stack_for_string_compare_method = () =>
+		{
+			var m = new FluentMethodBody(TestModule.SafeImport(typeof (string).GetMethod("Compare",
+				new[] {typeof (string), typeof (string), typeof (StringComparison)})).Resolve());
+				m.Body.Instructions.Aggregate(0, (_, i) =>
+				{
+					Debugger.Break();
+					SimpleStackValidator.ValidatePostEmit(i, m);
+					return _++;
+				});
+		};
 	}
 }

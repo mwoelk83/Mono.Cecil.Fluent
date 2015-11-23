@@ -40,7 +40,7 @@ namespace Mono.Cecil.Fluent
 			return max_stack;
 		}
 
-		private static void ComputeStackDelta(Instruction instruction, ref int stack_size)
+		internal static void ComputeStackDelta(Instruction instruction, ref int stack_size, bool addpush = true)
 		{
 			switch (instruction.OpCode.FlowControl)
 			{
@@ -57,13 +57,15 @@ namespace Mono.Cecil.Fluent
 						if (instruction.OpCode.Code == Code.Calli)
 							stack_size--;
 						// push return value
-						if (method.ReturnType.IsVoid() || instruction.OpCode.Code == Code.Newobj)
-							stack_size++;
+						if (!method.ReturnType.IsVoid() || instruction.OpCode.Code == Code.Newobj)
+							if(addpush)
+								stack_size++;
 						break;
 					}
 				default:
 					ComputePopDelta(instruction.OpCode.StackBehaviourPop, ref stack_size);
-					ComputePushDelta(instruction.OpCode.StackBehaviourPush, ref stack_size);
+					if(addpush)
+						ComputePushDelta(instruction.OpCode.StackBehaviourPush, ref stack_size);
 					break;
 			}
 		}

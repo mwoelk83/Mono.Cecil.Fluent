@@ -6,15 +6,15 @@ using Mono.Cecil.Cil;
 
 namespace Mono.Cecil.Fluent
 {
+	class IfBlock
+	{
+		public Instruction StartInstruction;
+		public OpCode OpCode;
+	}
+
 	partial class FluentMethodBody
 	{
-		class IfBlock
-		{
-			public Instruction StartInstruction;
-			public OpCode OpCode;
-		}
-
-		private Stack<IfBlock> IfBlocks = new Stack<IfBlock>();
+		internal Stack<IfBlock> IfBlocks = new Stack<IfBlock>();
 
 		public FluentMethodBody If()
 		{
