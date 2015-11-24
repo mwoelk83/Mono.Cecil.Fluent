@@ -2,6 +2,26 @@
 # Mono.Cecil.Fluent
 Fluent API for Mono.Cecil. **Currently under developement.** This project is free and open source. Everyone is invited to contribute, fork, share and use the code.
 
+## Example
+
+````csharp
+var method = type.NewMethod("addorsub")
+    .WithParameter<int>("a")
+    .WithParameter<int>("b")
+    .WithParameter<bool>("add")
+    .Returns<int>()
+    .Ldarg("add")
+    .If()
+      .Ldarg("a")
+      .Ldarg("b")
+      .Add()
+    .Else()
+      .Ldarg("a")
+      .Ldarg("b")
+      .Sub()
+    .Endif()
+    .Ret(); 
+````
 
 ## Getting the code
 
