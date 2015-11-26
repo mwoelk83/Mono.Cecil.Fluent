@@ -16,18 +16,12 @@ namespace Mono.Cecil.Fluent
 
 		public FluentMethodBody Rem(MagicNumberArgument divisor)
 		{
-			if (divisor.IsZero)
-				throw new DivideByZeroException(); //ncrunch: no coverage
-
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Rem);
 		}
 
 		public FluentMethodBody RemUn(MagicNumberArgument divisor)
 		{
-			if (divisor.IsZero)
-				throw new DivideByZeroException(); //ncrunch: no coverage
-
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Rem_Un);
 		}
