@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 using Machine.Specifications;
-using Mono.Cecil.Fluent.StackValidation;
+using Mono.Cecil.Fluent.Analyzer;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers

@@ -6,8 +6,8 @@
 
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -16,7 +16,7 @@ namespace Mono.Cecil.Fluent.Utils
 	[DebuggerTypeProxy(typeof(FastDictionary<,>.DictionaryDebugView<,>))]
 	[DebuggerDisplay("Count = {Count}")]
 	internal sealed class FastDictionary<TKey, TValue> : IDictionary<TKey, TValue>
-		where TKey: class
+		where TKey : class
 		//where TKey : IEquatable<TKey>
 	{
 		private struct Entry
@@ -34,9 +34,17 @@ namespace Mono.Cecil.Fluent.Utils
 		private int _version;
 		private int _freeList;
 		private int _freeCount;
-		
-		public FastDictionary() : this(7) { }
-		
+
+		public FastDictionary()
+		{
+			_bucketsCount = 5;
+			_buckets = new int[5];
+			for (var i = 0; i < 5; i++)
+				_buckets[i] = -1;
+			_entries = new Entry[5];
+			_freeList = -1;
+		}
+
 		public FastDictionary(int capacity)
 		{
 			var size = PrimeHelper.GetFastPrime(capacity <= 0 ? 7 : capacity);
@@ -63,7 +71,6 @@ namespace Mono.Cecil.Fluent.Utils
 
 		public TValue this[TKey key]
 		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
 			{
 				if (key == null)
@@ -79,6 +86,7 @@ namespace Mono.Cecil.Fluent.Utils
 				}
 				throw new KeyNotFoundException();
 			}
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			set
 			{
 				Insert(key, value);
@@ -132,7 +140,6 @@ namespace Mono.Cecil.Fluent.Utils
 			}
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool ContainsKey(TKey key)
 		{
 			if (key == null)
@@ -170,7 +177,6 @@ namespace Mono.Cecil.Fluent.Utils
 			return false;
 		}
 
-		[MethodImpl(MethodImplOptions.NoInlining)]
 		private void CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
 		{
 			throw new NotImplementedException();
@@ -204,7 +210,6 @@ namespace Mono.Cecil.Fluent.Utils
 			return -1;
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private void Insert(TKey key, TValue value)
 		{
 			if (key == null)
@@ -298,7 +303,6 @@ namespace Mono.Cecil.Fluent.Utils
 			return false;
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool TryGetValue(TKey key, out TValue value)
 		{
 			if (key == null)
@@ -382,7 +386,7 @@ namespace Mono.Cecil.Fluent.Utils
 				{
 					if (_index == 0 || (_index == _dictionary._count + 1))
 						throw new InvalidOperationException("InvalidOperation_EnumOpCantHappen");
-					
+
 					return new KeyValuePair<TKey, TValue>(_current.Key, _current.Value);
 				}
 			}
@@ -413,6 +417,7 @@ namespace Mono.Cecil.Fluent.Utils
 				_dictionary = dictionary;
 			}
 
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public KeyCollectionEnumerator GetEnumerator()
 			{
 				return new KeyCollectionEnumerator(_dictionary);
@@ -526,6 +531,7 @@ namespace Mono.Cecil.Fluent.Utils
 				_dictionary = dictionary;
 			}
 
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public ValueCollectionEnumerator GetEnumerator()
 			{
 				return new ValueCollectionEnumerator(_dictionary);

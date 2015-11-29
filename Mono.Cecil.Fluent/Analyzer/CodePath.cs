@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mono.Cecil.Cil;
 
-namespace Mono.Cecil.Fluent.StackValidation
+namespace Mono.Cecil.Fluent.Analyzer
 {
 	internal sealed class CodePath
 	{
@@ -12,21 +12,32 @@ namespace Mono.Cecil.Fluent.StackValidation
 
 		public readonly List<CodePath> IncomingPaths;
 
-		public readonly Instruction Next;			// start instruction of next code path
-		public readonly Instruction[] Alternatives;	// alternative start instructions of next code path
+		public readonly Instruction Next;           // start instruction of next code path
+		public readonly Instruction[] Alternatives; // alternative start instructions of next code path
 
 		public readonly MethodBody MethodBody;
 
+		private int _stackSizeOnEnter = int.MinValue;
+
 		public int StackSizeOnLeave => InternalGetStackSizeOnLeave(new HashSet<CodePath>());
-		public int StackSizOneEnter => InternalGetStackSizeOnEnter(new HashSet<CodePath>());
-		
+
+		public int StackSizOneEnter
+		{
+			get
+			{
+				if (_stackSizeOnEnter != int.MinValue)
+					return _stackSizeOnEnter;
+				return _stackSizeOnEnter = InternalGetStackSizeOnEnter(new HashSet<CodePath>());
+			}
+		}
+
 		private int _stackDelta = int.MinValue;
 
 		public int StackDelta
 		{
 			get
 			{
-				if(_stackDelta != int.MinValue)
+				if (_stackDelta != int.MinValue)
 					return _stackDelta;
 
 				var delta = 0;
@@ -37,8 +48,8 @@ namespace Mono.Cecil.Fluent.StackValidation
 
 				while (true)
 				{
-					delta -= ins.GetPopCount(MethodBody.Method) - ins.GetPushCount();
-					if(ins == EndInstruction)
+					delta -= ins.GetPopCount(MethodBody.Method, delta) - ins.GetPushCount();
+					if (ins == EndInstruction)
 						break;
 					ins = ins.Next;
 				};
@@ -53,14 +64,14 @@ namespace Mono.Cecil.Fluent.StackValidation
 			EndInstruction = end;
 			MethodBody = body;
 			Next = next;
-			if(alternative == null)
+			if (alternative == null)
 				Alternatives = new Instruction[0];
 			else
 				Alternatives = new[] { alternative };
 		}
 
 		internal CodePath(Instruction start, Instruction end, Instruction next, Instruction[] alternatives, MethodBody body)
-			: this(start, end, next, (Instruction) null, body)
+			: this(start, end, next, (Instruction)null, body)
 		{
 			Alternatives = alternatives;
 		}
@@ -68,33 +79,44 @@ namespace Mono.Cecil.Fluent.StackValidation
 		public void ValidateStackOrThrow()
 		{
 			var stacksize = StackSizOneEnter;
-			
+			var startstacksize = stacksize;
+
 			var ins = StartInstruction;
 			while (true)
 			{
-				var popcount = ins.GetPopCount(MethodBody.Method);
+				var popcount = ins.GetPopCount(MethodBody.Method, stacksize);
 				stacksize -= popcount;
 
 				// exception handlers pushes one value to stack
 				if (MethodBody.HasExceptionHandlers && MethodBody.ExceptionHandlers.Any(eh => eh.HandlerStart == ins))
 					stacksize++;
-				
-				if(stacksize < 0)
+
+				if (stacksize < 0)
 					throw new Exception(
 						$"instruction {ins} pops {popcount} values from stack." + Environment.NewLine +
 						$"but there are only {stacksize + popcount} values on stack. at:" + Environment.NewLine +
-						ins + Environment.NewLine +
-						ins.Previous ?? "");  // todo: print full instruction list
+						(ins.Previous?.ToString() ?? "" + Environment.NewLine) +
+						ins + Environment.NewLine);  // todo: print full instruction list
+
+
 				stacksize += ins.GetPushCount();
+
+				if (stacksize != 0 && ins.OpCode.FlowControl == FlowControl.Return && ins.OpCode != OpCodes.Endfinally)
+					throw new Exception("stacksize on return is not zero. at: " + Environment.NewLine +
+						(ins.Previous?.ToString() ?? "" + Environment.NewLine) +
+						ins + Environment.NewLine);  // todo: print full instruction list
+
 				if (ins == EndInstruction)
 					break;
 				ins = ins.Next;
 			};
+
+			_stackDelta = stacksize - startstacksize;
 		}
 
 		public void AddIncomingPath(CodePath previous)
 		{
-			if(!IncomingPaths.Contains(previous))
+			if (!IncomingPaths.Contains(previous))
 				IncomingPaths.Add(previous);
 		}
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Mono.Cecil.Cil;
-using Mono.Cecil.Fluent.StackValidation;
+using Mono.Cecil.Fluent.Analyzer;
 using Mono.Collections.Generic;
 using OpCode = Mono.Cecil.Cil.OpCode;
 

@@ -2,10 +2,9 @@
 using Mono.Cecil.Cil;
 using Mono.Cecil.Fluent.Utils;
 
-namespace Mono.Cecil.Fluent.StackValidation
+namespace Mono.Cecil.Fluent.Analyzer
 {
 	// todo: check that only leave instructins leave try blocks (no branches!)
-	// todo: validate stack size on return statements (shall (or have to?) euqal 0)
 	// todo: validate types on stack
 	// todo: validate that different incoming code paths have the same end stack size
 	internal sealed class FlowControlAnalyzer
@@ -15,6 +14,9 @@ namespace Mono.Cecil.Fluent.StackValidation
 
 		public FlowControlAnalyzer(MethodBody body)
 		{
+			if (body == null)
+				return;
+
 			JumpTargets = GetJumpTargets(body);
 			CodePaths = GetCodePaths(body, JumpTargets);
 
@@ -23,7 +25,8 @@ namespace Mono.Cecil.Fluent.StackValidation
 				if (codePath.Next != null)
 					CodePaths[codePath.Next].AddIncomingPath(codePath);
 				if (codePath.Alternatives.Length > 0)
-				{	foreach (var alternative in codePath.Alternatives)
+				{
+					foreach (var alternative in codePath.Alternatives)
 					{
 						CodePaths[alternative].AddIncomingPath(codePath);
 					}
@@ -33,15 +36,18 @@ namespace Mono.Cecil.Fluent.StackValidation
 
 		public void ValidateFullStackOrThrow()
 		{
+			if (CodePaths == null)
+				return;
+
 			foreach (var codepath in CodePaths.Values)
 				codepath.ValidateStackOrThrow();
 		}
 
 		private static FastDictionary<Instruction, CodePath> GetCodePaths(MethodBody body, HashSet<Instruction> jumptargets)
 		{
-			var CodePaths = new FastDictionary<Instruction, CodePath>(body?.Instructions.Count > 10 ? 7 : 3);
+			var CodePaths = new FastDictionary<Instruction, CodePath>();
 
-            if (body == null || body.Instructions.Count == 0)
+			if (body.Instructions.Count == 0)
 				return CodePaths;
 
 			var current = body.Instructions[0];
@@ -57,7 +63,7 @@ namespace Mono.Cecil.Fluent.StackValidation
 						pathstart = current.Next;
 						break;
 					case FlowControl.Cond_Branch:
-						if(current.OpCode.OperandType == OperandType.InlineSwitch)
+						if (current.OpCode.OperandType == OperandType.InlineSwitch)
 							CodePaths.Add(pathstart, new CodePath(pathstart, current, current.Next, (Instruction[])current.Operand, body));
 						else
 							CodePaths.Add(pathstart, new CodePath(pathstart, current, (Instruction)current.Operand, current.Next, body));
@@ -88,7 +94,7 @@ namespace Mono.Cecil.Fluent.StackValidation
 		{
 			var jumptargets = new HashSet<Instruction>();
 
-			if (body == null || body.Instructions.Count == 0)
+			if (body.Instructions.Count == 0)
 				return jumptargets;
 
 			var current = body.Instructions[0];
@@ -99,11 +105,11 @@ namespace Mono.Cecil.Fluent.StackValidation
 				var flowcontrol = current.OpCode.FlowControl;
 				if (current.OpCode.OperandType == OperandType.InlineSwitch)
 				{
-					foreach (var ins in (Instruction[]) current.Operand)
+					foreach (var ins in (Instruction[])current.Operand)
 						jumptargets.Add(ins);
 				}
 				else if (flowcontrol == FlowControl.Branch || flowcontrol == FlowControl.Cond_Branch)
-					jumptargets.Add((Instruction) current.Operand);
+					jumptargets.Add((Instruction)current.Operand);
 				current = current.Next;
 			} while (current != null);
 
