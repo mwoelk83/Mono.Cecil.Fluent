@@ -8,6 +8,7 @@ namespace Mono.Cecil.Fluent
 	class IfBlock
 	{
 		public Instruction StartInstruction;
+		public bool IsDoublePop = false;
 		public OpCode OpCode;
 	}
 
@@ -15,9 +16,9 @@ namespace Mono.Cecil.Fluent
 	{
 		internal Stack<IfBlock> IfBlocks = new Stack<IfBlock>();
 
-		public FluentMethodBody If()
+		public FluentMethodBody IfTrue()
 		{
-			Nop();
+			Pop();
 			var block = new IfBlock() { StartInstruction = LastEmittedInstruction, OpCode = OpCodes.Brfalse }; // it jumps if value top on stack is false
 			IfBlocks.Push(block);
 			return this;
@@ -25,7 +26,7 @@ namespace Mono.Cecil.Fluent
 
 		public FluentMethodBody IfNot()
 		{
-			Nop();
+			Pop();
 			var block = new IfBlock() { StartInstruction = LastEmittedInstruction, OpCode = OpCodes.Brtrue }; // it jumps if value top on stack is true
 			IfBlocks.Push(block);
 			return this;
@@ -33,32 +34,40 @@ namespace Mono.Cecil.Fluent
 
 		public FluentMethodBody Iflt()
 		{
-			Nop();
-			var block = new IfBlock() { StartInstruction = LastEmittedInstruction, OpCode = OpCodes.Bge };
+			Pop();
+			var pop1 = LastEmittedInstruction;
+			Pop();
+			var block = new IfBlock() { StartInstruction = pop1, IsDoublePop = true, OpCode = OpCodes.Bge };
 			IfBlocks.Push(block);
 			return this;
 		}
 
 		public FluentMethodBody Ifgt()
 		{
-			Nop();
-			var block = new IfBlock() { StartInstruction = LastEmittedInstruction, OpCode = OpCodes.Ble };
+			Pop();
+			var pop1 = LastEmittedInstruction;
+			Pop();
+			var block = new IfBlock() { StartInstruction = pop1, IsDoublePop = true, OpCode = OpCodes.Ble };
 			IfBlocks.Push(block);
 			return this;
 		}
 
 		public FluentMethodBody Iflte()
 		{
-			Nop();
-			var block = new IfBlock() { StartInstruction = LastEmittedInstruction, OpCode = OpCodes.Bgt };
+			Pop();
+			var pop1 = LastEmittedInstruction;
+			Pop();
+			var block = new IfBlock() { StartInstruction = pop1, IsDoublePop = true, OpCode = OpCodes.Bgt };
 			IfBlocks.Push(block);
 			return this;
 		}
 
 		public FluentMethodBody Ifgte()
 		{
-			Nop();
-			var block = new IfBlock() { StartInstruction = LastEmittedInstruction, OpCode = OpCodes.Blt };
+			Pop();
+			var pop1 = LastEmittedInstruction;
+			Pop();
+			var block = new IfBlock() { StartInstruction = pop1, IsDoublePop = true, OpCode = OpCodes.Blt };
 			IfBlocks.Push(block);
 			return this;
 		}
@@ -92,6 +101,10 @@ namespace Mono.Cecil.Fluent
 				Nop();
 				firstinstructionafterblock = LastEmittedInstruction;
 			}
+
+			if(block.IsDoublePop)
+				Body.GetILProcessor().Remove(block.StartInstruction?.Next);
+
 			var newstartinstruction = Instruction.Create(block.OpCode, firstinstructionafterblock);
 			Body.GetILProcessor().Replace(block.StartInstruction, newstartinstruction);
 

@@ -95,16 +95,13 @@ namespace Mono.Cecil.Fluent.Analyzer
 					throw new Exception(
 						$"instruction {ins} pops {popcount} values from stack." + Environment.NewLine +
 						$"but there are only {stacksize + popcount} values on stack. at:" + Environment.NewLine +
-						(ins.Previous?.ToString() ?? "" + Environment.NewLine) +
-						ins + Environment.NewLine);  // todo: print full instruction list
-
-
+						ListInstructions(ins));  // todo: print full instruction list
+				
 				stacksize += ins.GetPushCount();
 
 				if (stacksize != 0 && ins.OpCode.FlowControl == FlowControl.Return && ins.OpCode != OpCodes.Endfinally)
 					throw new Exception("stacksize on return is not zero. at: " + Environment.NewLine +
-						(ins.Previous?.ToString() ?? "" + Environment.NewLine) +
-						ins + Environment.NewLine);  // todo: print full instruction list
+						ListInstructions(EndInstruction));  // todo: print full instruction list
 
 				if (ins == EndInstruction)
 					break;
@@ -146,6 +143,27 @@ namespace Mono.Cecil.Fluent.Analyzer
 				size += IncomingPaths[0].InternalGetStackSizeOnLeave(checkedPaths);
 
 			return size;
+		}
+
+		private string ListInstructions(Instruction end = null)
+		{
+			if (end == null)
+				end = EndInstruction;
+
+			var ret = "";
+
+			if (IncomingPaths.Count != 0)
+				ret += IncomingPaths.First().ListInstructions()+ Environment.NewLine;
+
+			var ins = StartInstruction;
+			while (true)
+			{
+				ret += ins + Environment.NewLine;
+				if (ins == end)
+					break;
+				ins = ins.Next;
+			};
+			return ret;
 		}
 	}
 }

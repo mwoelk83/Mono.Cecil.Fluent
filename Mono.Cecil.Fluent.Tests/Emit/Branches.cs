@@ -18,7 +18,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Returns<int>()
 				.WithParameter<bool>()
 				.Ldarg(0)
-				.If()
+				.IfTrue()
 					.Ret(10)
 				.EndIf()
 				.Ret(100)
