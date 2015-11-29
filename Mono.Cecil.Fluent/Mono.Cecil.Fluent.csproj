@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -92,6 +93,9 @@
     <Compile Include="Extensions\NewMethod.cs" />
     <Compile Include="FluentMethodBody.Emit.cs" />
     <Compile Include="FluentMethodBody.cs" />
+    <Compile Include="Analyzer\CodePath.cs" />
+    <Compile Include="Analyzer\FlowControlAnalyzer.cs" />
+    <Compile Include="Analyzer\InstructionExtensions.cs" />
     <Compile Include="ToDynamic\DynamicTypeBuilder.cs" />
     <Compile Include="ToDynamic\ToDynamicMethod.cs" />
     <Compile Include="Emit\BasicMath.cs" />
@@ -110,7 +114,7 @@
     <Compile Include="MagicNumberArgument\MagicNumberArgument.R8.cs" />
     <Compile Include="MagicNumberArgument\MagicNumberArgument.Bool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleStackValidator.cs" />
+    <Compile Include="Utils\FastDictionary.cs" />
     <Compile Include="Utils\Generate.cs" />
   </ItemGroup>
   <ItemGroup>

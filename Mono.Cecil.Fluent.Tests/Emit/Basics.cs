@@ -110,13 +110,5 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.RetArg("ret")
 			.ToDynamicMethod()
 			.Invoke(null, new object[] { 100 }).Should().Equal(100);
-
-		It should_validate_stack_for_string_compare_method = () =>
-		{
-			var m = new FluentMethodBody(TestModule.SafeImport(typeof (string).GetMethod("Compare",
-				new[] {typeof (string), typeof (string), typeof (StringComparison)})).Resolve());
-				foreach(var instruction in m.Body.Instructions)
-					SimpleStackValidator.ValidatePostEmit(instruction, m);
-		};
 	}
 }

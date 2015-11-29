@@ -101,7 +101,7 @@ namespace Mono.Cecil.Fluent
 
 		private static void ComputeStackSize(Instruction instruction, ref int stack_size)
 		{
-			if (instruction.OpCode.FlowControl == FlowControl.Branch || instruction.OpCode.FlowControl == FlowControl.Break ||
+			if (instruction.OpCode.FlowControl == FlowControl.Branch || 
 			    instruction.OpCode.FlowControl == FlowControl.Throw || instruction.OpCode.FlowControl == FlowControl.Return)
 			{
 				stack_size = 0;

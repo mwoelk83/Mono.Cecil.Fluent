@@ -76,6 +76,7 @@
     <Compile Include="Disassembler\Type.cs" />
     <Compile Include="Emit\Branches.cs" />
     <Compile Include="Emit\Parameters.cs" />
+    <Compile Include="Analyzer\StackValidation.cs" />
     <Compile Include="Extensions\Returns.cs" />
     <Compile Include="Extensions\SetAttributes.cs" />
     <Compile Include="Extensions\ToDynamicType.cs" />
