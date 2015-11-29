@@ -9,7 +9,7 @@ namespace Mono.Cecil.Fluent.Analyzer
 	// todo: validate that different incoming code paths have the same end stack size
 	internal sealed class FlowControlAnalyzer
 	{
-		public readonly FastDictionary<Instruction, CodePath> CodePaths;
+		public readonly Dictionary<Instruction, CodePath> CodePaths;
 		public readonly HashSet<Instruction> JumpTargets;
 
 		public FlowControlAnalyzer(MethodBody body)
@@ -43,9 +43,9 @@ namespace Mono.Cecil.Fluent.Analyzer
 				codepath.ValidateStackOrThrow();
 		}
 
-		private static FastDictionary<Instruction, CodePath> GetCodePaths(MethodBody body, HashSet<Instruction> jumptargets)
+		private static Dictionary<Instruction, CodePath> GetCodePaths(MethodBody body, HashSet<Instruction> jumptargets)
 		{
-			var CodePaths = new FastDictionary<Instruction, CodePath>();
+			var CodePaths = new Dictionary<Instruction, CodePath>();
 
 			if (body.Instructions.Count == 0)
 				return CodePaths;
