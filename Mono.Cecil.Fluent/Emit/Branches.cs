@@ -74,6 +74,8 @@ namespace Mono.Cecil.Fluent
 
 		public FluentMethodBody Else()
 		{
+			if(IfBlocks.Count == 0 || IfBlocks.Peek().OpCode == OpCodes.Br)
+				throw new Exception("no if blfor else");
 			Nop();
 			var jumpstart = LastEmittedInstruction;
 			EndIf();

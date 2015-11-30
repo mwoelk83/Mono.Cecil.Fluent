@@ -5,10 +5,16 @@ namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody
 	{
+		public FluentMethodBody Neg()
+		{
+			return Emit(OpCodes.Neg);
+		}
+
 		public FluentMethodBody Rem()
 		{
 			return Emit(OpCodes.Rem);
 		}
+
 		public FluentMethodBody RemUn()
 		{
 			return Emit(OpCodes.Rem_Un);
