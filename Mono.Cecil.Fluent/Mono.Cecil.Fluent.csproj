@@ -71,7 +71,9 @@
     <Compile Include="Decompiler\Extensions\ComputeStackSize.cs" />
     <Compile Include="Emit\BasicMath.Abs.cs" />
     <Compile Include="Emit\Branches.cs" />
+    <Compile Include="Emit\System\System.Math.cs" />
     <Compile Include="Emit\Parameters.cs" />
+    <Compile Include="Emit\System\System.cs" />
     <Compile Include="Extensions\Attributes\Attributes.cs" />
     <Compile Include="Extensions\Attributes\Events.cs" />
     <Compile Include="Extensions\Attributes\FluentMethods.cs" />
