@@ -96,7 +96,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		It should_conv_I4_to_U8 = () =>
 			CreateStaticMethod()
-			.Returns<ulong>().DebuggerBreak()
+			.Returns<ulong>()//.DebuggerBreak()
 				.Ldc(int.MinValue)
 				.ConvU8()
 				.Ret()

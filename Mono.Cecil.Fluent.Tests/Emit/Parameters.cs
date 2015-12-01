@@ -115,7 +115,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		It should_store_numberparameters_in_args = () =>
 			CreateStaticMethod()
-				.Returns<long>().DebuggerBreak()
+				.Returns<long>()//.DebuggerBreak()
 				.WithParameter<long>("arg1")
 				.WithParameter<long>("arg2")
 				.Starg(100L, "arg1", "arg2")

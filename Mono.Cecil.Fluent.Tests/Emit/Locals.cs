@@ -60,7 +60,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.WithVariable<int>("var3")
 				.WithVariable<int>("var4")
 				.WithVariable<int>("var5")
-				.WithVariable<int>("var6").DebuggerBreak()
+				.WithVariable<int>("var6")//.DebuggerBreak()
 				.Stloc(1, "var1", "var2", "var3", "var4", "var5", "var6")
 				.Ldloc("var1", "var2", "var3", "var4", "var5", "var6")
 				.Add()
