@@ -69,7 +69,6 @@
     <Compile Include="Decompiler\PlainTextOutputWriter.cs" />
     <Compile Include="Decompiler\Extensions\ComputeOffsets.cs" />
     <Compile Include="Decompiler\Extensions\ComputeStackSize.cs" />
-    <Compile Include="Emit\BasicMath.Abs.cs" />
     <Compile Include="Emit\Branches.cs" />
     <Compile Include="Emit\System\System.Math.cs" />
     <Compile Include="Emit\Parameters.cs" />
