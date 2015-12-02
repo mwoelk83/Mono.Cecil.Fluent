@@ -10,8 +10,6 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
-
 		It should_return_abs_of_positive_I4 = () =>
 			CreateStaticMethod()
 			.Returns<int>()

@@ -71,12 +71,58 @@ namespace Mono.Cecil.Fluent
 
 			foreach (var var in vars)
 			{
-				if(var == null)
+				if (var == null)
 					throw new ArgumentNullException($"variable is null"); //ncrunch: no coverage
 				if (Variables.All(v => v != var))
 					throw new ArgumentException("variable must be declared in method body before using it"); //ncrunch: no coverage
 
 				Ldloc((uint)var.Index);
+			}
+
+			return this;
+		}
+
+		public FluentMethodBody Ldloca(params VariableDefinition[] vars)
+		{
+			if (vars == null)
+				throw new ArgumentNullException(nameof(vars)); //ncrunch: no coverage
+
+			foreach (var var in vars)
+			{
+				if (var == null)
+					throw new ArgumentNullException($"variable is null"); //ncrunch: no coverage
+				if (Variables.All(v => v != var))
+					throw new ArgumentException("variable must be declared in method body before using it"); //ncrunch: no coverage
+
+				Ldloca((uint)var.Index);
+			}
+
+			return this;
+		}
+
+		public FluentMethodBody Ldloca(params string[] names)
+		{
+			if (names == null)
+				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
+
+			foreach (var name in names)
+				Ldloca((uint)GetVariable(name).Index);
+
+			return this;
+		}
+
+		public FluentMethodBody Ldloca(params uint[] indexes)
+		{
+			if (indexes == null)
+				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
+
+			foreach (var i in indexes)
+			{
+				if (Variables.Count <= i)
+					throw new IndexOutOfRangeException($"no variable found at index {i}"); //ncrunch: no coverage
+				
+				Emit(i < sbyte.MaxValue ? OpCodes.Ldloca_S : OpCodes.Ldloca, Variables[(int)i]);
+				break;
 			}
 
 			return this;

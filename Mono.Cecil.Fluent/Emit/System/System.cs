@@ -11,15 +11,11 @@ namespace Mono.Cecil.Fluent
 	{
 		public ISystemEmitter System => this;
 
-		FluentMethodBody ISystemEmitter.FluentMethodBody => this;
-
 		ISystemMathEmitter ISystemEmitter.Math => this;
 	}
 
 	public interface ISystemEmitter
 	{
-		FluentMethodBody FluentMethodBody { get; }
-
 		ISystemMathEmitter Math { get; }
 	}
 }
