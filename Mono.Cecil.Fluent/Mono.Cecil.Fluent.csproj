@@ -80,6 +80,7 @@
     <Compile Include="Extensions\Attributes\Methods.cs" />
     <Compile Include="Extensions\Attributes\Types.cs" />
     <Compile Include="Extensions\Attributes\Fields.cs" />
+    <Compile Include="Extensions\Compile.cs" />
     <Compile Include="Extensions\Disassemble.cs" />
     <Compile Include="Extensions\GetModule.cs" />
     <Compile Include="Extensions\Misc.cs" />

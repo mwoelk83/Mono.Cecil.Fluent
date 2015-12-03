@@ -1,4 +1,5 @@
-﻿using Machine.Specifications;
+﻿using System;
+using Machine.Specifications;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
@@ -18,8 +19,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc((byte)10)
 				.Rem(4)
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal((byte)2);
+			.Compile<Func<byte>>()
+			().Should().Equal((byte)2);
 
 		It should_return_remainder_of_twenty_by_seven = () =>
 			CreateStaticMethod()
@@ -28,8 +29,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc((short)7)
 				.Rem()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(6);
+			.Compile<Func<int>>()
+			().Should().Equal(6);
 
 		It should_return_remainder_of_twenty_by_seven_unsigned = () =>
 			CreateStaticMethod()
@@ -37,8 +38,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(20)
 				.RemUn(7)
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(6);
+			.Compile<Func<int>>()
+			().Should().Equal(6);
 
 		It should_return_remainder_of_tenmillion_by_1303 = () =>
 			CreateStaticMethod()
@@ -47,8 +48,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(1303U)
 				.RemUn()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(778U);
+			.Compile<Func<uint>>()
+			().Should().Equal(778U);
 
 		It should_return_remainder_of_tenmillion_by_1303_ulong = () =>
 			CreateStaticMethod()
@@ -57,8 +58,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(1303UL)
 				.RemUn()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(778UL);
+			.Compile<Func<ulong>>()
+			().Should().Equal(778UL);
 
 		It should_add_3 = () =>
 			CreateStaticMethod()
@@ -67,8 +68,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(3)
 				.Add()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(3);
+			.Compile<Func<int>>()
+			().Should().Equal(3);
 
 		It should_add_3_with_arg = () =>
 			CreateStaticMethod()
@@ -76,8 +77,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(0)
 				.Add(3u)
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(3);
+			.Compile<Func<int>>()
+			().Should().Equal(3);
 
 		It should_sub_3 = () =>
 			CreateStaticMethod()
@@ -86,8 +87,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(3)
 				.Sub()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(-3);
+			.Compile<Func<int>>()
+			().Should().Equal(-3);
 
 		It should_sub_3_with_arg = () =>
 			CreateStaticMethod()
@@ -95,8 +96,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(0U)
 				.Sub(3)
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(-3);
+			.Compile<Func<int>>()
+			().Should().Equal(-3);
 
 		It should_mul_by_3 = () =>
 			CreateStaticMethod()
@@ -105,8 +106,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(3)
 				.Mul()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(15);
+			.Compile<Func<int>>()
+			().Should().Equal(15);
 
 		It should_mul_by_3_with_arg = () =>
 			CreateStaticMethod()
@@ -114,8 +115,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(5)
 				.Mul(3U)
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(15);
+			.Compile<Func<int>>()
+			().Should().Equal(15);
 
 		It should_div_by_3 = () =>
 			CreateStaticMethod()
@@ -124,8 +125,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(3)
 				.Div()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(5);
+			.Compile<Func<int>>()
+			().Should().Equal(5);
 
 		It should_div_by_3_with_arg = () =>
 			CreateStaticMethod()
@@ -133,8 +134,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(15)
 				.Div(3U)
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(5);
+			.Compile<Func<int>>()
+			().Should().Equal(5);
 
 		It should_div_by_3_un = () =>
 			CreateStaticMethod()
@@ -143,8 +144,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(3)
 				.DivUn()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(5);
+			.Compile<Func<int>>()
+			().Should().Equal(5);
 
 		It should_div_by_3_with_arg_un = () =>
 			CreateStaticMethod()
@@ -152,8 +153,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(15)
 				.DivUn(3U)
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(5);
+			.Compile<Func<int>>()
+			().Should().Equal(5);
 
 		// improves code coverage
 		It should_add_a_bool_and_a_sbyte = () => 
@@ -163,7 +164,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Ldc((sbyte) 2)
 			.Add()
 			.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal((byte) 3);
+			.Compile<Func<byte>>()
+			().Should().Equal((byte) 3);
 	}
 }

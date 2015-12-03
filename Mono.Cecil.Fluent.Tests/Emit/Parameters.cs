@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Machine.Specifications;
 using Mono.Cecil.Cil;
 using Should.Fluent;
@@ -24,8 +25,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.WithParameter<string>()
 				.Ldarg(0)
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] { "teststring" }).Should().Equal("teststring");
+			.Compile<Func<string,string>>()
+			("teststring").Should().Equal("teststring");
 
 		It should_load_arg_and_return_parameter_use_ld_param = () =>
 			CreateStaticMethod()
@@ -33,8 +34,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.WithParameter<double>()
 				.LdParam(0)
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] { (object) 10.01d }).Should().Equal(10.01d);
+			.Compile<Func<double,double>>()
+			(10.01d).Should().Equal(10.01d);
 
 		It should_load_named_arg_and_return_parameter = () =>
 			CreateStaticMethod()
@@ -42,8 +43,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.WithParameter<string>("arg1")
 				.Ldarg("arg1")
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] { "teststring1" }).Should().Equal("teststring1");
+			.Compile<Func<string, string>>()
+			("teststring1").Should().Equal("teststring1");
 
 		It should_load_named_arg_and_return_parameter_use_ldparam = () =>
 			CreateStaticMethod()
@@ -51,8 +52,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.WithParameter<string>("arg1")
 				.LdParam("arg1")
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] { "test100" }).Should().Equal("test100");
+			.Compile<Func<string, string>>()
+			("test100").Should().Equal("test100");
 
 		static readonly ParameterDefinition testparam  = new ParameterDefinition(TestModule.TypeSystem.String);
 
@@ -62,8 +63,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.WithParameter(testparam)
 				.Ldarg(testparam)
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] { "teststring2" }).Should().Equal("teststring2");
+			.Compile<Func<string, string>>()
+			("teststring2").Should().Equal("teststring2");
 
 		It should_store_arg_with_parameterdefinition = () =>
 			CreateStaticMethod()
@@ -73,8 +74,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Starg(testparam)
 				.Ldarg(testparam)
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] { "teststring" }).Should().Equal("otherstring");
+			.Compile<Func<string, string>>()
+			("otherstring").Should().Equal("otherstring");
 
 		It should_load_many_args = () =>
 			CreateStaticMethod()
@@ -90,8 +91,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Add()
 				.Add()
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] {(object) 1, 2, 3, 4, 5}).Should().Equal(1 + 2 + 3 + 4 + 5);
+			.Compile<Func<int,int,int,int,int,int>>()
+			(1,2,3,4,5).Should().Equal(1 + 2 + 3 + 4 + 5);
 
 		It should_store_values_in_many_args = () =>
 			CreateStaticMethod()
@@ -109,8 +110,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Add()
 				.Add()
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] { (object)1, 2, 3, 4, 5 }).Should().Equal(6 + 7 + 8 + 9 + 10);
+			.Compile<Func<int, int, int, int, int, int>>()
+			(1, 2, 3, 4, 5).Should().Equal(6 + 7 + 8 + 9 + 10);
 
 		It should_store_numberparameters_in_args = () =>
 			CreateStaticMethod()
@@ -121,8 +122,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldarg(0, 1)
 				.Add()
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new [] {(object) 10, 10}).Should().Equal(200L);
+			.Compile<Func<long,long,long>>()
+			(10,10).Should().Equal(200L);
 
 		It should_store_value_in_named_arg = () =>
 			CreateStaticMethod()
@@ -132,8 +133,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Starg("arg1")
 				.Ldarg("arg1")
 				.Ret()
-				.ToDynamicMethod()
-				.Invoke(null, new[] { (object) 1 }).Should().Equal(10);
+			.Compile<Func<int, int>>()
+			(100).Should().Equal(10);
 
 		It should_store_and_load_params_with_differnt_types = () =>
 			CreateStaticMethod()
@@ -154,7 +155,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldarg(3)
 				.Add()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, new object[] {0L,0,0f,0d}).Should().Equal(40.0d);
+			.Compile<Func<long,int,float,double,double>>()
+			(10,10,10,10).Should().Equal(40.0d);
 	}
 }

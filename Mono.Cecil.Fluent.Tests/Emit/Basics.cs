@@ -20,8 +20,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Dup()
 				.Add()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(20);
+			.Compile<Func<int>>()
+			().Should().Equal(20);
 
 		It should_add_nops = () =>
 			CreateStaticMethod()
@@ -37,8 +37,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc(0)
 				.Pop()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null);
+			.Compile<Action>()();
 
 		It should_invert_bitwise = () =>
 			CreateStaticMethod()
@@ -46,37 +45,37 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldc((ushort)0x00FF)
 				.Not()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal((ushort)0xFF00);
+			.Compile<Func<ushort>>()
+			().Should().Equal((ushort)0xFF00);
 
 		It should_ldnull = () =>
 			CreateStaticMethod()
 				.Returns<object>()
 				.LdNull()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(null);
+			.Compile<Func<object>>()
+			().Should().Equal(null);
 
 		It should_ret_int = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.Ret(10d)
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(10);
+			.Compile<Func<int>>()
+			().Should().Equal(10);
 
 		It should_ret_long = () =>
 			CreateStaticMethod()
 				.Returns<long>()
 				.Ret(1f)
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(1L);
+			.Compile<Func<long>>()
+			().Should().Equal(1L);
 
 		It should_ret_float = () =>
 			CreateStaticMethod()
 				.Returns<float>()
 				.Ret(10d)
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(10f);
+			.Compile<Func<float>>()
+			().Should().Equal(10f);
 
 		It should_ret_double = () =>
 			CreateStaticMethod()
@@ -91,8 +90,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Returns<int>()
 				.Stloc(100, "ret")
 				.RetLoc("ret")
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(100);
+			.Compile<Func<int>>()
+			().Should().Equal(100);
 
 		It should_ret_loc_with_index = () =>
 			CreateStaticMethod()
@@ -100,15 +99,15 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Returns<int>()
 				.Stloc(1100, "ret")
 				.RetLoc(0)
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(1100);
+			.Compile<Func<int>>()
+			().Should().Equal(1100);
 
 		It should_ret_arg_with_name = () =>
 			CreateStaticMethod()
 				.WithParameter<int>("ret")
 				.Returns<int>()
 				.RetArg("ret")
-			.ToDynamicMethod()
-			.Invoke(null, new object[] { 100 }).Should().Equal(100);
+			.Compile<Func<int,int>>()
+			(100).Should().Equal(100);
 	}
 }

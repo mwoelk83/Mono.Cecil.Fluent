@@ -1,4 +1,5 @@
-﻿using Machine.Specifications;
+﻿using System;
+using Machine.Specifications;
 using Mono.Cecil.Cil;
 using Should.Fluent;
 
@@ -23,8 +24,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldloc(0)
 				.Add()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(3);
+			.Compile<Func<int>>()
+			().Should().Equal(3);
 
 		It should_load_and_store_named_local = () =>
 			CreateStaticMethod()
@@ -36,8 +37,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldloc("var1")
 				.Add()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(3);
+			.Compile<Func<int>>()
+			().Should().Equal(3);
 
 		It should_store_locals_with_value = () =>
 			CreateStaticMethod()
@@ -48,8 +49,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ldloc("var1", "var2")
 				.Add()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(2);
+			.Compile<Func<int>>()
+			().Should().Equal(2);
 
 		It should_store_and_load_many_locals_with_value = () =>
 			CreateStaticMethod()
@@ -68,8 +69,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Add()
 				.Add()
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(6);
+			.Compile<Func<int>>()
+			().Should().Equal(6);
 
 		static VariableDefinition vardef = new VariableDefinition(TestModule.SafeImport(typeof(bool)));
 
@@ -81,8 +82,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Stloc(vardef)
 				.Ldloc(vardef)
 				.Ret()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(true);
+			.Compile<Func<bool>>()
+			().Should().Equal(true);
 		
 		It should_store_and_load_locals_with_differnt_types_with_manual_convert_instructions = () =>
 			CreateStaticMethod()
@@ -102,8 +103,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.ConvR8()
 				.Ldloc(3)
 				.Add()
-				.Ret().DebuggerBreak()
-			.ToDynamicMethod()
-			.Invoke(null, null).Should().Equal(40.0d);
+				.Ret()
+			.Compile<Func<double>>()
+			().Should().Equal(40.0d);
 	}
 }

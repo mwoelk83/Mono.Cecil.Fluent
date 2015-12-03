@@ -11,8 +11,6 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
-
 		It should_emit_if_block = () =>
 			CreateStaticMethod()
 				.Returns<int>()
@@ -22,8 +20,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 					.Ret(10)
 				.EndIf()
 				.Ret(100)
-			.ToDynamicMethod()
-			.Invoke(null, new object[] { false }).Should().Equal(100);
+			.Compile<Func<bool,int>>()
+			(false).Should().Equal(100);
 
 		It should_emit_ifnot_block = () =>
 			CreateStaticMethod()
@@ -34,8 +32,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 					.Ret(10)
 				.EndIf()
 				.Ret(100)
-			.ToDynamicMethod()
-			.Invoke(null, new object[] { false }).Should().Equal(10);
+			.Compile<Func<bool,int>>()
+			(false).Should().Equal(10);
 
 		static Func<long, long, bool> LessThenMethod => CreateStaticMethod()
 			.Returns<bool>()
@@ -47,7 +45,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 					.Ret(true)
 				.EndIf()
 				.Ret(false)
-			.ToDynamicMethod().CreateDelegate(typeof(Func<long, long, bool>)) as Func<long, long, bool>;
+			.Compile<Func<long,long,bool>>();
 
 		It should_be_less_than = () => LessThenMethod(50, 100).Should().Equal(true);
 		It should_not_be_less_than = () => LessThenMethod(500, 100).Should().Equal(false);
@@ -62,7 +60,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 					.Ret(true)
 				.EndIf()
 				.Ret(false)
-			.ToDynamicMethod().CreateDelegate(typeof(Func<int, int, bool>)) as Func<int, int, bool>;
+			.Compile<Func<int,int,bool>>();
 
 		It should_be_greater_than = () => GreaterThanMethod(500, 100).Should().Equal(true);
 		It should_not_be_greater_than = () => GreaterThanMethod(50, 100).Should().Equal(false);
@@ -77,7 +75,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 					.Ret(true)
 				.EndIf()
 				.Ret(false)
-			.ToDynamicMethod().CreateDelegate(typeof(Func<long, long, bool>)) as Func<long, long, bool>;
+			.Compile<Func<long, long, bool>>();
 
 		It should_be_less_than_or_equal = () => LessThenOrEqualMethod(100, 100).Should().Equal(true);
 		It should_be_less_than_or_equal_2 = () => LessThenOrEqualMethod(7, 100).Should().Equal(true);
@@ -93,7 +91,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 					.Ret(true)
 				.EndIf()
 				.Ret(false)
-			.ToDynamicMethod().CreateDelegate(typeof(Func<int, int, bool>)) as Func<int, int, bool>;
+			.Compile<Func<int, int, bool>>();
 
 		It should_be_greater_than_or_equal = () => GreaterThanOrEqualMethod(100, 100).Should().Equal(true);
 		It should_be_greater_than_or_equal_2 = () => GreaterThanOrEqualMethod(1000, 100).Should().Equal(true);
@@ -116,7 +114,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 						.Ret(0)
 					.EndIf()
 				.EndIf()
-			.ToDynamicMethod().CreateDelegate(typeof(Func<int, int, int>)) as Func<int, int, int>;
+			.Compile<Func<int, int, int>>();
 
 		It should_compare_numbers = () => NestedNumberComparisonFunction(100, 100).Should().Equal(0);
 		It should_compare_numbers_2 = () => NestedNumberComparisonFunction(1000, 100).Should().Equal(1);
@@ -141,7 +139,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 					.EndIf()
 				.EndIf()
 				.RetLoc("ret")
-			.ToDynamicMethod().CreateDelegate(typeof(Func<int, int, int>)) as Func<int, int, int>;
+			.Compile<Func<int, int, int>>();
 
 		It should_compare_numbers_with_locals = () => NestedNumberComparisonFunctionWithLocal(100, 100).Should().Equal(0);
 		It should_compare_numbers_with_locals_2 = () => NestedNumberComparisonFunctionWithLocal(1000, 100).Should().Equal(1);
