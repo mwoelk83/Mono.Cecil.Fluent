@@ -30,8 +30,11 @@ namespace Mono.Cecil.Fluent
 					PostEmitActions.Enqueue(action);
 			}
 
-			var validator = new FlowControlAnalyzer(Body);
-			validator.ValidateFullStackOrThrow();
+			if (StackValidationOnEmitEnabled)
+			{
+				var validator = new FlowControlAnalyzer(Body);
+				validator.ValidateFullStackOrThrow();
+			}
 
 			return this;
 		}

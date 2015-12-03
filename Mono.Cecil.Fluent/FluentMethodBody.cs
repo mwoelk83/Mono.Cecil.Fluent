@@ -67,6 +67,8 @@ namespace Mono.Cecil.Fluent
 
 		public Collection<VariableDefinition> Variables => MethodDefinition.Body.Variables;
 
+		public bool StackValidationOnEmitEnabled { get; set; } = true;
+
 		public MethodAttributes Attributes
 		{
 			get { return MethodDefinition.Attributes; }
@@ -82,6 +84,18 @@ namespace Mono.Cecil.Fluent
 		public override string ToString()
 		{
 			return FullName;
+		}
+
+		public FluentMethodBody DisableStackValidationOnEmit()
+		{
+			StackValidationOnEmitEnabled = false;
+			return this;
+		}
+
+		public FluentMethodBody EnableStackValidationOnEmit()
+		{
+			StackValidationOnEmitEnabled = true;
+			return this;
 		}
 	}
 }
