@@ -78,7 +78,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		It should_emit_opcode_call_system_methodinfo = () =>
 			NewTestMethod
-				.Emit(OpCodes.Call, typeof(Console).GetMethods().First())
+				.Emit(OpCodes.Call, typeof(Console).GetMethods().Where(m => m.GetParameters().Length == 0).First())
 			.Body.Instructions.First().OpCode.Should().Equal(OpCodes.Call);
 
 		It should_emit_opcode_ldfld_system_fieldinfo = () =>
