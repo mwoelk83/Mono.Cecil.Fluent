@@ -1,10 +1,21 @@
-﻿using Mono.Cecil.Cil;
+﻿using System;
+using Mono.Cecil.Cil;
 using Mono.Collections.Generic;
 
 namespace Mono.Cecil.Fluent
 {
-	public sealed partial class FluentMethodBody : IMemberDefinition
+	public partial class FluentMethodBody : IMemberDefinition
 	{
+		/// <summary>
+		/// Useful for Debugging.
+		/// </summary>
+		public string DisassembledBody => this.DisassembleBody(); // ncrunch: no coverage
+
+		/// <summary>
+		/// Useful for Debugging.
+		/// </summary>
+		public string DisassembledMethod => this.Disassemble(); // ncrunch: no coverage
+
 		public readonly MethodDefinition MethodDefinition;
 		public readonly ModuleDefinition Module;
 
@@ -56,10 +67,35 @@ namespace Mono.Cecil.Fluent
 
 		public Collection<VariableDefinition> Variables => MethodDefinition.Body.Variables;
 
+		public bool StackValidationOnEmitEnabled { get; set; } = true;
+
+		public MethodAttributes Attributes
+		{
+			get { return MethodDefinition.Attributes; }
+			set { MethodDefinition.Attributes = value; }
+		}
+
 		internal FluentMethodBody(MethodDefinition methodDefinition)
 		{
 			MethodDefinition = methodDefinition;
 			Module = methodDefinition.Module;
+		}
+		
+		public override string ToString()
+		{
+			return FullName;
+		}
+
+		public FluentMethodBody DisableStackValidationOnEmit()
+		{
+			StackValidationOnEmitEnabled = false;
+			return this;
+		}
+
+		public FluentMethodBody EnableStackValidationOnEmit()
+		{
+			StackValidationOnEmitEnabled = true;
+			return this;
 		}
 	}
 }

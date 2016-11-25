@@ -51,7 +51,7 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 			.WithVariable<FileInfo>("param3")
 			.Variables.First().Name.Should().Equal("param3");
 
-		It should_add_variable_definition = () =>
+		It should_add_variable_using_variable_definition = () =>
 			NewTestMethod
 			.WithVariable(new VariableDefinition(TestModule.SafeImport<bool>()))
 			.WithVariable(new VariableDefinition(TestModule.SafeImport<uint>()))

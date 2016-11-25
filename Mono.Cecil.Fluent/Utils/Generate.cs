@@ -7,10 +7,13 @@ namespace Mono.Cecil.Fluent.Utils
 	{
 		public static class Name
 		{
+			// ncrunch: no coverage start
 			private static readonly Random _rnd = new Random();
 			private static readonly object _syncRoot = new object();
 			private static readonly HashSet<string> UsedClassNames = new HashSet<string>();
 			private static readonly HashSet<string> UsedMethodNames = new HashSet<string>();
+
+			// ncrunch: no coverage end
 			private const string IdentifierFirstLetterChars = "abcdefghijklmnopqrstuvwxyz";
 			private const string IdentifierChars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -23,7 +26,7 @@ namespace Mono.Cecil.Fluent.Utils
 			{
 				return GenereateInternal(UsedClassNames);
 			}
-
+			
 			private static string GenereateInternal(HashSet<string> used)
 			{
 				var ret = "";
@@ -33,7 +36,7 @@ namespace Mono.Cecil.Fluent.Utils
 				while (true)
 				{
 					if (ret.Length > 16)
-						ret = ret.Substring(0, 2);
+						ret = ret.Substring(0, 2); // ncrunch: no coverage
 
 					ret += IdentifierChars[_rnd.Next(0, IdentifierChars.Length - 1)];
 					ret += IdentifierChars[_rnd.Next(0, IdentifierChars.Length - 1)];
@@ -41,7 +44,7 @@ namespace Mono.Cecil.Fluent.Utils
 					lock (_syncRoot)
 					{
 						if (used.Contains(ret))
-							continue;
+							continue; // ncrunch: no coverage
 						used.Add(ret);
 						return ret;
 					}

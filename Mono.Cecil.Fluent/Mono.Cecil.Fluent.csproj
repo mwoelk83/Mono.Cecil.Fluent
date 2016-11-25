@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,6 +47,10 @@
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Should.Fluent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ShouldFluent.1.1.19\lib\Should.Fluent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,8 +61,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decompiler\Disassembler\DisassemblerHelper.cs" />
+    <Compile Include="Decompiler\Disassembler\ILStructure.cs" />
+    <Compile Include="Decompiler\Disassembler\MethodBodyDisassembler.cs" />
+    <Compile Include="Decompiler\Disassembler\ReflectionDisassembler.cs" />
+    <Compile Include="Decompiler\OpCodeInfo.cs" />
+    <Compile Include="Decompiler\PlainTextOutputWriter.cs" />
+    <Compile Include="Decompiler\Extensions\ComputeOffsets.cs" />
+    <Compile Include="Decompiler\Extensions\ComputeStackSize.cs" />
+    <Compile Include="Emit\Branches.cs" />
+    <Compile Include="Emit\System\System.Math.cs" />
+    <Compile Include="Emit\Parameters.cs" />
+    <Compile Include="Emit\System\System.cs" />
+    <Compile Include="Extensions\Attributes\Attributes.cs" />
+    <Compile Include="Extensions\Attributes\Events.cs" />
+    <Compile Include="Extensions\Attributes\FluentMethods.cs" />
+    <Compile Include="Extensions\Attributes\Properties.cs" />
+    <Compile Include="Extensions\Attributes\Methods.cs" />
+    <Compile Include="Extensions\Attributes\Types.cs" />
+    <Compile Include="Extensions\Attributes\Fields.cs" />
+    <Compile Include="Extensions\Compile.cs" />
+    <Compile Include="Extensions\Disassemble.cs" />
     <Compile Include="Extensions\GetModule.cs" />
+    <Compile Include="Extensions\Misc.cs" />
     <Compile Include="Extensions\Returns.cs" />
+    <Compile Include="Extensions\SafeEquals.cs" />
+    <Compile Include="Extensions\ToDynamic.cs" />
+    <Compile Include="Extensions\UnsetAttribute.cs" />
+    <Compile Include="Extensions\WithField.cs" />
     <Compile Include="Extensions\WithParameter.cs" />
     <Compile Include="Extensions\WithVariable.cs" />
     <Compile Include="Extensions\NewType.cs" />
@@ -65,15 +96,26 @@
     <Compile Include="Extensions\NewMethod.cs" />
     <Compile Include="FluentMethodBody.Emit.cs" />
     <Compile Include="FluentMethodBody.cs" />
-    <Compile Include="FluentMethodBody.ToDynamicMethod.cs" />
-    <Compile Include="FluentMethodBody\BasicMath.cs" />
-    <Compile Include="FluentMethodBody\Basics.cs" />
-    <Compile Include="FluentMethodBody\Conv.cs" />
-    <Compile Include="FluentMethodBody\Ldc.cs" />
-    <Compile Include="FluentMethodBody\Locals.cs" />
-    <Compile Include="FluentMethodBody\Ret.cs" />
+    <Compile Include="Analyzer\CodePath.cs" />
+    <Compile Include="Analyzer\FlowControlAnalyzer.cs" />
+    <Compile Include="Analyzer\InstructionExtensions.cs" />
+    <Compile Include="ToDynamic\DynamicTypeBuilder.cs" />
+    <Compile Include="ToDynamic\ToDynamicMethod.cs" />
+    <Compile Include="Emit\BasicMath.cs" />
+    <Compile Include="Emit\Basics.cs" />
+    <Compile Include="Decompiler\Extensions\ComputeCodeSize.cs" />
+    <Compile Include="Emit\Conv.cs" />
+    <Compile Include="Emit\Ldc.cs" />
+    <Compile Include="Emit\Locals.cs" />
+    <Compile Include="Emit\Ret.cs" />
+    <Compile Include="Helpers\GetILTypeExtension.cs" />
     <Compile Include="Helpers\TypeLoader.cs" />
-    <Compile Include="NumberArgument.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.I4.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.I8.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.R4.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.R8.cs" />
+    <Compile Include="MagicNumberArgument\MagicNumberArgument.Bool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Generate.cs" />
   </ItemGroup>

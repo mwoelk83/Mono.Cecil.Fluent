@@ -17,10 +17,13 @@ public class TypeLoader
 	}
 
 	/// <summary>
-	/// Liefert den System.Type einer TypeReference.
+	/// Get the System.Type from a TypeReference. Type must exist in current AppDomain.
 	/// </summary>
 	public Type Load(TypeReference typeReference)
 	{
+		// from SO
+		//Type.GetType(tr.FullName + ", " + tr.Module.Assembly.FullName);
+		// will look up in all assemnblies loaded into the current appDomain and fire the AppDomain.Resolve event if no Type could be found
 		var fullName = typeReference.FullName.Replace('/', '+');
 		Type type;
 
@@ -38,19 +41,13 @@ public class TypeLoader
 
 		return type;
 	}
-
-	/// <summary>
-	/// Liefert den System.Type einer TypeReference.
-	/// </summary>
+	
 	public FieldInfo Load(FieldReference fieldReference)
 	{
 		return Load(fieldReference.DeclaringType)?
 			.GetField(fieldReference.Name);
 	}
-
-	/// <summary>
-	/// Liefert den System.Type einer TypeReference.
-	/// </summary>
+	
 	public MethodInfo Load(MethodReference methodReference)
 	{
 		Type[] paramTypes = methodReference.Parameters.Select(p => Load(p.ParameterType)).ToArray();

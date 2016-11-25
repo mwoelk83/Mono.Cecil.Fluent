@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Mono.Cecil.Cil;
+using Mono.Cecil.Fluent.Analyzer;
 using Mono.Collections.Generic;
 using OpCode = Mono.Cecil.Cil.OpCode;
 
+// ReSharper disable MemberCanBePrivate.Global
 namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody
 	{
 		private Action<Instruction> _emitAction;
+		internal Instruction LastEmittedInstruction = null;
+		internal readonly Queue<Func<FluentMethodBody, bool>> PostEmitActions = new Queue<Func<FluentMethodBody, bool>>(); 
 
 		public FluentMethodBody Emit(Instruction instruction)
 		{
@@ -16,6 +21,21 @@ namespace Mono.Cecil.Fluent
 				_emitAction = i => MethodDefinition.Body.Instructions.Add(i);
 
 			_emitAction(instruction);
+			LastEmittedInstruction = instruction;
+			
+			while (PostEmitActions.Count != 0)
+			{
+				var action = PostEmitActions.Dequeue();
+				if(!action(this))
+					PostEmitActions.Enqueue(action);
+			}
+
+			if (StackValidationOnEmitEnabled)
+			{
+				var validator = new FlowControlAnalyzer(Body);
+				validator.ValidateFullStackOrThrow();
+			}
+
 			return this;
 		}
 
@@ -95,6 +115,11 @@ namespace Mono.Cecil.Fluent
 		}
 
 		public FluentMethodBody Emit(OpCode opcode, VariableDefinition arg)
+		{
+			return Emit(Instruction.Create(opcode, arg));
+		}
+
+		public FluentMethodBody Emit(OpCode opcode, ParameterDefinition arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}

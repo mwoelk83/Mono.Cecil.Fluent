@@ -34,5 +34,13 @@ namespace Mono.Cecil.Fluent.Tests
 			methodsholdertype.Fields.Add(f);
 			return f;
 		}
+
+		internal static EventDefinition CreateEvent()
+		{
+			var e = new EventDefinition(Generate.Name.ForMethod(), EventAttributes.None, TestModule.TypeSystem.Object);
+			e.DeclaringType = methodsholdertype;
+			methodsholdertype.Events.Add(e);
+			return e;
+		}
 	}
 }
