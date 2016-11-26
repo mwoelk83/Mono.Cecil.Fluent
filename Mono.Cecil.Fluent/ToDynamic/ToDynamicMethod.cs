@@ -97,9 +97,9 @@ namespace Mono.Cecil.Fluent
 				else if (instruction.Operand is MethodReference)
 				{
 					var operand = TypeLoader.Instance.Load((MethodReference) instruction.Operand);
-					ilgen.Emit(opcode, operand);
 					if (operand == null)
 						throw new InvalidOperationException($"can not find operand method {instruction.Operand} in current appdomain"); // ncrunch: no coverage
+					ilgen.Emit(opcode, operand);
 				}
 				else if (instruction.Operand is FieldReference)
 				{

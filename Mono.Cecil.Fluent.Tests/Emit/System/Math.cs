@@ -486,14 +486,14 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 			.Compile<Func<double>>()
 			 ().Should().Equal(Math.Truncate(100d));
 
-		// todo: fix #9
+  //      //todo: fix #9
 		//It should_return_truncatedecimal = () =>
-		//	CreateStaticMethod()
+  //          CreateStaticMethod()
 		//	.Returns<double>()
-		//		.Ldc((decimal)100d)
+		//		.Ldc((decimal)100.51d)
 		//		.System.Math.TruncateDecimal()
 		//		.Ret()
-		//	.Compile<Func<double>>()
-		//	 ().Should().Equal(Math.Truncate((decimal)100d));
+		//	.Compile<Func<decimal>>()
+		//	 ().Should().Equal(Math.Truncate((decimal)100.51d));
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using Machine.Specifications;
 using Mono.Cecil.Fluent.Analyzer;
@@ -9,8 +10,37 @@ using Mono.Cecil.Fluent.Analyzer;
 namespace Mono.Cecil.Fluent.Tests.Analyzer
 {
 	public class FluentMethodBody_StackValidation : TestsBase
-	{
-		It should_validate_all_methods_of_types_in_system_namespace = () =>
+    {
+        It should_disable_stack_validation = () =>
+            CreateStaticMethod()
+            .ReturnsVoid()
+                .DisableStackValidationOnEmit()
+                .Pop()
+                .Ret();
+
+        private It should_enable_stack_validation = () =>
+        {
+            var exceptionThrown = false;
+
+            try
+            {
+                CreateStaticMethod()
+                    .ReturnsVoid()
+                    .DisableStackValidationOnEmit()
+                    .EnableStackValidationOnEmit()
+                    .Pop()
+                    .Ret();
+            } //ncrunch: no coverage
+            catch
+            {
+                exceptionThrown = true;
+            }
+
+            if(!exceptionThrown)
+                throw new Exception(); //ncrunch: no coverage
+        };
+
+        It should_validate_all_methods_of_types_in_system_namespace = () =>
 		{
 			foreach (var method in typeof(string).Assembly.GetTypes().Where(t => t.Namespace == "System")
 				.SelectMany(t => t.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)))

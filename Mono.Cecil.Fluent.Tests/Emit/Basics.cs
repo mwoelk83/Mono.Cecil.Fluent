@@ -11,13 +11,6 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		It should_disable_stack_validation = () =>
-			CreateStaticMethod()
-			.ReturnsVoid()
-				.DisableStackValidationOnEmit()
-				.Pop()
-				.Ret();
-
 		It should_dup_value = () =>
 			CreateStaticMethod()
 				.Returns<int>()
