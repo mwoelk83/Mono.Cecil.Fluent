@@ -21,6 +21,7 @@ using System.Text;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
+// ReSharper disable CheckNamespace
 namespace ICSharpCode.Decompiler.Disassembler
 {
 	internal enum IlNameSyntax
@@ -321,20 +322,14 @@ namespace ICSharpCode.Decompiler.Disassembler
 			var variableRef = operand as VariableReference;
 			if (variableRef != null)
 			{
-				if (string.IsNullOrEmpty(variableRef.Name))
-					writer.Write(variableRef.Index.ToString());
-				else
-					writer.Write(Escape(variableRef.Name));
-				return;
+			    writer.Write(string.IsNullOrEmpty(variableRef.Name) ? variableRef.Index.ToString() : Escape(variableRef.Name));
+			    return;
 			}
 			var paramRef = operand as ParameterReference;
 			if (paramRef != null)
 			{
-				if (string.IsNullOrEmpty(paramRef.Name))
-					writer.Write(paramRef.Index.ToString());
-				else
-					writer.Write(Escape(paramRef.Name));
-				return;
+			    writer.Write(string.IsNullOrEmpty(paramRef.Name) ? paramRef.Index.ToString() : Escape(paramRef.Name));
+			    return;
 			}
 			var methodRef = operand as MethodReference;
 			if (methodRef != null)
@@ -476,12 +471,8 @@ namespace ICSharpCode.Decompiler.Disassembler
 		{
 			var stringBuilder = new StringBuilder();
 			foreach (var ch in str)
-			{
-				if ((int)ch == 34)
-					stringBuilder.Append("\\\"");
-				else
-					stringBuilder.Append(ConvertChar(ch));
-			}
+			    stringBuilder.Append((int) ch == 34 ? "\\\"" : ConvertChar(ch));
+
 			return stringBuilder.ToString();
 		}
 		

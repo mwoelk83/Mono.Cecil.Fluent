@@ -43,21 +43,21 @@ namespace Mono.Cecil.Fluent.Analyzer
 			};
 		}
 
-		/// <summary>
-		/// Get the number of values removed on the stack for this instruction.
-		/// </summary>
-		/// <param name="self">The Instruction on which the extension method can be called.</param>
-		/// <param name="method">The method inside which the instruction comes from 
-		/// (needed for StackBehaviour.Varpop).</param>
-		/// <returns>The number of value removed (pop) from the stack for this instruction.</returns>
-		public static int GetPopCount(this Instruction self, MethodReference method, int currentstacksize = 0)
+        /// <summary>
+        /// Get the number of values removed on the stack for this instruction.
+        /// </summary>
+        /// <param name="self">The Instruction on which the extension method can be called.</param>
+        /// <param name="method">The method inside which the instruction comes from (needed for StackBehaviour.Varpop).</param>
+        /// <param name="currentstacksize">This method returns this value when stack behaviour is StackBehaviour.PopAll.</param>
+        /// <returns>The number of values removed (pop) from the stack for this instruction.</returns>
+        public static int GetPopCount(this Instruction self, MethodReference method, int currentstacksize = 0)
 		{
 			if (self == null)
-				throw new ArgumentException("self");
-			if (method == null)
-				throw new ArgumentException("method");
+				throw new ArgumentException("self"); // ncrunch: no coverage
+            if (method == null)
+				throw new ArgumentException("method"); // ncrunch: no coverage
 
-			var sbp = self.OpCode.StackBehaviourPop;
+            var sbp = self.OpCode.StackBehaviourPop;
 
 			if (sbp != StackBehaviour.Varpop)
 				return sbp != StackBehaviour.PopAll ? StackBehaviourCache[(int)sbp] : currentstacksize;
@@ -69,12 +69,11 @@ namespace Mono.Cecil.Fluent.Analyzer
 
 			// avoid allocating empty ParameterDefinitionCollection
 			var n = calledMethod.HasParameters ? calledMethod.Parameters.Count : 0;
-			if (self.OpCode.Code != Code.Newobj)
-			{
-				if (calledMethod.HasThis)
-					n++;
-			}
-			return n;
+		    if (self.OpCode.Code == Code.Newobj)
+                return n;
+		    if (calledMethod.HasThis)
+		        n++;
+		    return n;
 		}
 
 		/// <summary>
@@ -85,7 +84,7 @@ namespace Mono.Cecil.Fluent.Analyzer
 		public static int GetPushCount(this Instruction self)
 		{
 			if (self == null)
-				throw new ArgumentException("self");
+				throw new ArgumentNullException(nameof(self)); // ncrunch: no coverage
 
 			var stackbehaviourpush = self.OpCode.StackBehaviourPush;
 

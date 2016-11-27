@@ -89,19 +89,9 @@ namespace Mono.Cecil.Fluent
 			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, Type arg)
+		public FluentMethodBody Emit(OpCode opcode, SystemTypeOrTypeReference arg)
 		{
-			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
-		}
-
-		public FluentMethodBody Emit(OpCode opcode, TypeInfo arg)
-		{
-			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
-		}
-
-		public FluentMethodBody Emit(OpCode opcode, TypeReference arg)
-		{
-			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
+			return Emit(Instruction.Create(opcode, arg.GetTypeReference(Module)));
 		}
 
 		public FluentMethodBody Emit(OpCode opcode, FieldReference arg)

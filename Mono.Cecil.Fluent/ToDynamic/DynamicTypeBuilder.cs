@@ -3,21 +3,17 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
-using Mono.Cecil;
-using Mono.Cecil.Fluent;
-using FieldAttributes = System.Reflection.FieldAttributes;
-using MethodAttributes = System.Reflection.MethodAttributes;
-using TypeAttributes = System.Reflection.TypeAttributes;
 
-namespace FluentIL.Infos
+// ReSharper disable once CheckNamespace
+namespace Mono.Cecil.Fluent
 {
 	internal class DynamicTypeBuilder
 	{
-		private TypeDefinition type;
+		private readonly TypeDefinition _type;
 
 		internal DynamicTypeBuilder(TypeDefinition type)
 		{
-			this.type = type;
+			_type = type;
 		}
 
 		/// <summary>
@@ -29,47 +25,47 @@ namespace FluentIL.Infos
 			var interfaces = new List<Type>();
 			var importer = TypeLoader.Instance;
 
-			if (type.BaseType != null)
+			if (_type.BaseType != null)
 			{
-				parent = importer.Load(type.BaseType);
+				parent = importer.Load(_type.BaseType);
 				if (parent == null)
-					throw new Exception($"can not resolve base type '{type.BaseType.FullName}' in current app domain");
+					throw new Exception($"can not resolve base type '{_type.BaseType.FullName}' in current app domain"); // ncrunch: no coverage
 			}
-			if (type.Interfaces.Count != 0)
+			if (_type.Interfaces.Count != 0)
 			{
-				foreach (var @interface in type.Interfaces)
+				foreach (var @interface in _type.Interfaces)
 				{
 					var iface = importer.Load(@interface);
 					if (iface == null)
-						throw new Exception($"can not resolve interface type '{iface}' in current app domain");
-					interfaces.Add(iface);
+						throw new Exception($"can not resolve interface type '{@interface.FullName}' in current app domain"); // ncrunch: no coverage
+                    interfaces.Add(iface);
 				}
 			}
 
-			var typebuilder = CreateTypeBuilder(type.Name, (TypeAttributes) type.Attributes, parent, interfaces);
+			var typebuilder = CreateTypeBuilder(_type.Name, (System.Reflection.TypeAttributes) _type.Attributes, parent, interfaces);
 
-			foreach (var field in type.Fields)
+			foreach (var field in _type.Fields)
 			{
 				var fieldtype = importer.Load(field.FieldType);
 				if (fieldtype == null)
-					throw new Exception($"can not resolve type '{field.FieldType.FullName}' for field '{field.Name}' in current app domain");
-				typebuilder.DefineField(field.Name, fieldtype, (FieldAttributes) field.Attributes);
+					throw new Exception($"can not resolve type '{field.FieldType.FullName}' for field '{field.Name}' in current app domain"); // ncrunch: no coverage
+                typebuilder.DefineField(field.Name, fieldtype, (System.Reflection.FieldAttributes) field.Attributes);
 			}
 
-			foreach (var method in type.Methods)
+			foreach (var method in _type.Methods)
 			{
 				var returntype = importer.Load(method.ReturnType);
 				if (returntype == null)
-					throw new Exception($"can not resolve type '{method.ReturnType.FullName}' for method '{method.Name}' in current app domain");
-				var paramtypes = new List<Type>();
+					throw new Exception($"can not resolve type '{method.ReturnType.FullName}' for method '{method.Name}' in current app domain"); // ncrunch: no coverage
+                var paramtypes = new List<Type>();
 				foreach (var param in method.Parameters)
 				{
 					var t = importer.Load(param.ParameterType);
 					if (t == null)
-						throw new Exception($"can not resolve type '{method.ReturnType.FullName}' for method '{method.Name}' parameter '{param.Name}' in current app domain");
-					paramtypes.Add(t);
+						throw new Exception($"can not resolve type '{method.ReturnType.FullName}' for method '{method.Name}' parameter '{param.Name}' in current app domain"); // ncrunch: no coverage
+                    paramtypes.Add(t);
 				}
-				var mb = typebuilder.DefineMethod(method.Name, (MethodAttributes) method.Attributes, returntype, paramtypes.ToArray());
+				var mb = typebuilder.DefineMethod(method.Name, (System.Reflection.MethodAttributes) method.Attributes, returntype, paramtypes.ToArray());
 				var body = new FluentMethodBody(method);
 				body.ToDynamicMethod(typebuilder, mb);
 			}
@@ -77,7 +73,7 @@ namespace FluentIL.Infos
 			return typebuilder.CreateType();
 		}
 
-		private TypeBuilder CreateTypeBuilder(string name, TypeAttributes attributes, Type parent, List<Type> interfaces )
+		private TypeBuilder CreateTypeBuilder(string name, System.Reflection.TypeAttributes attributes, Type parent, List<Type> interfaces )
 		{
 			var assemblyName = new AssemblyName(
 				$"__assembly__{DateTime.Now.Millisecond}"

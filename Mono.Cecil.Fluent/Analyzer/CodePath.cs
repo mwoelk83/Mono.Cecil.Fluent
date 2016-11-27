@@ -64,10 +64,7 @@ namespace Mono.Cecil.Fluent.Analyzer
 			EndInstruction = end;
 			MethodBody = body;
 			Next = next;
-			if (alternative == null)
-				Alternatives = new Instruction[0];
-			else
-				Alternatives = new[] { alternative };
+			Alternatives = alternative == null ? new Instruction[0] : new[] { alternative };
 		}
 
 		internal CodePath(Instruction start, Instruction end, Instruction next, Instruction[] alternatives, MethodBody body)

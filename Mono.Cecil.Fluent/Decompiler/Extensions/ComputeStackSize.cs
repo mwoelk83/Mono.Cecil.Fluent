@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using Mono.Cecil.Cil;
 
+// ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
 	public static partial class MethodBodyExtensions
 	{
 		public static int ComputeMaxStackSize(this MethodBody body)
 		{
-			var stack_size = 0;
-			var max_stack = 0;
-			var stack_sizes = new Dictionary<Instruction, int>();
+			var stackSize = 0;
+			var maxStack = 0;
+			var stackSizes = new Dictionary<Instruction, int>();
 
 			if (body.HasExceptionHandlers)
 			{
@@ -19,29 +20,30 @@ namespace Mono.Cecil.Fluent
 						continue;
 					
 					if (eh.HandlerStart != null)
-						stack_sizes[eh.HandlerStart] = 1;
+						stackSizes[eh.HandlerStart] = 1;
 					if (eh.FilterStart != null && eh.HandlerType == ExceptionHandlerType.Filter)
-						stack_sizes[eh.FilterStart] = 1;
+						stackSizes[eh.FilterStart] = 1;
 				}
 			}
 			
 			foreach (var instruction in body.Instructions)
 			{
-				int computed_size;
-				if (stack_sizes != null && stack_sizes.TryGetValue(instruction, out computed_size))
-					stack_size = computed_size;
-				max_stack = System.Math.Max(max_stack, stack_size);
-				ComputeStackDelta(instruction, ref stack_size);
-				max_stack = System.Math.Max(max_stack, stack_size);
-				CopyBranchStackSize(instruction, ref stack_sizes, stack_size);
-				ComputeStackSize(instruction, ref stack_size);
+				int computedSize;
+				if (stackSizes != null && stackSizes.TryGetValue(instruction, out computedSize))
+					stackSize = computedSize;
+				maxStack = System.Math.Max(maxStack, stackSize);
+				ComputeStackDelta(instruction, ref stackSize);
+				maxStack = System.Math.Max(maxStack, stackSize);
+				CopyBranchStackSize(instruction, ref stackSizes, stackSize);
+				ComputeStackSize(instruction, ref stackSize);
 			}
 
-			return max_stack;
+			return maxStack;
 		}
 
-		internal static void ComputeStackDelta(Instruction instruction, ref int stack_size, bool addpush = true)
+		internal static void ComputeStackDelta(Instruction instruction, ref int stackSize, bool addpush = true)
 		{
+		    // ReSharper disable once SwitchStatementMissingSomeCases
 			switch (instruction.OpCode.FlowControl)
 			{
 				case FlowControl.Call:
@@ -49,54 +51,56 @@ namespace Mono.Cecil.Fluent
 						var method = (IMethodSignature)instruction.Operand;
 						// pop 'this' argument
 						if (method.HasImplicitThis() && instruction.OpCode.Code != Code.Newobj)
-							stack_size--;
+							stackSize--;
 						// pop normal arguments
 						if (method.HasParameters)
-							stack_size -= method.Parameters.Count;
+							stackSize -= method.Parameters.Count;
 						// pop function pointer
 						if (instruction.OpCode.Code == Code.Calli)
-							stack_size--;
+							stackSize--;
 						// push return value
 						if (!method.ReturnType.IsVoid() || instruction.OpCode.Code == Code.Newobj)
 							if(addpush)
-								stack_size++;
+								stackSize++;
 						break;
 					}
 				default:
-					ComputePopDelta(instruction.OpCode.StackBehaviourPop, ref stack_size);
+					ComputePopDelta(instruction.OpCode.StackBehaviourPop, ref stackSize);
 					if(addpush)
-						ComputePushDelta(instruction.OpCode.StackBehaviourPush, ref stack_size);
+						ComputePushDelta(instruction.OpCode.StackBehaviourPush, ref stackSize);
 					break;
 			}
 		}
 
-		private static void CopyBranchStackSize(Instruction instruction, ref Dictionary<Instruction, int> stack_sizes, int stack_size)
+		private static void CopyBranchStackSize(Instruction instruction, ref Dictionary<Instruction, int> stackSizes, int stackSize)
 		{
-			if (stack_size == 0)
+			if (stackSize == 0)
 				return;
+
+		    // ReSharper disable once SwitchStatementMissingSomeCases
 			switch (instruction.OpCode.OperandType)
 			{
 				case OperandType.ShortInlineBrTarget:
 				case OperandType.InlineBrTarget:
-					CopyBranchStackSize(ref stack_sizes, (Instruction)instruction.Operand, stack_size);
+					CopyBranchStackSize(ref stackSizes, (Instruction)instruction.Operand, stackSize);
 					break;
 				case OperandType.InlineSwitch:
 					var targets = (Instruction[])instruction.Operand;
 					foreach (var t in targets)
-						CopyBranchStackSize(ref stack_sizes, t, stack_size);
+						CopyBranchStackSize(ref stackSizes, t, stackSize);
 					break;
 			}
 		}
 
-		private static void CopyBranchStackSize(ref Dictionary<Instruction, int> stack_sizes, Instruction target, int stack_size)
+		private static void CopyBranchStackSize(ref Dictionary<Instruction, int> stackSizes, Instruction target, int stackSize)
 		{
-			if (stack_sizes == null)
-				stack_sizes = new Dictionary<Instruction, int>(); // ncrunch: no coverage
-            var branch_stack_size = stack_size;
-			int computed_size;
-			if (stack_sizes.TryGetValue(target, out computed_size))
-				branch_stack_size = System.Math.Max(branch_stack_size, computed_size);
-			stack_sizes[target] = branch_stack_size;
+			if (stackSizes == null)
+				stackSizes = new Dictionary<Instruction, int>(); // ncrunch: no coverage
+            var branchStackSize = stackSize;
+			int computedSize;
+			if (stackSizes.TryGetValue(target, out computedSize))
+				branchStackSize = System.Math.Max(branchStackSize, computedSize);
+			stackSizes[target] = branchStackSize;
 		}
 
 		private static void ComputeStackSize(Instruction instruction, ref int stack_size)
@@ -108,14 +112,15 @@ namespace Mono.Cecil.Fluent
 			}
 		}
 
-		private static void ComputePopDelta(StackBehaviour pop_behavior, ref int stack_size)
+		private static void ComputePopDelta(StackBehaviour popBehavior, ref int stackSize)
 		{
-			switch (pop_behavior)
+		    // ReSharper disable once SwitchStatementMissingSomeCases
+			switch (popBehavior)
 			{
 				case StackBehaviour.Popi:
 				case StackBehaviour.Popref:
 				case StackBehaviour.Pop1:
-					stack_size--;
+					stackSize--;
 					break;
 				case StackBehaviour.Pop1_pop1:
 				case StackBehaviour.Popi_pop1:
@@ -125,7 +130,7 @@ namespace Mono.Cecil.Fluent
 				case StackBehaviour.Popi_popr8:
 				case StackBehaviour.Popref_pop1:
 				case StackBehaviour.Popref_popi:
-					stack_size -= 2;
+					stackSize -= 2;
 					break;
 				case StackBehaviour.Popi_popi_popi:
 				case StackBehaviour.Popref_popi_popi:
@@ -133,17 +138,18 @@ namespace Mono.Cecil.Fluent
 				case StackBehaviour.Popref_popi_popr4:
 				case StackBehaviour.Popref_popi_popr8:
 				case StackBehaviour.Popref_popi_popref:
-					stack_size -= 3;
+					stackSize -= 3;
 					break;
 				case StackBehaviour.PopAll:
-					stack_size = 0;
+					stackSize = 0;
 					break;
 			}
 		}
 
-		private static void ComputePushDelta(StackBehaviour push_behaviour, ref int stack_size)
-		{
-			switch (push_behaviour)
+		private static void ComputePushDelta(StackBehaviour pushBehaviour, ref int stackSize)
+        {
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (pushBehaviour)
 			{
 				case StackBehaviour.Push1:
 				case StackBehaviour.Pushi:
@@ -151,10 +157,10 @@ namespace Mono.Cecil.Fluent
 				case StackBehaviour.Pushr4:
 				case StackBehaviour.Pushr8:
 				case StackBehaviour.Pushref:
-					stack_size++;
+					stackSize++;
 					break;
 				case StackBehaviour.Push1_push1:
-					stack_size += 2;
+					stackSize += 2;
 					break;
 			}
 		}

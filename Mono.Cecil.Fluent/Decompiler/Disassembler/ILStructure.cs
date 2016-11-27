@@ -22,6 +22,7 @@ using System.Linq;
 using ICSharpCode.Decompiler.FlowAnalysis;
 using Mono.Cecil.Cil;
 
+// ReSharper disable CheckNamespace
 namespace ICSharpCode.Decompiler.Disassembler
 {
 	internal enum IlStructureType
@@ -59,7 +60,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 			// We go through the branches in reverse so that we find the biggest possible loop boundary first (think loops with "continue;")
 			for (var i = allBranches.Count - 1; i >= 0; i--)
 			{
-				var loopEnd = allBranches[i].Key.Offset + allBranches[i].Key.GetSize(); ;
+				var loopEnd = allBranches[i].Key.Offset + allBranches[i].Key.GetSize();
 				var loopStart = allBranches[i].Value.Offset;
 
 				if (loopStart >= loopEnd)
@@ -160,6 +161,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 			var result = new List<KeyValuePair<Instruction, Instruction>>();
 			foreach (var inst in body.Instructions)
 			{
+			    // ReSharper disable once SwitchStatementMissingSomeCases
 				switch (inst.OpCode.OperandType)
 				{
 					case OperandType.InlineBrTarget:

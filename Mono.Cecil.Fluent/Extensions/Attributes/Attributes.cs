@@ -2,8 +2,8 @@
 // see extensions SetAttribute(s)<TAttr[,TAttr1[TAttr2[,Tattr3[,..]]]]>
 
 // ReSharper disable InconsistentNaming
-// ReSharper disable once CheckNamespace
 
+// ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent.Attributes
 {
 	public struct FieldAccessMask : IFieldAttribute

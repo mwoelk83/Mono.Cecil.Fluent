@@ -45,49 +45,51 @@ namespace Mono.Cecil.Fluent.Analyzer
 
 		private static Dictionary<Instruction, CodePath> GetCodePaths(MethodBody body, HashSet<Instruction> jumptargets)
 		{
-			var CodePaths = new Dictionary<Instruction, CodePath>();
+			var codePaths = new Dictionary<Instruction, CodePath>();
 
 			if (body.Instructions.Count == 0)
-				return CodePaths;
+				return codePaths; // ncrunch: no coverage
 
-			var current = body.Instructions[0];
+            var current = body.Instructions[0];
 			var pathstart = current;
 
 			do
 			{
 				var flowcontrol = current.OpCode.FlowControl;
+
+			    // ReSharper disable once SwitchStatementMissingSomeCases
 				switch (flowcontrol)
 				{
 					case FlowControl.Branch:
-						CodePaths.Add(pathstart, new CodePath(pathstart, current, (Instruction)current.Operand, (Instruction)null, body));
+						codePaths.Add(pathstart, new CodePath(pathstart, current, (Instruction)current.Operand, (Instruction)null, body));
 						pathstart = current.Next;
 						break;
 					case FlowControl.Cond_Branch:
-						if (current.OpCode.OperandType == OperandType.InlineSwitch)
-							CodePaths.Add(pathstart, new CodePath(pathstart, current, current.Next, (Instruction[])current.Operand, body));
-						else
-							CodePaths.Add(pathstart, new CodePath(pathstart, current, (Instruction)current.Operand, current.Next, body));
-						pathstart = current.Next;
+				        codePaths.Add(pathstart,
+				            current.OpCode.OperandType == OperandType.InlineSwitch
+				                ? new CodePath(pathstart, current, current.Next, (Instruction[]) current.Operand, body)
+				                : new CodePath(pathstart, current, (Instruction) current.Operand, current.Next, body));
+				        pathstart = current.Next;
 						break;
 					case FlowControl.Return:
 					case FlowControl.Throw:
-						CodePaths.Add(pathstart, new CodePath(pathstart, current, current.Next, (Instruction)null, body));
+						codePaths.Add(pathstart, new CodePath(pathstart, current, current.Next, (Instruction)null, body));
 						pathstart = current.Next;
 						break;
 					default:
 						if (jumptargets.Contains(current.Next))
 						{
-							CodePaths.Add(pathstart, new CodePath(pathstart, current, current.Next, (Instruction)null, body));
+							codePaths.Add(pathstart, new CodePath(pathstart, current, current.Next, (Instruction)null, body));
 							pathstart = current.Next;
 						}
 						else if (current.Next == null)
-							CodePaths.Add(pathstart, new CodePath(pathstart, current, null, current.Operand as Instruction, body));
+							codePaths.Add(pathstart, new CodePath(pathstart, current, null, current.Operand as Instruction, body));
 						break;
 				}
 				current = current.Next;
 			} while (current != null);
 
-			return CodePaths;
+			return codePaths;
 		}
 
 		private static HashSet<Instruction> GetJumpTargets(MethodBody body)
@@ -95,7 +97,7 @@ namespace Mono.Cecil.Fluent.Analyzer
 			var jumptargets = new HashSet<Instruction>();
 
 			if (body.Instructions.Count == 0)
-				return jumptargets;
+				return jumptargets; // ncrunch: no coverage
 
 			var current = body.Instructions[0];
 			jumptargets.Add(current);

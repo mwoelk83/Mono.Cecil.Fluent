@@ -18,6 +18,7 @@
 
 using System.IO;
 
+// ReSharper disable CheckNamespace
 namespace ICSharpCode.Decompiler
 {
 	internal sealed class PlainTextOutput
@@ -48,14 +49,12 @@ namespace ICSharpCode.Decompiler
 
 		private void WriteIndent()
 		{
-			if (_needsIndent)
-			{
-				_needsIndent = false;
-				for (var i = 0; i < _indent; i++)
-				{
-					_writer.Write('\t');
-				}
-			}
+		    if (!_needsIndent)
+                return;
+
+		    _needsIndent = false;
+		    for (var i = 0; i < _indent; i++)
+		        _writer.Write('\t');
 		}
 
 		public void Write(char ch)

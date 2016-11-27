@@ -4,12 +4,7 @@ namespace Mono.Cecil.Fluent
 {
 	public static partial class MethodDefinitionExtensions
 	{
-		public static FluentMethodBody WithParameter(this MethodDefinition method, TypeReference paramType, string name = null)
-		{
-			return new FluentMethodBody(method).WithParameter(paramType, name);
-		}
-
-		public static FluentMethodBody WithParameter(this MethodDefinition method, Type paramType, string name = null)
+		public static FluentMethodBody WithParameter(this MethodDefinition method, SystemTypeOrTypeReference paramType, string name = null)
 		{
 			return new FluentMethodBody(method).WithParameter(paramType, name);
 		}
@@ -27,18 +22,9 @@ namespace Mono.Cecil.Fluent
 
 	public static partial class FluentMethodBodyExtensions
 	{
-		public static FluentMethodBody WithParameter(this FluentMethodBody method, TypeReference paramType, string name = null)
+		public static FluentMethodBody WithParameter(this FluentMethodBody method, SystemTypeOrTypeReference paramType, string name = null)
 		{
-			var param = new ParameterDefinition(method.Module.SafeImport(paramType));
-			if (!string.IsNullOrEmpty(name))
-				param.Name = name;
-			method.Parameters.Add(param);
-			return method;
-		}
-
-		public static FluentMethodBody WithParameter(this FluentMethodBody method, Type paramType, string name = null)
-		{
-			var param = new ParameterDefinition(method.Module.SafeImport(paramType));
+			var param = new ParameterDefinition(paramType.GetTypeReference(method.GetModule()));
 			if (!string.IsNullOrEmpty(name))
 				param.Name = name;
 			method.Parameters.Add(param);

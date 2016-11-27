@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Mono.Cecil.Cil;
 
+// ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	class IfBlock
+    internal class IfBlock
 	{
 		public Instruction StartInstruction;
-		public bool IsDoublePop = false;
+		public bool IsDoublePop;
 		public OpCode OpCode;
 	}
 
 	partial class FluentMethodBody
 	{
-		internal Stack<IfBlock> IfBlocks = new Stack<IfBlock>();
+		internal readonly Stack<IfBlock> IfBlocks = new Stack<IfBlock>();
 
 		public FluentMethodBody IfTrue()
 		{

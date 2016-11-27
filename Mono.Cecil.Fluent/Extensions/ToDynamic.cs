@@ -1,5 +1,4 @@
 ﻿using System;
-using FluentIL.Infos;
 
 namespace Mono.Cecil.Fluent
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mono.Cecil.Cil;
 
+// ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody

@@ -8,8 +8,8 @@ namespace Mono.Cecil.Fluent.Utils
 		public static class Name
 		{
 			// ncrunch: no coverage start
-			private static readonly Random _rnd = new Random();
-			private static readonly object _syncRoot = new object();
+			private static readonly Random Rnd = new Random();
+			private static readonly object SyncRoot = new object();
 			private static readonly HashSet<string> UsedClassNames = new HashSet<string>();
 			private static readonly HashSet<string> UsedMethodNames = new HashSet<string>();
 
@@ -19,29 +19,31 @@ namespace Mono.Cecil.Fluent.Utils
 
 			public static string ForMethod()
 			{
+                // todo: echeck if method name exists in class
 				return GenereateInternal(UsedMethodNames);
 			}
 
 			public static string ForClass()
 			{
+                // todo: check if class name exists in namespace
 				return GenereateInternal(UsedClassNames);
 			}
 			
-			private static string GenereateInternal(HashSet<string> used)
+			private static string GenereateInternal(ISet<string> used)
 			{
 				var ret = "";
-				ret += IdentifierFirstLetterChars[_rnd.Next(0, IdentifierFirstLetterChars.Length - 1)];
-				ret += IdentifierChars[_rnd.Next(0, IdentifierChars.Length - 1)];
+				ret += IdentifierFirstLetterChars[Rnd.Next(0, IdentifierFirstLetterChars.Length - 1)];
+				ret += IdentifierChars[Rnd.Next(0, IdentifierChars.Length - 1)];
 
 				while (true)
 				{
 					if (ret.Length > 16)
 						ret = ret.Substring(0, 2); // ncrunch: no coverage
 
-					ret += IdentifierChars[_rnd.Next(0, IdentifierChars.Length - 1)];
-					ret += IdentifierChars[_rnd.Next(0, IdentifierChars.Length - 1)];
+					ret += IdentifierChars[Rnd.Next(0, IdentifierChars.Length - 1)];
+					ret += IdentifierChars[Rnd.Next(0, IdentifierChars.Length - 1)];
 
-					lock (_syncRoot)
+					lock (SyncRoot)
 					{
 						if (used.Contains(ret))
 							continue; // ncrunch: no coverage

@@ -13,14 +13,14 @@ namespace Mono.Cecil.Fluent
         internal SystemTypeOrTypeReference(Type t)
         {
             if (t == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(); // ncrunch: no coverage
             _type = t;
         }
 
         internal SystemTypeOrTypeReference(TypeReference t)
         {
             if(t == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(); // ncrunch: no coverage
             _type = t;
         }
 

@@ -1,4 +1,5 @@
 ﻿
+ // ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
 	internal enum ILType : byte { Object, String, ValueType, I4, I8, R4, R8 }

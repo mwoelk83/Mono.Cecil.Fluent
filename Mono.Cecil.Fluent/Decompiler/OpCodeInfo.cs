@@ -22,6 +22,7 @@ using System.Linq;
 
 using Mono.Cecil.Cil;
 
+// ReSharper disable CheckNamespace
 namespace ICSharpCode.Decompiler.FlowAnalysis
 {
 	internal sealed class OpCodeInfo
@@ -47,7 +48,7 @@ namespace ICSharpCode.Decompiler.FlowAnalysis
 			//ncrunch: no coverage end
 		}
 
-		private static readonly OpCodeInfo[] knownOpCodes = {
+		private static readonly OpCodeInfo[] KnownOpCodes = {
 			#region Base Instructions
 			new OpCodeInfo(OpCodes.Add)        { CanThrow = false },
 			new OpCodeInfo(OpCodes.Add_Ovf)    { CanThrow = true  },
@@ -274,19 +275,17 @@ namespace ICSharpCode.Decompiler.FlowAnalysis
 			#endregion
 		};
 
-		private static readonly Dictionary<Code, OpCodeInfo> knownOpCodeDict = knownOpCodes.ToDictionary(info => info.OpCode.Code);
-		
-		private OpCode opcode;
+		private static readonly Dictionary<Code, OpCodeInfo> KnownOpCodeDict = KnownOpCodes.ToDictionary(info => info.OpCode.Code);
 
-		private OpCodeInfo(OpCode opcode)
+	    private OpCodeInfo(OpCode opcode)
 		{
-			this.opcode = opcode;
+			OpCode = opcode;
 			CanThrow = true;
 		}
 
-		public OpCode OpCode => opcode;
+		public OpCode OpCode { get; }
 
-		/// <summary>
+	    /// <summary>
 		/// 'Move' kind of instructions have one input (may be stack or local variable) and copy that value to all outputs (again stack or local variable).
 		/// </summary>
 		public bool IsMoveInstruction { get; private set; }

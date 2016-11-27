@@ -4,7 +4,7 @@ namespace Mono.Cecil.Fluent
 	/// <summary>
 	/// Extensions to TypeReference
 	/// </summary>
-	public static class TypeReferenceExtensions
+	public static partial class TypeReferenceExtensions
 	{
 		public static bool Is<T>(this TypeReference that)
 		{
@@ -22,7 +22,7 @@ namespace Mono.Cecil.Fluent
 		{
 			if (a == null || b == null)
 				return (a == null) == (b == null);
-			return a.FullName == b.FullName;
+			return a.GetILType() == b.GetILType() && a.FullName == b.FullName;
 		}
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace Mono.Cecil.Fluent
 				return (a == null) == (b == null);
 			if (fullCompare && a.GenericParameters.Count != b.GenericParameters.Count)
 				return false;
-			return a.DeclaringType.FullName == b.DeclaringType.FullName && a.Name == b.Name;
+			return a.DeclaringType.GetILType() == b.DeclaringType.GetILType() && a.DeclaringType.FullName == b.DeclaringType.FullName && a.Name == b.Name;
 		}
 	}
 }

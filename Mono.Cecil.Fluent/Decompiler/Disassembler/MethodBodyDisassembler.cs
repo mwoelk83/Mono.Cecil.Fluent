@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Fluent;
 
+// ReSharper disable CheckNamespace
 namespace ICSharpCode.Decompiler.Disassembler
 {
 	/// <summary>
@@ -79,7 +80,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 			{
 				var inst = body.Instructions[0];
 				var branchTargets = GetBranchTargets(body.Instructions);
-				WriteStructureBody(new IlStructure(body, codesize), branchTargets, ref inst, codesize);
+				WriteStructureBody(new IlStructure(body, codesize), branchTargets, ref inst);
 			}
 			else
 			{
@@ -156,7 +157,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 			_o.Indent();
 		}
 
-		private void WriteStructureBody(IlStructure s, HashSet<int> branchTargets, ref Instruction inst, int codeSize)
+		private void WriteStructureBody(IlStructure s, HashSet<int> branchTargets, ref Instruction inst)
 		{
 			var isFirstInstructionInStructure = true;
 			var prevInstructionWasBranch = false;
@@ -168,7 +169,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 				{
 					var child = s.Children[childIndex++];
 					WriteStructureHeader(child);
-					WriteStructureBody(child, branchTargets, ref inst, codeSize);
+					WriteStructureBody(child, branchTargets, ref inst);
 					WriteStructureFooter(child);
 				}
 				else

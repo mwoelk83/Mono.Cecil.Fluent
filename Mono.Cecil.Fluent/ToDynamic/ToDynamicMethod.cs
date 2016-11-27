@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Mono.Cecil.Cil;
 
+// ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
 	partial class FluentMethodBody
@@ -14,7 +15,12 @@ namespace Mono.Cecil.Fluent
 			return ToDynamicMethod(null) as DynamicMethod;
 		}
 
-        public MethodInfo ToDynamicMethod(TypeBuilder declaringtype = null, MethodInfo method = null)
+	    public MethodInfo ToDynamicMethod(MethodInfo method)
+	    {
+	        return ToDynamicMethod(null, method);
+	    }
+
+	    public MethodInfo ToDynamicMethod(TypeBuilder declaringtype, MethodInfo method = null)
 		{
 			// todo: exception blocks, scopes ...
 			if(!MethodDefinition.IsStatic && declaringtype == null)
