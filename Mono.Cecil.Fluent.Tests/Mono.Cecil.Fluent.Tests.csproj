@@ -86,6 +86,7 @@
     <Compile Include="Disassembler\Property.cs" />
     <Compile Include="Disassembler\Type.cs" />
     <Compile Include="Emit\Branches.cs" />
+    <Compile Include="Emit\NewObj.cs" />
     <Compile Include="Emit\Parameters.cs" />
     <Compile Include="Analyzer\StackValidation.cs" />
     <Compile Include="Emit\System\Math.cs" />

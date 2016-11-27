@@ -73,7 +73,7 @@ namespace Mono.Cecil.Fluent
 		public FluentMethodBody Div(MagicNumberArgument divisor)
 		{
 			if (divisor.IsZero)
-				throw new DivideByZeroException(); //ncrunch: no coverage
+				throw new DivideByZeroException("this instruction will cause a DivideByZeroException"); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Div);
@@ -87,7 +87,7 @@ namespace Mono.Cecil.Fluent
 		public FluentMethodBody DivUn(MagicNumberArgument divisor)
 		{
 			if (divisor.IsZero)
-				throw new DivideByZeroException(); //ncrunch: no coverage
+				throw new DivideByZeroException("this instruction will cause a DivideByZeroException"); //ncrunch: no coverage
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Div_Un);

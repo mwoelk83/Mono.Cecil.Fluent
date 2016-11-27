@@ -92,11 +92,6 @@ namespace Mono.Cecil.Fluent
 		}
 		#endregion
 
-		private FluentMethodBody Call(MethodReference m)
-		{
-			return Emit(OpCodes.Call, m);
-		}
-
 		public FluentMethodBody Abs<T>() where T : struct, IConvertible
 		{
 			return Call(GetMathMethod<T>("Abs"));

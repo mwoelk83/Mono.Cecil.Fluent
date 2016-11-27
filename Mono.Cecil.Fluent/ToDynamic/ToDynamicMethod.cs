@@ -94,14 +94,21 @@ namespace Mono.Cecil.Fluent
 					ilgen.Emit(opcode, (long)instruction.Operand);
 				else if (instruction.Operand is string)
 					ilgen.Emit(opcode, (string)instruction.Operand);
-				else if (instruction.Operand is MethodReference)
+				else if (instruction.Operand is MethodReference && ((MethodReference)instruction.Operand).Name != ".ctor")
 				{
 					var operand = TypeLoader.Instance.Load((MethodReference) instruction.Operand);
 					if (operand == null)
 						throw new InvalidOperationException($"can not find operand method {instruction.Operand} in current appdomain"); // ncrunch: no coverage
 					ilgen.Emit(opcode, operand);
-				}
-				else if (instruction.Operand is FieldReference)
+                }
+                else if (instruction.Operand is MethodReference)
+                {
+                    var operand = TypeLoader.Instance.LoadConstructor((MethodReference)instruction.Operand);
+                    if (operand == null)
+                        throw new InvalidOperationException($"can not find operand method {instruction.Operand} in current appdomain"); // ncrunch: no coverage
+                    ilgen.Emit(opcode, operand);
+                }
+                else if (instruction.Operand is FieldReference)
 				{
 					var operand = TypeLoader.Instance.Load((FieldReference) instruction.Operand);
 					if (operand == null)

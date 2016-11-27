@@ -18,7 +18,7 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
                 .Pop()
                 .Ret();
 
-        private It should_enable_stack_validation = () =>
+        It should_enable_stack_validation = () =>
         {
             var exceptionThrown = false;
 
@@ -31,12 +31,9 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
                     .Pop()
                     .Ret();
             } //ncrunch: no coverage
-            catch
-            {
-                exceptionThrown = true;
-            }
+            catch { exceptionThrown = true; }
 
-            if(!exceptionThrown)
+            if (!exceptionThrown)
                 throw new Exception(); //ncrunch: no coverage
         };
 

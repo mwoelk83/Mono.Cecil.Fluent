@@ -71,6 +71,8 @@
     <Compile Include="Decompiler\Extensions\ComputeOffsets.cs" />
     <Compile Include="Decompiler\Extensions\ComputeStackSize.cs" />
     <Compile Include="Emit\Branches.cs" />
+    <Compile Include="Emit\Call.cs" />
+    <Compile Include="Emit\NewObj.cs" />
     <Compile Include="Emit\System\System.Math.cs" />
     <Compile Include="Emit\Parameters.cs" />
     <Compile Include="Emit\System\System.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Extensions\Misc.cs" />
     <Compile Include="Extensions\Returns.cs" />
     <Compile Include="Extensions\SafeEquals.cs" />
+    <Compile Include="Extensions\SystemTypeOrTypeReference.cs" />
     <Compile Include="Extensions\ToDynamic.cs" />
     <Compile Include="Extensions\UnsetAttribute.cs" />
     <Compile Include="Extensions\WithField.cs" />

@@ -52,9 +52,22 @@ public class TypeLoader
 	{
 		Type[] paramTypes = methodReference.Parameters.Select(p => Load(p.ParameterType)).ToArray();
 		if (paramTypes.Any(t => t == null))
-			return null;
-
-		return Load(methodReference.DeclaringType)?
+			return null; // ncrunch: no coverage
+        
+        return Load(methodReference.DeclaringType)?
 			.GetMethod(methodReference.Name, paramTypes);
-	}
+    }
+
+    public ConstructorInfo LoadConstructor(MethodReference methodReference)
+    {
+        if(methodReference.Name != ".ctor")
+            throw new Exception($"the method {methodReference.FullName} is not a constructor"); // ncrunch: no coverage
+
+        Type[] paramTypes = methodReference.Parameters.Select(p => Load(p.ParameterType)).ToArray();
+        if (paramTypes.Any(t => t == null))
+            return null; // ncrunch: no coverage
+
+        return Load(methodReference.DeclaringType)?
+            .GetConstructor(paramTypes);
+    }
 }
