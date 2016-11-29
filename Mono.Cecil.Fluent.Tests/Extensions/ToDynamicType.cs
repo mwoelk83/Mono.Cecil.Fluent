@@ -13,9 +13,9 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 		It should_invoke_instance_method_of_created_dynamic_type = () =>
 		{
 			var newtype = TestModule
-				.NewType()
+				.CreateType()
 				.WithField<string>("testfield1", FieldAttributes.FamANDAssem | FieldAttributes.Public)
-				.NewMethod<int>("newmethod")
+				.CreateMethod<int>("newmethod")
 				.SetAttributes<FamANDAssem, Public>()
 				.WithParameter<int>()
 					.LdParam(0)

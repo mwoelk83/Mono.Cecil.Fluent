@@ -20,7 +20,7 @@ namespace Mono.Cecil.Fluent.Tests.Disassembler
 			var prop = new PropertyDefinition(Generate.Name.ForMethod(), PropertyAttributes.None, TestModule.TypeSystem.Boolean);
 			TestType.Properties.Add(prop);
 			prop.DeclaringType = TestType;
-			prop.GetMethod = TestType.NewMethod("get_" + prop.Name)
+			prop.GetMethod = TestType.CreateMethod("get_" + prop.Name)
 				.Returns<bool>()
 				.Ldc(true)
 				.Ret()

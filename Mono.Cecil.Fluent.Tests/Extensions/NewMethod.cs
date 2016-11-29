@@ -14,47 +14,47 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 
 		It should_create_method_without_return_type = () => 
 			TestType
-			.NewMethod()
+			.CreateMethod()
 			.ReturnType.Should().Equal(TestModule.TypeSystem.Void);
 
 		It should_create_method_with_cecil_return_type = () =>
 			TestType
-			.NewMethod(null, TestType)
+			.CreateMethod(null, TestType)
 			.ReturnType.Should().Equal(TestType);
 
 		It should_create_method_with_system_return_type = () =>
 			TestType
-			.NewMethod(typeof (ArrayList))
+			.CreateMethod(typeof (ArrayList))
 			.ReturnType.Should().Equal<ArrayList>();
 
 		It should_create_named_method_with_system_return_type = () =>
 			TestType
-			.NewMethod("named_method1", typeof(ArrayList))
+			.CreateMethod("named_method1", typeof(ArrayList))
 			.Name.Should().Equal("named_method1");
 
 		It should_create_method_with_system_return_type_generic = () => 
 			TestType
-			.NewMethod<FileInfo>()
+			.CreateMethod<FileInfo>()
 			.ReturnType.Should().Equal<FileInfo>();
 
 		It should_create_named_method_with_system_return_type_generic = () =>
 			TestType
-			.NewMethod<FileInfo>("named_method2")
+			.CreateMethod<FileInfo>("named_method2")
 			.Name.Should().Equal("named_method2");
 
 		It should_create_method_with_name = () =>
 			TestType
-			.NewMethod("named_method3")
+			.CreateMethod("named_method3")
 			.Name.Should().Equal("named_method3");
 
 		It should_create_many_methods = () =>
 			TestType
-				.NewMethod()
-				.NewMethod()
-				.NewMethod()
-				.NewMethod()
-				.NewMethod()
-				.NewMethod()
+				.CreateMethod()
+				.CreateMethod()
+				.CreateMethod()
+				.CreateMethod()
+				.CreateMethod()
+				.CreateMethod()
 			.DeclaringType
 			.Methods.Count.Should().Be.GreaterThanOrEqualTo(6);
 	}

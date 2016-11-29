@@ -1,4 +1,5 @@
 ﻿using Machine.Specifications;
+using Mono.Cecil.Fluent.Attributes;
 using Mono.Cecil.Fluent.Utils;
 using Should.Fluent;
 
@@ -22,62 +23,62 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 
 		It should_unset_attributes_for_method = () =>
 			TestMethod
-				.SetAttributes(MethodAttributes.Abstract, MethodAttributes.Family, MethodAttributes.Final)
-				.MethodDefinition.UnsetAttributes(MethodAttributes.Abstract, MethodAttributes.Final)
+				.SetMethodAttributes(MethodAttributes.Abstract, MethodAttributes.Family, MethodAttributes.Final)
+				.MethodDefinition.UnsetMethodAttributes(MethodAttributes.Abstract, MethodAttributes.Final)
 				.Attributes.Should().Equal(MethodAttributes.Family);
 
 		It should_unset_attributes_for_type = () =>
 			TestType
-				.SetAttributes(TypeAttributes.Abstract, TypeAttributes.Class, TypeAttributes.AutoClass)
-				.UnsetAttributes(TypeAttributes.Class, TypeAttributes.AutoClass)
+				.SetTypeAttributes(TypeAttributes.Abstract, TypeAttributes.Class, TypeAttributes.AutoClass)
+				.UnsetTypeAttributes(TypeAttributes.Class, TypeAttributes.AutoClass)
 				.Attributes.Should().Equal(TypeAttributes.Abstract);
 
 		It should_unset_attributes_for_event = () =>
 			CreateEvent()
-				.SetAttributes(EventAttributes.SpecialName | EventAttributes.RTSpecialName)
-				.UnsetAttributes(EventAttributes.SpecialName | EventAttributes.RTSpecialName)
+				.SetEventAttributes(EventAttributes.SpecialName | EventAttributes.RTSpecialName)
+				.UnsetEventAttributes(EventAttributes.SpecialName | EventAttributes.RTSpecialName)
 				.Attributes.Should().Equal(EventAttributes.None);
 
 		It should_unset_attributes_for_property = () =>
 			CreateProperty()
-				.SetAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName | PropertyAttributes.HasDefault)
-				.UnsetAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName)
+				.SetPropertyAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName | PropertyAttributes.HasDefault)
+				.UnsetPropertyAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName)
 				.Attributes.Should().Equal(PropertyAttributes.HasDefault);
 
 		It should_unset_attributes_for_field = () =>
 			CreateField()
-				.SetAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
-				.UnsetAllAttributes()
+				.SetFieldAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
+				.UnsetAllFieldAttributes()
 				.Attributes.Should().Equal((FieldAttributes) 0);
 
 		It should_unset_all_attributes_for_field = () =>
 			CreateField()
-				.SetAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
-				.UnsetAttributes(FieldAttributes.Assembly | FieldAttributes.Family)
+				.SetFieldAttributes(FieldAttributes.Assembly | FieldAttributes.Family | FieldAttributes.HasDefault)
+				.UnsetFieldAttributes(FieldAttributes.Assembly | FieldAttributes.Family)
 				.Attributes.Should().Equal(FieldAttributes.HasDefault);
 
 		It should_unset_all_attributes_for_method = () =>
 			TestMethod
-				.SetAttributes(MethodAttributes.Abstract, MethodAttributes.Family, MethodAttributes.Final)
-				.MethodDefinition.UnsetAllAttributes()
+				.SetMethodAttributes(MethodAttributes.Abstract, MethodAttributes.Family, MethodAttributes.Final)
+				.MethodDefinition.UnsetAllMethodAttributes()
 				.Attributes.Should().Equal((MethodAttributes) 0);
 
 		It should_unset_all_attributes_for_type = () =>
 			TestType
-				.SetAttributes(TypeAttributes.Abstract, TypeAttributes.Class, TypeAttributes.AutoClass)
-				.UnsetAllAttributes()
+				.SetTypeAttributes(TypeAttributes.Abstract, TypeAttributes.Class, TypeAttributes.AutoClass)
+				.UnsetAllTypeAttributes()
 				.Attributes.Should().Equal((TypeAttributes) 0);
 
 		It should_unset_all_attributes_for_event = () =>
 			CreateEvent()
-				.SetAttributes(EventAttributes.SpecialName | EventAttributes.RTSpecialName)
-				.UnsetAllAttributes()
+				.SetEventAttributes(EventAttributes.SpecialName | EventAttributes.RTSpecialName)
+				.UnsetAllEventAttributes()
 				.Attributes.Should().Equal(EventAttributes.None);
 
 		It should_unset_all_attributes_for_property = () =>
 			CreateProperty()
-				.SetAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName | PropertyAttributes.HasDefault)
-				.UnsetAllAttributes()
+				.SetPropertyAttributes(PropertyAttributes.RTSpecialName | PropertyAttributes.SpecialName | PropertyAttributes.HasDefault)
+				.UnsetAllPropertyAttributes()
 				.Attributes.Should().Equal(PropertyAttributes.None);
 	}
 }

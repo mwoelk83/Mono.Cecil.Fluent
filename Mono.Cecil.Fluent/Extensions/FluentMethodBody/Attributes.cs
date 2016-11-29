@@ -1,19 +1,31 @@
-﻿using Mono.Cecil.Fluent.Attributes;
-
+﻿
 // ReSharper disable once CheckNamespace
-namespace Mono.Cecil.Fluent
+namespace Mono.Cecil.Fluent.Attributes
 {
-	namespace Attributes
-	{
-		public interface IMethodAttribute
-		{
-			MethodAttributes MethodAttributesValue { get; }
-		}
-	}
+    public interface IMethodAttribute
+    {
+        MethodAttributes MethodAttributesValue { get; }
+    }
 
-	public static partial class FluentMethodBodyExtensions
-	{
-		public static FluentMethodBody SetAttributes(this FluentMethodBody method, params MethodAttributes[] attributes)
+    public static partial class FluentMethodBodyExtensions
+    {
+        public static FluentMethodBody UnsetAttributes(this FluentMethodBody method, params MethodAttributes[] attributes)
+        {
+            foreach (var attribute in attributes)
+                method.Attributes &= ~attribute;
+            return method;
+        }
+        public static FluentMethodBody UnsetAllAttributes(this FluentMethodBody method)
+        {
+            method.Attributes = 0;
+            return method;
+        }
+    }
+
+    public static partial class FluentMethodBodyExtensions
+    {
+
+        public static FluentMethodBody SetAttributes(this FluentMethodBody method, params MethodAttributes[] attributes)
 		{
 			foreach (var attribute in attributes)
 				method.Attributes |= attribute;

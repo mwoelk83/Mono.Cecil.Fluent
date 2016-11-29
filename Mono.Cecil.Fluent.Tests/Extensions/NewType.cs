@@ -10,12 +10,12 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 	{
 		It should_create_type = () => 
 			TestModule
-			.NewType()
+			.CreateType()
 			.Should().Not.Be.Null();
 
 		It should_create_and_add_type_to_module = () => 
 			TestModule
-			.NewType()
+			.CreateType()
 			.Module.Should().Not.Be.Null();
 	}
 }

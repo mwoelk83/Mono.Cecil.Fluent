@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
+// ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
 	partial class ModuleDefinitionExtensions

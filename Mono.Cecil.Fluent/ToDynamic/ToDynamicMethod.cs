@@ -107,7 +107,7 @@ namespace Mono.Cecil.Fluent
 						throw new InvalidOperationException($"can not find operand method {instruction.Operand} in current appdomain"); // ncrunch: no coverage
 					ilgen.Emit(opcode, operand);
                 }
-                else if (instruction.Operand is MethodReference)
+                else if (instruction.Operand is MethodReference) // constructor
                 {
                     var operand = TypeLoader.Instance.LoadConstructor((MethodReference)instruction.Operand);
                     if (operand == null)
