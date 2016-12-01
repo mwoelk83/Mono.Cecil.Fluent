@@ -1,10 +1,10 @@
 License info for Mono.Cecil.Fluent (the program)
 
-Copyright (c) 2015 Marcus Wölk, Oberkochen, Germany
+Copyright (c) 2015-2016 Marcus WÃ¶lk, Ellefeld, Germany
 Source Code: https://github.com/mwoelk83/Mono.Cecil.Fluent
 
-Contributors: Marcus Wölk (mwoelk83), Elemar Rodrigues Severo Junior
-(ElmarJR), Márcio Fábio Althmann (marcioalthmann), Michael Yarichuk 
+Contributors: Marcus WÃ¶lk (mwoelk83), Elemar Rodrigues Severo Junior
+(ElmarJR), MÃ¡rcio FÃ¡bio Althmann (marcioalthmann), Michael Yarichuk 
 (myarichuk)
 
 This program is free software: you can redistribute it and/or 
