@@ -14,27 +14,27 @@ namespace Mono.Cecil.Fluent
 			Number = Value;
 		}
 
-		internal override FluentMethodBody EmitLdc(FluentMethodBody method)
+		internal override FluentEmitter EmitLdc(FluentEmitter method)
 		{
 			return method.Emit(Number ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
 		}
 
-		internal override FluentMethodBody EmitLdcI4(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcI4(FluentEmitter method)
 		{
 			return EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcI8(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcI8(FluentEmitter method)
 		{
 			return new MagicNumberArgumentI8(Number ? 1 : 0).EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcR4(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcR4(FluentEmitter method)
 		{
 			return new MagicNumberArgumentR4(Number ? 1.0f : 0.0f).EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcR8(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcR8(FluentEmitter method)
 		{
 			return new MagicNumberArgumentR8(Number ? 1.0d : 0.0d).EmitLdc(method);
 		}

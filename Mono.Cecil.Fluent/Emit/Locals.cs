@@ -6,7 +6,7 @@ using Mono.Cecil.Cil;
 // ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
 		public VariableDefinition GetVariable(string varname)
 		{
@@ -21,7 +21,7 @@ namespace Mono.Cecil.Fluent
 			return var;
 		}
 
-		public FluentMethodBody Ldloc(params uint[] indexes)
+		public FluentEmitter Ldloc(params uint[] indexes)
 		{
 			if(indexes == null)
 				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
@@ -54,7 +54,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ldloc(params string[] names)
+		public FluentEmitter Ldloc(params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
@@ -65,7 +65,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ldloc(params VariableDefinition[] vars)
+		public FluentEmitter Ldloc(params VariableDefinition[] vars)
 		{
 			if (vars == null)
 				throw new ArgumentNullException(nameof(vars)); //ncrunch: no coverage
@@ -83,7 +83,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ldloca(params VariableDefinition[] vars)
+		public FluentEmitter Ldloca(params VariableDefinition[] vars)
 		{
 			if (vars == null)
 				throw new ArgumentNullException(nameof(vars)); //ncrunch: no coverage
@@ -101,7 +101,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ldloca(params string[] names)
+		public FluentEmitter Ldloca(params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
@@ -112,7 +112,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ldloca(params uint[] indexes)
+		public FluentEmitter Ldloca(params uint[] indexes)
 		{
 			if (indexes == null)
 				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
@@ -129,7 +129,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Stloc(params uint[] indexes)
+		public FluentEmitter Stloc(params uint[] indexes)
 		{
 			if (indexes == null)
 				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
@@ -162,7 +162,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Stloc(params string[] names)
+		public FluentEmitter Stloc(params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
@@ -173,7 +173,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Stloc(MagicNumberArgument value, params string[] names)
+		public FluentEmitter Stloc(MagicNumberArgument value, params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
@@ -215,7 +215,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Stloc(params VariableDefinition[] vars)
+		public FluentEmitter Stloc(params VariableDefinition[] vars)
 		{
 			if (vars == null)
 				throw new ArgumentNullException(nameof(vars)); //ncrunch: no coverage

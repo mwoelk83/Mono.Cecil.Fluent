@@ -8,7 +8,7 @@ using Mono.Cecil.Rocks;
 // ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-    partial class FluentMethodBody
+    partial class FluentEmitter
     {
         private static bool AreParameterListsEqual(IEnumerable<TypeReference> plist1, IEnumerable<TypeReference> plist2)
         {
@@ -29,12 +29,12 @@ namespace Mono.Cecil.Fluent
             return true;
         }
 
-        public FluentMethodBody NewObj<T>(params SystemTypeOrTypeReference[] paramtypes)
+        public FluentEmitter NewObj<T>(params SystemTypeOrTypeReference[] paramtypes)
         {
             return NewObj(typeof(T), paramtypes);
         }
 
-        public FluentMethodBody NewObj(SystemTypeOrTypeReference type, params SystemTypeOrTypeReference[] paramtypes)
+        public FluentEmitter NewObj(SystemTypeOrTypeReference type, params SystemTypeOrTypeReference[] paramtypes)
         {
             // todo: generic and base constructors don't work currently
        
@@ -51,7 +51,7 @@ namespace Mono.Cecil.Fluent
             return Emit(OpCodes.Newobj, constructors.First());
         }
 
-        public FluentMethodBody NewObj(ConstructorInfo constructor)
+        public FluentEmitter NewObj(ConstructorInfo constructor)
         {
             return NewObj(constructor.DeclaringType, constructor.GetParameters().Select(p => new SystemTypeOrTypeReference(p.ParameterType)).ToArray());
         }

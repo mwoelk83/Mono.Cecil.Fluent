@@ -3,16 +3,16 @@
 // ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
-		public FluentMethodBody LdStr(params string[] args)
+		public FluentEmitter LdStr(params string[] args)
 		{
 			foreach (var arg in args)
 				Emit(OpCodes.Ldstr, arg);
 			return this;
 		}
 
-		public FluentMethodBody Ldc(params MagicNumberArgument[] args)
+		public FluentEmitter Ldc(params MagicNumberArgument[] args)
 		{
 			foreach (var arg in args)
 				arg.EmitLdc(this);

@@ -7,39 +7,42 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class FluentMethodBody_Branches : TestsBase
+	public class Branches : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
 		It should_emit_if_block = () =>
 			CreateStaticMethod()
-				.Returns<int>()
+                .Returns<int>()
 				.WithParameter<bool>()
-				.Ldarg(0)
-				.IfTrue()
-					.Ret(10)
-				.EndIf()
-				.Ret(100)
-			.Compile<Func<bool,int>>()
-			(false).Should().Equal(100);
+                .AppendIL()
+				    .Ldarg(0)
+				    .IfTrue()
+					    .Ret(10)
+				    .EndIf()
+				    .Ret(100)
+			    .Compile<Func<bool,int>>()
+			    (false).Should().Equal(100);
 
 		It should_emit_ifnot_block = () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithParameter<bool>()
-				.Ldarg(0)
-				.IfNot()
-					.Ret(10)
-				.EndIf()
-				.Ret(100)
-			.Compile<Func<bool,int>>()
-			(false).Should().Equal(10);
+                .AppendIL()
+                    .Ldarg(0)
+				    .IfNot()
+					    .Ret(10)
+				    .EndIf()
+				    .Ret(100)
+			    .Compile<Func<bool,int>>()
+			    (false).Should().Equal(10);
 
 		static Func<long, long, bool> LessThenMethod => CreateStaticMethod()
 			.Returns<bool>()
 			.WithParameter<long>()
 			.WithParameter<long>()
-				.Ldarg(0)
+            .AppendIL()
+                .Ldarg(0)
 				.Ldarg(1)
 				.Iflt()
 					.Ret(true)
@@ -54,7 +57,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Returns<bool>()
 			.WithParameter<int>()
 			.WithParameter<int>()
-				.Ldarg(0)
+            .AppendIL()
+                .Ldarg(0)
 				.Ldarg(1)
 				.Ifgt()
 					.Ret(true)
@@ -69,7 +73,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Returns<bool>()
 			.WithParameter<long>()
 			.WithParameter<long>()
-				.Ldarg(0)
+            .AppendIL()
+                .Ldarg(0)
 				.Ldarg(1)
 				.Iflte()
 					.Ret(true)
@@ -85,7 +90,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Returns<bool>()
 			.WithParameter<int>()
 			.WithParameter<int>()
-				.Ldarg(0)
+            .AppendIL()
+                .Ldarg(0)
 				.Ldarg(1)
 				.Ifgte()
 					.Ret(true)
@@ -101,7 +107,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Returns<int>()
 			.WithParameter<int>()
 			.WithParameter<int>()
-				.Ldarg(0)
+            .AppendIL()
+                .Ldarg(0)
 				.Ldarg(1)
 				.Ifgt()
 					.Ret(1)
@@ -125,7 +132,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.WithParameter<int>()
 			.WithParameter<int>()
 			.WithVariable<int>("ret")
-				.Ldarg(0)
+            .AppendIL()
+                .Ldarg(0)
 				.Ldarg(1)
 				.Ifgt()
 					.Stloc(1, "ret")

@@ -8,12 +8,13 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.Emit.System
 {
-	public class FluentMethodBody_System_Math_Abs : TestsBase
+	public class System_Math : TestsBase
 	{
 		It should_return_abs_of_positive_I4 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(int.MaxValue)
+            .AppendIL()
+                .Ldc(int.MaxValue)
 				.System.Math.Abs<int>()
 				.Ret()
 			.Compile<Func<int>>()
@@ -22,7 +23,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_abs_of_negative_I4 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(int.MinValue + 1)
+            .AppendIL()
+                .Ldc(int.MinValue + 1)
 				.System.Math.Abs<int>()
 				.Ret()
 			.Compile<Func<int>>()
@@ -31,7 +33,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_abs_of_positive_I8 = () =>
 			CreateStaticMethod()
 			.Returns<long>()
-				.Ldc(100L)
+            .AppendIL()
+                .Ldc(100L)
 				.System.Math.Abs<long>()
 				.Ret()
 			.Compile<Func<long>>()
@@ -40,7 +43,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_abs_of_negative_I8 = () =>
 			CreateStaticMethod()
 			.Returns<long>()
-				.Ldc(long.MinValue + 1)
+            .AppendIL()
+                .Ldc(long.MinValue + 1)
 				.System.Math.Abs<long>()
 				.Ret()
 			.Compile<Func<long>>()
@@ -49,7 +53,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_abs_of_positive_R4 = () =>
 			CreateStaticMethod()
 			.Returns<float>()
-				.Ldc(100f)
+            .AppendIL()
+                .Ldc(100f)
 				.System.Math.Abs<float>()
 				.Ret()
 			.Compile<Func<float>>()
@@ -58,7 +63,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_abs_of_negative_R4 = () =>
 			CreateStaticMethod()
 			.Returns<float>()
-				.Ldc(-100f)
+            .AppendIL()
+                .Ldc(-100f)
 				.System.Math.Abs<float>()
 				.Ret()
 			.Compile<Func<float>>()
@@ -67,7 +73,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_abs_of_positive_R8 = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.System.Math.Abs<double>()
 				.Ret()
 			.Compile<Func<double>>()
@@ -77,7 +84,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_abs_of_negative_R8 = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(-100d)
+            .AppendIL()
+                .Ldc(-100d)
 				.System.Math.Abs<double>()
 				.Ret()
 			.Compile<Func<double>>()
@@ -86,7 +94,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_sqrt_for_double = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.System.Math.Sqrt()
 				.Ret()
 			.Compile<Func<double>>()
@@ -95,7 +104,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_sqrt_for_float = () =>
 			CreateStaticMethod()
 			.Returns<float>()
-				.Ldc(100f)
+            .AppendIL()
+                .Ldc(100f)
 				.System.Math.Sqrt()
 				.Ret()
 			.Compile<Func<float>>()
@@ -104,7 +114,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_acost = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(0.56d)
+            .AppendIL()
+                .Ldc(0.56d)
 				.System.Math.Acos()
 				.Ret()
 			.Compile<Func<double>>()
@@ -113,7 +124,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_asin = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(0.56d)
+            .AppendIL()
+                .Ldc(0.56d)
 				.System.Math.Asin()
 				.Ret()
 			.Compile<Func<double>>()
@@ -122,7 +134,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_atan = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(0.56d)
+            .AppendIL()
+                .Ldc(0.56d)
 				.System.Math.Atan()
 				.Ret()
 			.Compile<Func<double>>()
@@ -131,7 +144,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_atan2 = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(0.56d)
+            .AppendIL()
+                .Ldc(0.56d)
 				.Ldc(2.34d)
 				.System.Math.Atan2()
 				.Ret()
@@ -141,7 +155,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_bigmul = () =>
 			CreateStaticMethod()
 			.Returns<long>()
-				.Ldc(int.MaxValue)
+            .AppendIL()
+                .Ldc(int.MaxValue)
 				.Ldc(58324708)
 				.System.Math.BigMul()
 				.Ret()
@@ -151,7 +166,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_bigmul_with_arg = () =>
 			CreateStaticMethod()
 			.Returns<long>()
-				.Ldc(int.MaxValue)
+            .AppendIL()
+                .Ldc(int.MaxValue)
 				.System.Math.BigMul(58324708)
 				.Ret()
 			.Compile<Func<long>>()
@@ -160,7 +176,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_ceiling_of_double = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(9.32644)
+            .AppendIL()
+                .Ldc(9.32644)
 				.System.Math.Ceiling()
 				.Ret()
 			.Compile<Func<double>>()
@@ -179,7 +196,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_cos = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(0.56d)
+            .AppendIL()
+                .Ldc(0.56d)
 				.System.Math.Cos()
 				.Ret()
 			.Compile<Func<double>>()
@@ -189,7 +207,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_cosh = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(0.56d)
+            .AppendIL()
+                .Ldc(0.56d)
 				.System.Math.Cosh()
 				.Ret()
 			.Compile<Func<double>>()
@@ -200,7 +219,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 			CreateStaticMethod()
 			.Returns<int>()
 			.WithVariable<int>("refvar")
-				.Ldc(4345)
+            .AppendIL()
+                .Ldc(4345)
 				.Ldc(534678)
 				.Ldloca("refvar")
 				.System.Math.DivRemInt32()
@@ -213,7 +233,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 			CreateStaticMethod()
 			.WithVariable<long>("refvar")
 			.Returns<long>()
-				.Ldc(4345L)
+            .AppendIL()
+                .Ldc(4345L)
 				.Ldc(534678L)
 				.Ldloca("refvar")
 				.System.Math.DivRemInt64()
@@ -224,7 +245,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_exp = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(0.56d)
+            .AppendIL()
+                .Ldc(0.56d)
 				.System.Math.Exp()
 				.Ret()
 			.Compile<Func<double>>()
@@ -233,7 +255,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_floor_double = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(7.56d)
+            .AppendIL()
+                .Ldc(7.56d)
 				.System.Math.Floor()
 				.Ret()
 			.Compile<Func<double>>()
@@ -252,7 +275,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_ieeeremainder = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(.235d)
+            .AppendIL()
+                .Ldc(.235d)
 				.Ldc(.3254d)
 				.System.Math.IEEERemainder()
 				.Ret()
@@ -262,7 +286,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_log = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(.235d)
+            .AppendIL()
+                .Ldc(.235d)
 				.Ldc(.3254d)
 				.System.Math.Log()
 				.Ret()
@@ -272,7 +297,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_log_with_arg = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(.235d)
+            .AppendIL()
+                .Ldc(.235d)
 				.System.Math.Log(.3254d)
 				.Ret()
 			.Compile<Func<double>>()
@@ -281,7 +307,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_log10 = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(.235d)
+            .AppendIL()
+                .Ldc(.235d)
 				.System.Math.Log10()
 				.Ret()
 			.Compile<Func<double>>()
@@ -290,7 +317,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_max_int = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(100)
+            .AppendIL()
+                .Ldc(100)
 				.Ldc(33)
 				.System.Math.Max<int>()
 				.Ret()
@@ -300,7 +328,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_max_long = () =>
 			CreateStaticMethod()
 			.Returns<long>()
-				.Ldc(100L)
+            .AppendIL()
+                .Ldc(100L)
 				.Ldc(33L)
 				.System.Math.Max<long>()
 				.Ret()
@@ -310,7 +339,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_max_float = () =>
 			CreateStaticMethod()
 			.Returns<float>()
-				.Ldc(100f)
+            .AppendIL()
+                .Ldc(100f)
 				.Ldc(33f)
 				.System.Math.Max<float>()
 				.Ret()
@@ -320,7 +350,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_max_double = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.Ldc(33d)
 				.System.Math.Max<double>()
 				.Ret()
@@ -330,7 +361,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_min_int = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(100)
+            .AppendIL()
+                .Ldc(100)
 				.Ldc(33)
 				.System.Math.Min<int>()
 				.Ret()
@@ -340,7 +372,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_min_long = () =>
 			CreateStaticMethod()
 			.Returns<long>()
-				.Ldc(100L)
+            .AppendIL()
+                .Ldc(100L)
 				.Ldc(33L)
 				.System.Math.Min<long>()
 				.Ret()
@@ -350,7 +383,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_min_float = () =>
 			CreateStaticMethod()
 			.Returns<float>()
-				.Ldc(100f)
+            .AppendIL()
+                .Ldc(100f)
 				.Ldc(33f)
 				.System.Math.Min<float>()
 				.Ret()
@@ -360,7 +394,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_min_double = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.Ldc(33d)
 				.System.Math.Min<double>()
 				.Ret()
@@ -370,7 +405,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_pow = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.Ldc(33d)
 				.System.Math.Pow()
 				.Ret()
@@ -380,7 +416,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_pow_witharg = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.System.Math.Pow(33d)
 				.Ret()
 			.Compile<Func<double>>()
@@ -389,7 +426,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_round = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(1.5d)
+            .AppendIL()
+                .Ldc(1.5d)
 				.System.Math.Round()
 				.Ret()
 			.Compile<Func<double>>()
@@ -398,7 +436,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_round_withprecision = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(1.5d)
+            .AppendIL()
+                .Ldc(1.5d)
 				.System.Math.Round(4)
 				.Ret()
 			.Compile<Func<double>>()
@@ -407,7 +446,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_sign_int = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(-100)
+            .AppendIL()
+                .Ldc(-100)
 				.System.Math.Sign<int>()
 				.Ret()
 			.Compile<Func<int>>()
@@ -416,7 +456,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_sign_long = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(100L)
+            .AppendIL()
+                .Ldc(100L)
 				.System.Math.Sign<long>()
 				.Ret()
 			.Compile<Func<int>>()
@@ -426,7 +467,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_sign_float = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(-100f)
+            .AppendIL()
+                .Ldc(-100f)
 				.System.Math.Sign<float>()
 				.Ret()
 			.Compile<Func<int>>()
@@ -435,7 +477,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_sign_double = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(-100d)
+            .AppendIL()
+                .Ldc(-100d)
 				.System.Math.Sign<double>()
 				.Ret()
 			.Compile<Func<int>>()
@@ -444,7 +487,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_sin = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.System.Math.Sin()
 				.Ret()
 			.Compile<Func<double>>()
@@ -453,7 +497,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_sinh = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.System.Math.Sinh()
 				.Ret()
 			.Compile<Func<double>>()
@@ -462,7 +507,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_tan = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.System.Math.Tan()
 				.Ret()
 			.Compile<Func<double>>()
@@ -471,7 +517,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_tanh = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.System.Math.Tanh()
 				.Ret()
 			.Compile<Func<double>>()
@@ -480,7 +527,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit.System
 		It should_return_truncate = () =>
 			CreateStaticMethod()
 			.Returns<double>()
-				.Ldc(100d)
+            .AppendIL()
+                .Ldc(100d)
 				.System.Math.Truncate()
 				.Ret()
 			.Compile<Func<double>>()

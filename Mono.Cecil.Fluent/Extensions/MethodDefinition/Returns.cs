@@ -4,24 +4,28 @@ namespace Mono.Cecil.Fluent
 {
 	public static partial class MethodDefinitionExtensions
 	{
-		public static FluentMethodBody ReturnsVoid(this MethodDefinition method)
+		public static MethodDefinition ReturnsVoid(this MethodDefinition method)
 		{
-			return new FluentMethodBody(method).ReturnsVoid();
+			method.ReturnType = method.Module.TypeSystem.Void;
+		    return method;
 		}
 
-		public static FluentMethodBody Returns(this MethodDefinition method, TypeReference type)
-		{
-			return new FluentMethodBody(method).Returns(type);
-		}
+		public static MethodDefinition Returns(this MethodDefinition method, TypeReference type)
+        {
+            method.ReturnType = method.Module.SafeImport(type);
+            return method;
+        }
 
-		public static FluentMethodBody Returns(this MethodDefinition method, Type type)
-		{
-			return new FluentMethodBody(method).Returns(type);
-		}
+		public static MethodDefinition Returns(this MethodDefinition method, Type type)
+        {
+            method.ReturnType = method.Module.SafeImport(type);
+            return method;
+        }
 
-		public static FluentMethodBody Returns<T>(this MethodDefinition method)
-		{
-			return new FluentMethodBody(method).Returns<T>();
-		}
+		public static MethodDefinition Returns<T>(this MethodDefinition method)
+        {
+            method.ReturnType = method.Module.SafeImport(typeof(T));
+            return method;
+        }
 	}
 }

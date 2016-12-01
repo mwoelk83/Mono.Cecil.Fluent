@@ -24,7 +24,7 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 		It should_unset_attributes_for_method = () =>
 			TestMethod
 				.SetMethodAttributes(MethodAttributes.Abstract, MethodAttributes.Family, MethodAttributes.Final)
-				.MethodDefinition.UnsetMethodAttributes(MethodAttributes.Abstract, MethodAttributes.Final)
+				.UnsetMethodAttributes(MethodAttributes.Abstract, MethodAttributes.Final)
 				.Attributes.Should().Equal(MethodAttributes.Family);
 
 		It should_unset_attributes_for_type = () =>
@@ -60,7 +60,7 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 		It should_unset_all_attributes_for_method = () =>
 			TestMethod
 				.SetMethodAttributes(MethodAttributes.Abstract, MethodAttributes.Family, MethodAttributes.Final)
-				.MethodDefinition.UnsetAllMethodAttributes()
+				.UnsetAllMethodAttributes()
 				.Attributes.Should().Equal((MethodAttributes) 0);
 
 		It should_unset_all_attributes_for_type = () =>

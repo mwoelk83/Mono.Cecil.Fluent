@@ -9,14 +9,15 @@ using Mono.Cecil.Fluent.Analyzer;
 
 namespace Mono.Cecil.Fluent.Tests.Analyzer
 {
-	public class FluentMethodBody_StackValidation : TestsBase
+	public class StackValidation : TestsBase
     {
         It should_disable_stack_validation = () =>
             CreateStaticMethod()
             .ReturnsVoid()
-                .DisableStackValidationOnEmit()
-                .Pop()
-                .Ret();
+                .AppendIL()
+                    .DisableStackValidationOnEmit()
+                    .Pop()
+                    .Ret();
 
         It should_enable_stack_validation = () =>
         {
@@ -26,10 +27,11 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
             {
                 CreateStaticMethod()
                     .ReturnsVoid()
-                    .DisableStackValidationOnEmit()
-                    .EnableStackValidationOnEmit()
-                    .Pop()
-                    .Ret();
+                    .AppendIL()
+                        .DisableStackValidationOnEmit()
+                        .EnableStackValidationOnEmit()
+                        .Pop()
+                        .Ret();
             } //ncrunch: no coverage
             catch { exceptionThrown = true; }
 

@@ -9,13 +9,13 @@ using OpCode = Mono.Cecil.Cil.OpCode;
 // ReSharper disable MemberCanBePrivate.Global
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
 		private Action<Instruction> _emitAction;
 		internal Instruction LastEmittedInstruction = null;
-		internal readonly Queue<Func<FluentMethodBody, bool>> PostEmitActions = new Queue<Func<FluentMethodBody, bool>>(); 
+		internal readonly Queue<Func<FluentEmitter, bool>> PostEmitActions = new Queue<Func<FluentEmitter, bool>>(); 
 
-		public FluentMethodBody Emit(Instruction instruction)
+		public FluentEmitter Emit(Instruction instruction)
 		{
 			if (_emitAction == null)
 				_emitAction = i => MethodDefinition.Body.Instructions.Add(i);
@@ -30,96 +30,94 @@ namespace Mono.Cecil.Fluent
 					PostEmitActions.Enqueue(action);
 			}
 
-			if (StackValidationOnEmitEnabled)
-			{
-				var validator = new FlowControlAnalyzer(Body);
-				validator.ValidateFullStackOrThrow();
-			}
+		    if (!StackValidationOnEmitEnabled) return this;
+		    var validator = new FlowControlAnalyzer(Body);
+		    validator.ValidateFullStackOrThrow();
 
-			return this;
+		    return this;
 		}
 
-		public FluentMethodBody Emit(OpCode opcode)
+		public FluentEmitter Emit(OpCode opcode)
 		{
 			return Emit(Instruction.Create(opcode));
 		}
 		
-		public FluentMethodBody Emit(OpCode opcode, string arg)
+		public FluentEmitter Emit(OpCode opcode, string arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, int arg)
-		{
-			return Emit(Instruction.Create(opcode, arg));
-		}
-		
-		public FluentMethodBody Emit(OpCode opcode, sbyte arg)
+		public FluentEmitter Emit(OpCode opcode, int arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}
 		
-		public FluentMethodBody Emit(OpCode opcode, long arg)
+		public FluentEmitter Emit(OpCode opcode, sbyte arg)
+		{
+			return Emit(Instruction.Create(opcode, arg));
+		}
+		
+		public FluentEmitter Emit(OpCode opcode, long arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, float arg)
+		public FluentEmitter Emit(OpCode opcode, float arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, double arg)
+		public FluentEmitter Emit(OpCode opcode, double arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, MethodInfo arg)
+		public FluentEmitter Emit(OpCode opcode, MethodInfo arg)
 		{
 			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, ConstructorInfo arg)
+		public FluentEmitter Emit(OpCode opcode, ConstructorInfo arg)
 		{
 			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, FieldInfo arg)
+		public FluentEmitter Emit(OpCode opcode, FieldInfo arg)
 		{
 			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, SystemTypeOrTypeReference arg)
+		public FluentEmitter Emit(OpCode opcode, SystemTypeOrTypeReference arg)
 		{
 			return Emit(Instruction.Create(opcode, arg.GetTypeReference(Module)));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, FieldReference arg)
+		public FluentEmitter Emit(OpCode opcode, FieldReference arg)
 		{
 			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, MethodReference arg)
+		public FluentEmitter Emit(OpCode opcode, MethodReference arg)
 		{
 			return Emit(Instruction.Create(opcode, Module.SafeImport(arg)));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, VariableDefinition arg)
+		public FluentEmitter Emit(OpCode opcode, VariableDefinition arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, ParameterDefinition arg)
+		public FluentEmitter Emit(OpCode opcode, ParameterDefinition arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, Instruction arg)
+		public FluentEmitter Emit(OpCode opcode, Instruction arg)
 		{
 			return Emit(Instruction.Create(opcode, arg));
 		}
 
-		public FluentMethodBody Emit(OpCode opcode, Func<Collection<Instruction>, Instruction> selector)
+		public FluentEmitter Emit(OpCode opcode, Func<Collection<Instruction>, Instruction> selector)
 		{
 			return Emit(opcode, selector(Body.Instructions));
 		}

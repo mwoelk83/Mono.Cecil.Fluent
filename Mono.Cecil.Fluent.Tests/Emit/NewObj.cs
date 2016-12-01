@@ -10,15 +10,14 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-    public class FluentMethodBody_NewObj : TestsBase
+    public class NewObj : TestsBase
     {
         static readonly TypeDefinition TestType = CreateType();
-
-        static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
-
+        
         It should_emit_newobj_instruction = () =>
-            NewTestMethod
-                .NewObj<object>()
+            CreateMethod()
+                .AppendIL()
+                    .NewObj<object>()
             .Body.Instructions.First().OpCode.Should().Equal(OpCodes.Newobj);
 
         It should_throw_exception_newobj_primitive_valuetype = () =>
@@ -27,8 +26,9 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
             try
             {
-                NewTestMethod
+                CreateMethod()
                     .Returns<bool>()
+                    .AppendIL()
                         .Ldc(true)
                         .NewObj<bool>()
                         .Ret();
@@ -42,6 +42,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
         It should_emit_newobj_valuetype_with_arg_and_return_new_object = () =>
             CreateStaticMethod()
                 .Returns<DateTime>()
+                .AppendIL()
                     .Ldc(DateTime.Today.Ticks)
                     .NewObj<DateTime>(typeof(long))
                     .Ret()

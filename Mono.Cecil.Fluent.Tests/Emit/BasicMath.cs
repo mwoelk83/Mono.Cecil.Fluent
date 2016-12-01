@@ -7,15 +7,16 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class FluentMethodBody_BasicMath : TestsBase
+	public class BasicMath : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
+		static FluentEmitter NewTestMethod => new FluentEmitter(CreateMethod());
 
 		It should_return_remainder_of_ten_by_four = () =>
 			CreateStaticMethod()
 			.Returns<byte>()
+            .AppendIL()
 				.Ldc((byte)10)
 				.Rem(4)
 				.Ret()
@@ -25,7 +26,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_return_remainder_of_twenty_by_seven = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc((ushort)20)
+            .AppendIL()
+                .Ldc((ushort)20)
 				.Ldc((short)7)
 				.Rem()
 				.Ret()
@@ -35,7 +37,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_return_remainder_of_twenty_by_seven_unsigned = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(20)
+            .AppendIL()
+                .Ldc(20)
 				.RemUn(7)
 				.Ret()
 			.Compile<Func<int>>()
@@ -44,7 +47,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_return_remainder_of_tenmillion_by_1303 = () =>
 			CreateStaticMethod()
 			.Returns<uint>()
-				.Ldc(10000000U)
+            .AppendIL()
+                .Ldc(10000000U)
 				.Ldc(1303U)
 				.RemUn()
 				.Ret()
@@ -54,7 +58,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_return_remainder_of_tenmillion_by_1303_ulong = () =>
 			CreateStaticMethod()
 			.Returns<ulong>()
-				.Ldc(10000000UL)
+            .AppendIL()
+                .Ldc(10000000UL)
 				.Ldc(1303UL)
 				.RemUn()
 				.Ret()
@@ -64,7 +69,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_add_3 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(0)
+            .AppendIL()
+                .Ldc(0)
 				.Ldc(3)
 				.Add()
 				.Ret()
@@ -74,7 +80,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_add_3_with_arg = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(0)
+            .AppendIL()
+                .Ldc(0)
 				.Add(3u)
 				.Ret()
 			.Compile<Func<int>>()
@@ -83,7 +90,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_sub_3 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(0)
+            .AppendIL()
+                .Ldc(0)
 				.Ldc(3)
 				.Sub()
 				.Ret()
@@ -93,7 +101,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_sub_3_with_arg = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(0U)
+            .AppendIL()
+                .Ldc(0U)
 				.Sub(3)
 				.Ret()
 			.Compile<Func<int>>()
@@ -102,7 +111,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_mul_by_3 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(5)
+            .AppendIL()
+                .Ldc(5)
 				.Ldc(3)
 				.Mul()
 				.Ret()
@@ -112,7 +122,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_mul_by_3_with_arg = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(5)
+            .AppendIL()
+                .Ldc(5)
 				.Mul(3U)
 				.Ret()
 			.Compile<Func<int>>()
@@ -121,7 +132,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_div_by_3 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(15)
+            .AppendIL()
+                .Ldc(15)
 				.Ldc(3)
 				.Div()
 				.Ret()
@@ -131,7 +143,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_div_by_3_with_arg = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(15)
+            .AppendIL()
+                .Ldc(15)
 				.Div(3U)
 				.Ret()
 			.Compile<Func<int>>()
@@ -140,7 +153,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_div_by_3_un = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(15)
+            .AppendIL()
+                .Ldc(15)
 				.Ldc(3)
 				.DivUn()
 				.Ret()
@@ -150,7 +164,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_div_by_3_with_arg_un = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc(15)
+            .AppendIL()
+                .Ldc(15)
 				.DivUn(3U)
 				.Ret()
 			.Compile<Func<int>>()
@@ -160,10 +175,11 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_add_a_bool_and_a_sbyte = () => 
 			CreateStaticMethod()
 			.Returns<byte>()
-			.Ldc(true)
-			.Ldc((sbyte) 2)
-			.Add()
-			.Ret()
+            .AppendIL()
+                .Ldc(true)
+			    .Ldc((sbyte) 2)
+			    .Add()
+			    .Ret()
 			.Compile<Func<byte>>()
 			().Should().Equal((byte) 3);
 	}

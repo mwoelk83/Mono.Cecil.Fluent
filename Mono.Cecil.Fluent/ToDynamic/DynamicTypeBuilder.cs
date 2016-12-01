@@ -66,8 +66,7 @@ namespace Mono.Cecil.Fluent
                     paramtypes.Add(t);
 				}
 				var mb = typebuilder.DefineMethod(method.Name, (System.Reflection.MethodAttributes) method.Attributes, returntype, paramtypes.ToArray());
-				var body = new FluentMethodBody(method);
-				body.ToDynamicMethod(typebuilder, mb);
+				method.ToDynamicMethod(typebuilder, mb);
 			}
 
 			return typebuilder.CreateType();

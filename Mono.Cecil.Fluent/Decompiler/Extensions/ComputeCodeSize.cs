@@ -11,7 +11,7 @@ namespace Mono.Cecil.Fluent
 			return body.Instructions.Sum(instruction => instruction.GetSize());
 		}
 
-		public static int ComputeCodeSize(this FluentMethodBody method)
+		public static int ComputeCodeSize(this FluentEmitter method)
 		{
 			return method.Body.ComputeCodeSize();
 		}

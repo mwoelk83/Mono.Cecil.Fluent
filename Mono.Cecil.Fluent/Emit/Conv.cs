@@ -3,64 +3,64 @@
 // ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
-		public FluentMethodBody ConvI()
+		public FluentEmitter ConvI()
 		{
 			return Emit(OpCodes.Conv_I);
 		}
 
-		public FluentMethodBody ConvI1()
+		public FluentEmitter ConvI1()
 		{
 			return Emit(OpCodes.Conv_I1);
 		}
 
-		public FluentMethodBody ConvI2()
+		public FluentEmitter ConvI2()
 		{
 			return Emit(OpCodes.Conv_I2);
 		}
 
-		public FluentMethodBody ConvI4()
+		public FluentEmitter ConvI4()
 		{
 			return Emit(OpCodes.Conv_I4);
 		}
 
-		public FluentMethodBody ConvI8()
+		public FluentEmitter ConvI8()
 		{
 			return Emit(OpCodes.Conv_I8);
 		}
 
-		public FluentMethodBody ConvU()
+		public FluentEmitter ConvU()
 		{
 			return Emit(OpCodes.Conv_U);
 		}
 
-		public FluentMethodBody ConvU1()
+		public FluentEmitter ConvU1()
 		{
 			return Emit(OpCodes.Conv_U1);
 		}
 
-		public FluentMethodBody ConvU2()
+		public FluentEmitter ConvU2()
 		{
 			return Emit(OpCodes.Conv_U2);
 		}
 
-		public FluentMethodBody ConvU4()
+		public FluentEmitter ConvU4()
 		{
 			return Emit(OpCodes.Conv_U4);
 		}
 
-		public FluentMethodBody ConvU8()
+		public FluentEmitter ConvU8()
 		{
 			return Emit(OpCodes.Conv_U8);
 		}
 
-		public FluentMethodBody ConvR4()
+		public FluentEmitter ConvR4()
 		{
 			return Emit(OpCodes.Conv_R4);
 		}
 
-		public FluentMethodBody ConvR8()
+		public FluentEmitter ConvR8()
 		{
 			return Emit(OpCodes.Conv_R8);
 		}

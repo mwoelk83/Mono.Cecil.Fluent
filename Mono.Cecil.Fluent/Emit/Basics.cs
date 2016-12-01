@@ -3,29 +3,29 @@
 // ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
-		public FluentMethodBody Nop()
+		public FluentEmitter Nop()
 		{
 			return Emit(OpCodes.Nop);
 		}
 
-		public FluentMethodBody Dup()
+		public FluentEmitter Dup()
 		{
 			return Emit(OpCodes.Dup);
 		}
 
-		public FluentMethodBody Pop()
+		public FluentEmitter Pop()
 		{
 			return Emit(OpCodes.Pop);
 		}
 
-		public FluentMethodBody Not()
+		public FluentEmitter Not()
 		{
 			return Emit(OpCodes.Not);
 		}
 
-		public FluentMethodBody LdNull()
+		public FluentEmitter LdNull()
 		{
 			return Emit(OpCodes.Ldnull);
 		}

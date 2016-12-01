@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 // ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody : ISystemEmitter
+	partial class FluentEmitter : ISystemEmitter
 	{
 		public ISystemEmitter System => this;
 

@@ -14,7 +14,8 @@ namespace Mono.Cecil.Fluent.Tests.Disassembler
 		It should_disassemble_body = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.WithVariable<int>()
+            .WithVariable<int>()
+            .AppendIL()
 				.Ldc(1)
 				.Stloc(0)
 				.Ldc(2)

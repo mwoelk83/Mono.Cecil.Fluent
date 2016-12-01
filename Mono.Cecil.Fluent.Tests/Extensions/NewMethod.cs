@@ -46,16 +46,5 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 			TestType
 			.CreateMethod("named_method3")
 			.Name.Should().Equal("named_method3");
-
-		It should_create_many_methods = () =>
-			TestType
-				.CreateMethod()
-				.CreateMethod()
-				.CreateMethod()
-				.CreateMethod()
-				.CreateMethod()
-				.CreateMethod()
-			.DeclaringType
-			.Methods.Count.Should().Be.GreaterThanOrEqualTo(6);
 	}
 }

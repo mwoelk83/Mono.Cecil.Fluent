@@ -7,16 +7,17 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class FluentMethodBody_Conv : TestsBase
+	public class Conv : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
+		static FluentEmitter NewTestMethod => new FluentEmitter(CreateMethod());
 
 		It should_conv_I8_to_I = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc((long)int.MaxValue + 1)
+            .AppendIL()
+                .Ldc((long)int.MaxValue + 1)
 				.ConvI()
 				.Ret()
 			.Compile<Func<int>>()
@@ -25,7 +26,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I8_to_I1 = () =>
 			CreateStaticMethod()
 			.Returns<sbyte>()
-				.Ldc((long)sbyte.MaxValue + 1)
+            .AppendIL()
+                .Ldc((long)sbyte.MaxValue + 1)
 				.ConvI1()
 				.Ret()
 			.Compile<Func<sbyte>>()
@@ -34,7 +36,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I8_to_I2 = () =>
 			CreateStaticMethod()
 			.Returns<short>()
-				.Ldc((long)short.MaxValue + 1)
+            .AppendIL()
+                .Ldc((long)short.MaxValue + 1)
 				.ConvI2()
 				.Ret()
 			.Compile<Func<short>>()
@@ -43,7 +46,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I8_to_I4 = () =>
 			CreateStaticMethod()
 			.Returns<int>()
-				.Ldc((long) int.MaxValue + 1)
+            .AppendIL()
+                .Ldc((long) int.MaxValue + 1)
 				.ConvI4()
 				.Ret()
 			.Compile<Func<int>>()
@@ -52,7 +56,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I4_to_I8 = () =>
 			CreateStaticMethod()
 			.Returns<long>()
-				.Ldc(100)
+            .AppendIL()
+                .Ldc(100)
 				.ConvI8()
 				.Ret()
 			.Compile<Func<long>>()
@@ -61,7 +66,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I8_to_U = () =>
 			CreateStaticMethod()
 			.Returns<uint>()
-				.Ldc((long)int.MaxValue + 1)
+            .AppendIL()
+                .Ldc((long)int.MaxValue + 1)
 				.ConvU()
 				.Ret()
 			.Compile<Func<uint>>()
@@ -70,7 +76,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I8_to_U1 = () =>
 			CreateStaticMethod()
 			.Returns<byte>()
-				.Ldc((long)sbyte.MaxValue + 1)
+            .AppendIL()
+                .Ldc((long)sbyte.MaxValue + 1)
 				.ConvU1()
 				.Ret()
 			.Compile<Func<byte>>()
@@ -79,7 +86,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I8_to_U2 = () =>
 			CreateStaticMethod()
 			.Returns<ushort>()
-				.Ldc((long)short.MaxValue + 1)
+            .AppendIL()
+                .Ldc((long)short.MaxValue + 1)
 				.ConvU2()
 				.Ret()
 			.Compile<Func<ushort>>()
@@ -88,7 +96,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I8_to_U4 = () =>
 			CreateStaticMethod()
 			.Returns<uint>()
-				.Ldc((long)int.MaxValue + 1)
+            .AppendIL()
+                .Ldc((long)int.MaxValue + 1)
 				.ConvU4()
 				.Ret()
 			.Compile<Func<uint>>()
@@ -97,7 +106,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_I4_to_U8 = () =>
 			CreateStaticMethod()
 			.Returns<ulong>()//.DebuggerBreak()
-				.Ldc(int.MinValue)
+            .AppendIL()
+                .Ldc(int.MinValue)
 				.ConvU8()
 				.Ret()
 			.Compile<Func<ulong>>()
@@ -105,8 +115,9 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		It should_conv_R4_to_R8 = () =>
 			CreateStaticMethod()
-				.Returns<double>()
-				.Ldc(1.01f)
+			.Returns<double>()
+            .AppendIL()
+                .Ldc(1.01f)
 				.ConvR8()
 				.Ret()
 			.Compile<Func<double>>()
@@ -115,7 +126,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 		It should_conv_R8_to_R4 = () =>
 			CreateStaticMethod()
 			.Returns<float>()
-				.Ldc(1.01d)
+            .AppendIL()
+                .Ldc(1.01d)
 				.ConvR4()
 				.Ret()
 			.Compile<Func<float>>()

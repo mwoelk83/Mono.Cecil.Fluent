@@ -17,11 +17,11 @@ namespace Mono.Cecil.Fluent
 			IsUnsigned = isunsigned;
 		}
 
-		internal abstract FluentMethodBody EmitLdc(FluentMethodBody method);
-		internal abstract FluentMethodBody EmitLdcI4(FluentMethodBody method);
-		internal abstract FluentMethodBody EmitLdcI8(FluentMethodBody method);
-		internal abstract FluentMethodBody EmitLdcR4(FluentMethodBody method);
-		internal abstract FluentMethodBody EmitLdcR8(FluentMethodBody method);
+		internal abstract FluentEmitter EmitLdc(FluentEmitter method);
+		internal abstract FluentEmitter EmitLdcI4(FluentEmitter method);
+		internal abstract FluentEmitter EmitLdcI8(FluentEmitter method);
+		internal abstract FluentEmitter EmitLdcR4(FluentEmitter method);
+		internal abstract FluentEmitter EmitLdcR8(FluentEmitter method);
 
 		public static implicit operator MagicNumberArgument(byte val)
 		{

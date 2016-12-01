@@ -4,7 +4,7 @@ using Mono.Cecil.Cil;
 // ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
 	    private static void CheckTypeEquality(TypeReference a, TypeReference b)
         {
@@ -13,12 +13,12 @@ namespace Mono.Cecil.Fluent
                 throw new InvalidOperationException("return type does not match"); // ncrunch: no coverage
         }
 
-		public FluentMethodBody Ret()
+		public FluentEmitter Ret()
 		{
 			return Emit(OpCodes.Ret);
 		}
 
-		public FluentMethodBody Ret(MagicNumberArgument value)
+		public FluentEmitter Ret(MagicNumberArgument value)
 		{
 		    // ReSharper disable once SwitchStatementMissingSomeCases
 			switch (ReturnType.GetILType())
@@ -34,12 +34,12 @@ namespace Mono.Cecil.Fluent
 			return Ret();
 		}
 
-		public FluentMethodBody RetLoc(string varname)
+		public FluentEmitter RetLoc(string varname)
 		{
             return RetLoc((uint)GetVariable(varname).Index);
 		}
 
-		public FluentMethodBody RetLoc(uint varindex)
+		public FluentEmitter RetLoc(uint varindex)
 		{
 			if (varindex >= Variables.Count)
 				throw new ArgumentException($"no variable at index {varindex}"); // ncrunch: no coverage
@@ -52,7 +52,7 @@ namespace Mono.Cecil.Fluent
 				.Ret();
 		}
 		
-		public FluentMethodBody RetThis()
+		public FluentEmitter RetThis()
         {
             CheckTypeEquality(ReturnType, DeclaringType);
 
@@ -60,7 +60,7 @@ namespace Mono.Cecil.Fluent
 				.Ret();
 		}
 
-		public FluentMethodBody RetArg(string varname)
+		public FluentEmitter RetArg(string varname)
 		{
 			var arg = GetParameter(varname);
 

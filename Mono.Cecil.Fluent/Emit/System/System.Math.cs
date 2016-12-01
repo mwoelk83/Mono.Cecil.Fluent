@@ -14,40 +14,40 @@ namespace Mono.Cecil.Fluent
 {
 	public interface ISystemMathEmitter
 	{
-		FluentMethodBody Abs<T>() where T : struct, IConvertible;
-		FluentMethodBody Acos();
-		FluentMethodBody Asin();
-		FluentMethodBody Atan();
-		FluentMethodBody Atan2();
-		FluentMethodBody BigMul(int? b = null);
-		FluentMethodBody Ceiling();
-		FluentMethodBody CeilingDecimal();
-		FluentMethodBody Cos();
-		FluentMethodBody Cosh();
-		FluentMethodBody DivRemInt32();
-		FluentMethodBody DivRemInt64();
-		FluentMethodBody Exp();
-		FluentMethodBody Floor();
-		FluentMethodBody FloorDecimal();
-		FluentMethodBody IEEERemainder();
-		FluentMethodBody Log(double? basis = null);
-		FluentMethodBody Log10();
-		FluentMethodBody Max<T>(T? b = null) where T: struct, IConvertible;
-		FluentMethodBody Min<T>(T? b = null) where T : struct, IConvertible;
-		FluentMethodBody Pow(double? exponent = null);
-		FluentMethodBody Round(int decimals = 0, MidpointRounding mode = MidpointRounding.AwayFromZero);
-		FluentMethodBody RoundDecimal(int decimals = 0, MidpointRounding mode = MidpointRounding.AwayFromZero);
-		FluentMethodBody Sign<T>() where T : struct, IConvertible;
-		FluentMethodBody Sin();
-		FluentMethodBody Sinh();
-		FluentMethodBody Sqrt();
-		FluentMethodBody Tan();
-		FluentMethodBody Tanh();
-		FluentMethodBody TruncateDecimal();
-		FluentMethodBody Truncate();
+		FluentEmitter Abs<T>() where T : struct, IConvertible;
+		FluentEmitter Acos();
+		FluentEmitter Asin();
+		FluentEmitter Atan();
+		FluentEmitter Atan2();
+		FluentEmitter BigMul(int? b = null);
+		FluentEmitter Ceiling();
+		FluentEmitter CeilingDecimal();
+		FluentEmitter Cos();
+		FluentEmitter Cosh();
+		FluentEmitter DivRemInt32();
+		FluentEmitter DivRemInt64();
+		FluentEmitter Exp();
+		FluentEmitter Floor();
+		FluentEmitter FloorDecimal();
+		FluentEmitter IEEERemainder();
+		FluentEmitter Log(double? basis = null);
+		FluentEmitter Log10();
+		FluentEmitter Max<T>(T? b = null) where T: struct, IConvertible;
+		FluentEmitter Min<T>(T? b = null) where T : struct, IConvertible;
+		FluentEmitter Pow(double? exponent = null);
+		FluentEmitter Round(int decimals = 0, MidpointRounding mode = MidpointRounding.AwayFromZero);
+		FluentEmitter RoundDecimal(int decimals = 0, MidpointRounding mode = MidpointRounding.AwayFromZero);
+		FluentEmitter Sign<T>() where T : struct, IConvertible;
+		FluentEmitter Sin();
+		FluentEmitter Sinh();
+		FluentEmitter Sqrt();
+		FluentEmitter Tan();
+		FluentEmitter Tanh();
+		FluentEmitter TruncateDecimal();
+		FluentEmitter Truncate();
 	}
 
-	partial class FluentMethodBody : ISystemMathEmitter
+	partial class FluentEmitter : ISystemMathEmitter
 	{
 		#region GetMathMethod
 		private MethodReference GetMathMethod(ref MethodReference cache, string name)
@@ -92,42 +92,42 @@ namespace Mono.Cecil.Fluent
 		}
 		#endregion
 
-		public FluentMethodBody Abs<T>() where T : struct, IConvertible
+		public FluentEmitter Abs<T>() where T : struct, IConvertible
 		{
 			return Call(GetMathMethod<T>("Abs"));
 		}
 
 		private static MethodReference acosmethod;
 
-		FluentMethodBody ISystemMathEmitter.Acos()
+		FluentEmitter ISystemMathEmitter.Acos()
 		{
 			return Call(GetMathMethod(ref acosmethod, "Acos"));
 		}
 
 		private static MethodReference asinmethod;
 
-		FluentMethodBody ISystemMathEmitter.Asin()
+		FluentEmitter ISystemMathEmitter.Asin()
 		{
 			return Call(GetMathMethod(ref asinmethod, "Asin"));
 		}
 
 		private static MethodReference atanmethod;
 
-		FluentMethodBody ISystemMathEmitter.Atan()
+		FluentEmitter ISystemMathEmitter.Atan()
 		{
 			return Call(GetMathMethod(ref atanmethod, "Atan"));
 		}
 
 		private static MethodReference atan2method;
 
-		FluentMethodBody ISystemMathEmitter.Atan2()
+		FluentEmitter ISystemMathEmitter.Atan2()
 		{
 			return Call(GetMathMethod(ref atan2method, "Atan2"));
 		}
 
 		private static MethodReference bigmulmethod;
 
-		FluentMethodBody ISystemMathEmitter.BigMul(int? i)
+		FluentEmitter ISystemMathEmitter.BigMul(int? i)
 		{
 			if (i != null)
 				Ldc(i);
@@ -136,70 +136,70 @@ namespace Mono.Cecil.Fluent
 
 		private static MethodReference ceilingmethod;
 
-		FluentMethodBody ISystemMathEmitter.Ceiling()
+		FluentEmitter ISystemMathEmitter.Ceiling()
 		{
 			return Call(GetMathMethod<double>(ref ceilingmethod, "Ceiling"));
 		}
 
 		private static MethodReference ceilingdecimalmethod;
 
-		FluentMethodBody ISystemMathEmitter.CeilingDecimal()
+		FluentEmitter ISystemMathEmitter.CeilingDecimal()
 		{
 			return Call(GetMathMethod<decimal>(ref ceilingdecimalmethod, "Ceiling"));
 		}
 
 		private static MethodReference cosmethod;
 
-		FluentMethodBody ISystemMathEmitter.Cos()
+		FluentEmitter ISystemMathEmitter.Cos()
 		{
 			return Call(GetMathMethod(ref cosmethod, "Cos"));
 		}
 
 		private static MethodReference coshmethod;
 
-		FluentMethodBody ISystemMathEmitter.Cosh()
+		FluentEmitter ISystemMathEmitter.Cosh()
 		{
 			return Call(GetMathMethod(ref coshmethod, "Cosh"));
 		}
 
 		private static MethodReference divremi32method;
 
-		FluentMethodBody ISystemMathEmitter.DivRemInt32()
+		FluentEmitter ISystemMathEmitter.DivRemInt32()
 		{
 			return Call(GetMathMethod(ref divremi32method, new[] { typeof(int), typeof(int), typeof(int).MakeByRefType() }, "DivRem"));
 		}
 		
 		private static MethodReference divremi64method;
 
-		FluentMethodBody ISystemMathEmitter.DivRemInt64()
+		FluentEmitter ISystemMathEmitter.DivRemInt64()
 		{
 			return Call(GetMathMethod(ref divremi64method, new[] { typeof(long), typeof(long), typeof(long).MakeByRefType() }, "DivRem"));
 		}
 
 		private static MethodReference expmethod;
 
-		FluentMethodBody ISystemMathEmitter.Exp()
+		FluentEmitter ISystemMathEmitter.Exp()
 		{
 			return Call(GetMathMethod(ref expmethod, "Exp"));
 		}
 
 		private static MethodReference floormethod;
 
-		FluentMethodBody ISystemMathEmitter.Floor()
+		FluentEmitter ISystemMathEmitter.Floor()
 		{
 			return Call(GetMathMethod<double>(ref floormethod, "Floor"));
 		}
 
 		private static MethodReference floordecimalmethod;
 
-		FluentMethodBody ISystemMathEmitter.FloorDecimal()
+		FluentEmitter ISystemMathEmitter.FloorDecimal()
 		{ 
 			return Call(GetMathMethod<decimal>(ref floordecimalmethod, "Floor"));
 		}
 
 		private static MethodReference ieeeremaindermethod;
 
-		FluentMethodBody ISystemMathEmitter.IEEERemainder()
+		FluentEmitter ISystemMathEmitter.IEEERemainder()
 		{
 			return Call(GetMathMethod(ref ieeeremaindermethod, "IEEERemainder"));
 		}
@@ -208,7 +208,7 @@ namespace Mono.Cecil.Fluent
 
 		private static MethodReference logmethod;
 
-		FluentMethodBody ISystemMathEmitter.Log(double? basis)
+		FluentEmitter ISystemMathEmitter.Log(double? basis)
 		{
 			if(basis == null)
 				return Call(GetMathMethod<double, double>(ref logemethod, "Log"));
@@ -218,24 +218,24 @@ namespace Mono.Cecil.Fluent
 
 		private static MethodReference log10method;
 
-		FluentMethodBody ISystemMathEmitter.Log10()
+		FluentEmitter ISystemMathEmitter.Log10()
 		{
 			return Call(GetMathMethod(ref log10method, "Log10"));
 		}
 
-		public FluentMethodBody Max<T>(T? b) where T : struct, IConvertible
+		public FluentEmitter Max<T>(T? b) where T : struct, IConvertible
 		{
 			return Call(GetMathMethod<T, T>("Max"));
 		}
 
-		public FluentMethodBody Min<T>(T? b) where T : struct, IConvertible
+		public FluentEmitter Min<T>(T? b) where T : struct, IConvertible
 		{
 			return Call(GetMathMethod<T, T>("Min"));
 		}
 
 		private static MethodReference powmethod;
 
-		FluentMethodBody ISystemMathEmitter.Pow(double? exponent)
+		FluentEmitter ISystemMathEmitter.Pow(double? exponent)
 		{
 			if (exponent == null)
 				return Call(GetMathMethod(ref powmethod, "Pow"));
@@ -245,7 +245,7 @@ namespace Mono.Cecil.Fluent
 
 		private static MethodReference roundmethod;
 
-		FluentMethodBody ISystemMathEmitter.Round(int decimals, MidpointRounding mode)
+		FluentEmitter ISystemMathEmitter.Round(int decimals, MidpointRounding mode)
 		{
 			Ldc(decimals);
 			Ldc((int) mode);
@@ -254,7 +254,7 @@ namespace Mono.Cecil.Fluent
 
 		private static MethodReference rounddecimalmethod;
 
-		FluentMethodBody ISystemMathEmitter.RoundDecimal(int decimals, MidpointRounding mode)
+		FluentEmitter ISystemMathEmitter.RoundDecimal(int decimals, MidpointRounding mode)
 		{
 			Ldc(decimals);
 			Ldc((int)mode);
@@ -263,56 +263,56 @@ namespace Mono.Cecil.Fluent
 
 		private static MethodReference signmethod;
 
-		public FluentMethodBody Sign<T>() where T : struct, IConvertible
+		public FluentEmitter Sign<T>() where T : struct, IConvertible
 		{
 			return Call(GetMathMethod<T>("Sign"));
 		}
 
 		private static MethodReference sinmethod;
 
-		FluentMethodBody ISystemMathEmitter.Sin()
+		FluentEmitter ISystemMathEmitter.Sin()
 		{
 			return Call(GetMathMethod(ref sinmethod, "Sin"));
 		}
 
 		private static MethodReference sinhmethod;
 
-		FluentMethodBody ISystemMathEmitter.Sinh()
+		FluentEmitter ISystemMathEmitter.Sinh()
 		{
 			return Call(GetMathMethod(ref sinhmethod, "Sinh"));
 		}
 
 		private static MethodReference sqrtmethod;
 
-		FluentMethodBody ISystemMathEmitter.Sqrt()
+		FluentEmitter ISystemMathEmitter.Sqrt()
 		{
 			return Call(GetMathMethod(ref sqrtmethod, "Sqrt"));
 		}
 
 		private static MethodReference tanmethod;
 
-		FluentMethodBody ISystemMathEmitter.Tan()
+		FluentEmitter ISystemMathEmitter.Tan()
 		{
 			return Call(GetMathMethod(ref tanmethod, "Tan"));
 		}
 
 		private static MethodReference tanhmethod;
 
-		FluentMethodBody ISystemMathEmitter.Tanh()
+		FluentEmitter ISystemMathEmitter.Tanh()
 		{
 			return Call(GetMathMethod(ref tanhmethod, "Tanh"));
 		}
 
 		private static MethodReference truncatemethod;
 
-		FluentMethodBody ISystemMathEmitter.Truncate()
+		FluentEmitter ISystemMathEmitter.Truncate()
 		{
 			return Call(GetMathMethod<double>(ref truncatemethod, "Truncate"));
 		}
 
 		private static MethodReference truncatedecimalmethod;
 
-		FluentMethodBody ISystemMathEmitter.TruncateDecimal()
+		FluentEmitter ISystemMathEmitter.TruncateDecimal()
 		{
 			return Call(GetMathMethod<decimal>(ref truncatedecimalmethod, "Truncate"));
 		}

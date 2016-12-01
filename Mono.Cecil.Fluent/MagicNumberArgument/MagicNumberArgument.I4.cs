@@ -19,7 +19,7 @@ namespace Mono.Cecil.Fluent
 			Number = unchecked((int) num);
 		}
 
-		internal override FluentMethodBody EmitLdc(FluentMethodBody method)
+		internal override FluentEmitter EmitLdc(FluentEmitter method)
 		{
 			switch (Number)
 			{
@@ -41,22 +41,22 @@ namespace Mono.Cecil.Fluent
 			return method.Emit(OpCodes.Ldc_I4_S, (sbyte) Number);
 		}
 
-		internal override FluentMethodBody EmitLdcI4(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcI4(FluentEmitter method)
 		{
 			return EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcI8(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcI8(FluentEmitter method)
 		{
 			return new MagicNumberArgumentI8(Number).EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcR4(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcR4(FluentEmitter method)
 		{
 			return new MagicNumberArgumentR4(Number).EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcR8(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcR8(FluentEmitter method)
 		{
 			return new MagicNumberArgumentR8(Number).EmitLdc(method);
 		}

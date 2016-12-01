@@ -22,9 +22,10 @@ namespace Mono.Cecil.Fluent.Tests.Disassembler
 			prop.DeclaringType = TestType;
 			prop.GetMethod = TestType.CreateMethod("get_" + prop.Name)
 				.Returns<bool>()
-				.Ldc(true)
-				.Ret()
-				.MethodDefinition;
+                .AppendIL()
+				    .Ldc(true)
+				    .Ret()
+				    .MethodDefinition;
 			return prop;
 		}
 

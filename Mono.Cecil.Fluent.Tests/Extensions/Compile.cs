@@ -7,14 +7,15 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.Extensions
 {
-	public class FluentMethodBody_ToDynamicMethod : TestsBase
+	public class ToDynamicMethod : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
 		It should_create_simple_dynamic_method_that_returns_a_string = () =>
 			CreateStaticMethod()
 			.Returns<string>()
-				.LdStr("teststring")
+            .AppendIL()
+                .LdStr("teststring")
 				.Ret()
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal("teststring");
@@ -23,7 +24,8 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 			CreateStaticMethod()
 			.WithParameter<int>()
 			.Returns<float>()
-				.LdParam(0)
+            .AppendIL()
+                .LdParam(0)
 				.ConvR4()
 				.Ldc(10f)
 				.Div()

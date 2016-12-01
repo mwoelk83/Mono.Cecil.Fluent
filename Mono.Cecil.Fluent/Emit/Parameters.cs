@@ -6,9 +6,9 @@ using Mono.Cecil.Cil;
 // ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
-		public FluentMethodBody LdThis()
+		public FluentEmitter LdThis()
 		{
 			if(!MethodDefinition.HasThis)
 				throw new InvalidOperationException("can not load this parameter for static methods"); // ncrunch: no coverage
@@ -29,7 +29,7 @@ namespace Mono.Cecil.Fluent
 			return param;
 		}
 
-		public FluentMethodBody LdParam(params uint[] indexes)
+		public FluentEmitter LdParam(params uint[] indexes)
 		{
 			if (indexes == null)
 				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
@@ -43,7 +43,7 @@ namespace Mono.Cecil.Fluent
 			return Ldarg(indexes);
 		}
 
-		public FluentMethodBody LdParam(params string[] names)
+		public FluentEmitter LdParam(params string[] names)
 		{
 			return Ldarg(names);
 		}
@@ -51,7 +51,7 @@ namespace Mono.Cecil.Fluent
 		/// <summary>
 		/// you should use LdParam() because it takes care of the this parameter
 		/// </summary>
-		public FluentMethodBody Ldarg(params uint[] indexes)
+		public FluentEmitter Ldarg(params uint[] indexes)
 		{
 			if (indexes == null)
 				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
@@ -84,7 +84,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ldarg(params string[] names)
+		public FluentEmitter Ldarg(params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
@@ -95,7 +95,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ldarg(params ParameterDefinition[] @params)
+		public FluentEmitter Ldarg(params ParameterDefinition[] @params)
 		{
 			if (@params == null)
 				throw new ArgumentNullException(nameof(@params)); //ncrunch: no coverage
@@ -113,7 +113,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Starg(params uint[] indexes)
+		public FluentEmitter Starg(params uint[] indexes)
 		{
 			if (indexes == null)
 				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
@@ -129,7 +129,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Starg(params string[] names)
+		public FluentEmitter Starg(params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
@@ -140,7 +140,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Starg(MagicNumberArgument value, params string[] names)
+		public FluentEmitter Starg(MagicNumberArgument value, params string[] names)
 		{
 			if (names == null)
 				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
@@ -183,7 +183,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Starg(params ParameterDefinition[] @params)
+		public FluentEmitter Starg(params ParameterDefinition[] @params)
 		{
 			if (@params == null)
 				throw new ArgumentNullException(nameof(@params)); //ncrunch: no coverage

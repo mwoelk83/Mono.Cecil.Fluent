@@ -31,7 +31,9 @@ namespace Mono.Cecil.Fluent.Tests.Disassembler
 		It should_disassemble_fluentmethod = () =>
 			TestMethod
 				.ReturnsVoid()
-				.Ret()
+                .AppendIL()
+                    .Ret()
+                .EndEmitting()
 				.Disassemble()
 				.Should().StartWith(".method family");
 	}

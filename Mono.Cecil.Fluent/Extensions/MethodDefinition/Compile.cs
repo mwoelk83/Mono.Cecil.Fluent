@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+
+// ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
 	partial class MethodDefinitionExtensions
@@ -8,8 +10,24 @@ namespace Mono.Cecil.Fluent
         /// </summary>
 		public static T Compile<T>(this MethodDefinition method)
 			where T : class
-		{
-			return new FluentMethodBody(method).Compile<T>();
-		}
+        {
+            if (!typeof(T).IsSubclassOf(typeof(Delegate)))
+                throw new Exception($"'{typeof(T).FullName}' must be delegate");
+
+            try
+            {
+                var ret = method.ToDynamicMethod().CreateDelegate(typeof(T)) as T;
+                if (ret == null)
+                    throw new Exception($"method signature missmatch.");
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message + Environment.NewLine;
+                message += "decompiled method:" + Environment.NewLine;
+                message += method.Disassemble();
+                throw new Exception(message);
+            }
+        }
 	}
 }

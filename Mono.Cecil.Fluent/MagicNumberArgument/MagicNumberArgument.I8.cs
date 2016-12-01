@@ -20,29 +20,29 @@ namespace Mono.Cecil.Fluent
 			Number = unchecked((int)num);
 		}
 
-		internal override FluentMethodBody EmitLdc(FluentMethodBody method)
+		internal override FluentEmitter EmitLdc(FluentEmitter method)
 		{
 			return method.Emit(OpCodes.Ldc_I8, Number);
 		}
 
-		internal override FluentMethodBody EmitLdcI4(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcI4(FluentEmitter method)
 		{
 			if(Number > int.MaxValue || Number < int.MinValue)
 				throw new OverflowException("can not convert long or ulong to int32. number is greater than Int32.MaxValue or smaller than Int32.MinValue");
 			return new MagicNumberArgumentI4(unchecked((int)Number)).EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcI8(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcI8(FluentEmitter method)
 		{
 			return EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcR4(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcR4(FluentEmitter method)
 		{
 			return new MagicNumberArgumentR4(Number).EmitLdc(method);
 		}
 
-		internal override FluentMethodBody EmitLdcR8(FluentMethodBody method)
+		internal override FluentEmitter EmitLdcR8(FluentEmitter method)
 		{
 			return new MagicNumberArgumentR8(Number).EmitLdc(method);
 		}

@@ -4,74 +4,74 @@ using Mono.Cecil.Cil;
 // ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
-		public FluentMethodBody Neg()
+		public FluentEmitter Neg()
 		{
 			return Emit(OpCodes.Neg);
 		}
 
-		public FluentMethodBody Rem()
+		public FluentEmitter Rem()
 		{
 			return Emit(OpCodes.Rem);
 		}
 
-		public FluentMethodBody RemUn()
+		public FluentEmitter RemUn()
 		{
 			return Emit(OpCodes.Rem_Un);
 		}
 
-		public FluentMethodBody Rem(MagicNumberArgument divisor)
+		public FluentEmitter Rem(MagicNumberArgument divisor)
 		{
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Rem);
 		}
 
-		public FluentMethodBody RemUn(MagicNumberArgument divisor)
+		public FluentEmitter RemUn(MagicNumberArgument divisor)
 		{
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Rem_Un);
 		}
 
-		public FluentMethodBody Add()
+		public FluentEmitter Add()
 		{
 			return Emit(OpCodes.Add);
 		}
 
-		public FluentMethodBody Add(MagicNumberArgument arg)
+		public FluentEmitter Add(MagicNumberArgument arg)
 		{
 			return arg.EmitLdc(this)
 				.Emit(OpCodes.Add);
 		}
 
-		public FluentMethodBody Sub()
+		public FluentEmitter Sub()
 		{
 			return Emit(OpCodes.Sub);
 		}
 
-		public FluentMethodBody Sub(MagicNumberArgument arg)
+		public FluentEmitter Sub(MagicNumberArgument arg)
 		{
 			return arg.EmitLdc(this)
 				.Emit(OpCodes.Sub);
 		}
 
-		public FluentMethodBody Mul()
+		public FluentEmitter Mul()
 		{
 			return Emit(OpCodes.Mul);
 		}
 
-		public FluentMethodBody Mul(MagicNumberArgument arg)
+		public FluentEmitter Mul(MagicNumberArgument arg)
 		{
 			return arg.EmitLdc(this)
 				.Emit(OpCodes.Mul);
 		}
 
-		public FluentMethodBody Div()
+		public FluentEmitter Div()
 		{
 			return Emit(OpCodes.Div);
 		}
 
-		public FluentMethodBody Div(MagicNumberArgument divisor)
+		public FluentEmitter Div(MagicNumberArgument divisor)
 		{
 			if (divisor.IsZero)
 				throw new DivideByZeroException("this instruction will cause a DivideByZeroException"); //ncrunch: no coverage
@@ -80,12 +80,12 @@ namespace Mono.Cecil.Fluent
 				.Emit(OpCodes.Div);
 		}
 
-		public FluentMethodBody DivUn()
+		public FluentEmitter DivUn()
 		{
 			return Emit(OpCodes.Div_Un);
 		}
 
-		public FluentMethodBody DivUn(MagicNumberArgument divisor)
+		public FluentEmitter DivUn(MagicNumberArgument divisor)
 		{
 			if (divisor.IsZero)
 				throw new DivideByZeroException("this instruction will cause a DivideByZeroException"); //ncrunch: no coverage

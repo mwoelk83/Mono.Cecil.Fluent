@@ -8,7 +8,7 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.Extensions
 {
-	public class Extensions_ToDynamicype : TestsBase
+	public class Extensions_ToDynamicType : TestsBase
 	{
 		It should_invoke_instance_method_of_created_dynamic_type = () =>
 		{
@@ -16,12 +16,14 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 				.CreateType()
 				.WithField<string>("testfield1", FieldAttributes.FamANDAssem | FieldAttributes.Public)
 				.CreateMethod<int>("newmethod")
-				.SetAttributes<FamANDAssem, Public>()
+                .SetMethodAttributes<FamANDAssem, Public>()
 				.WithParameter<int>()
+                .AppendIL()
 					.LdParam(0)
 					.Ret()
 				.DeclaringType
 				.ToDynamicType();
+
 			newtype
 				.GetMethod("newmethod")
 				.Invoke(Activator.CreateInstance(newtype), new object[] {20}).Should().Equal(20);

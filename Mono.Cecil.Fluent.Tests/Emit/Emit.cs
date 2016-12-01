@@ -10,11 +10,11 @@ using Should.Fluent;
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class FluentMethodBody_Emit : TestsBase
+	public class Emit : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 
-		static FluentMethodBody NewTestMethod => new FluentMethodBody(CreateMethod());
+		static FluentEmitter NewTestMethod => new FluentEmitter(CreateMethod());
 
 		It should_emit_instruction = () =>
 			NewTestMethod

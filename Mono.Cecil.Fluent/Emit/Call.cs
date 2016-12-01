@@ -3,9 +3,9 @@
 // ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-    partial class FluentMethodBody
+    partial class FluentEmitter
     {
-        public FluentMethodBody Call(MethodReference m)
+        public FluentEmitter Call(MethodReference m)
         {
             return Emit(OpCodes.Call, m);
         }

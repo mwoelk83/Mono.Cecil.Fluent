@@ -8,30 +8,30 @@ using Mono.Cecil.Cil;
 // ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	partial class FluentMethodBody
+	public static partial class MethodDefinitionExtensions
 	{
-		public DynamicMethod ToDynamicMethod()
+		public static DynamicMethod ToDynamicMethod(this MethodDefinition method)
 		{
-			return ToDynamicMethod(null) as DynamicMethod;
+			return method.ToDynamicMethod(null) as DynamicMethod;
 		}
 
-	    public MethodInfo ToDynamicMethod(MethodInfo method)
+	    public static MethodInfo ToDynamicMethod(this MethodDefinition method, MethodInfo target)
 	    {
-	        return ToDynamicMethod(null, method);
+	        return ToDynamicMethod(method, null, target);
 	    }
 
-	    public MethodInfo ToDynamicMethod(TypeBuilder declaringtype, MethodInfo method = null)
+	    public static MethodInfo ToDynamicMethod(this MethodDefinition method, TypeBuilder declaringtype, MethodInfo target = null)
 		{
 			// todo: exception blocks, scopes ...
-			if(!MethodDefinition.IsStatic && declaringtype == null)
+			if(!method.IsStatic && declaringtype == null)
 				throw new InvalidOperationException("only static methods can be converted to dynamic methods"); // ncrunch: no coverage
 
-			var returntype = TypeLoader.Instance.Load(ReturnType);
+			var returntype = TypeLoader.Instance.Load(method.ReturnType);
 			if(returntype == null)
-				throw new InvalidOperationException($"can not find return type {ReturnType.FullName} in current appdomain"); // ncrunch: no coverage
+				throw new InvalidOperationException($"can not find return type {method.ReturnType.FullName} in current appdomain"); // ncrunch: no coverage
 
 			var paramtypes = new List<Type>();
-			foreach (var param in Parameters)
+			foreach (var param in method.Parameters)
 			{
 				var paramtype = TypeLoader.Instance.Load(param.ParameterType);
 				if (paramtype == null)
@@ -39,30 +39,30 @@ namespace Mono.Cecil.Fluent
 				paramtypes.Add(paramtype);
 			}
 			
-			if(method == null)
-				method = new DynamicMethod(Name, returntype, paramtypes.ToArray()) { InitLocals = true };
+			if(target == null)
+				target = new DynamicMethod(method.Name, returntype, paramtypes.ToArray()) { InitLocals = true };
 
 			ILGenerator ilgen;
 
-			if (method is MethodBuilder)
-				ilgen = ((MethodBuilder)method).GetILGenerator();
+			if (target is MethodBuilder)
+				ilgen = ((MethodBuilder)target).GetILGenerator();
 			else
-				ilgen = ((DynamicMethod)method).GetILGenerator();
+				ilgen = ((DynamicMethod)target).GetILGenerator();
 
 			var parameters = new List<ParameterBuilder>();
-			foreach (var p in Parameters)
+			foreach (var p in method.Parameters)
 			{
 				var paramtype = TypeLoader.Instance.Load(p.ParameterType);
 				if(paramtype == null)
 					throw new InvalidOperationException($"can not find parameter type {p.ParameterType.FullName} in current appdomain"); // ncrunch: no coverage
-				var param = method is MethodBuilder 
-					? ((MethodBuilder)method).DefineParameter(p.Index, (System.Reflection.ParameterAttributes) p.Attributes, p.Name)
-					: ((DynamicMethod)method).DefineParameter(p.Index, (System.Reflection.ParameterAttributes)p.Attributes, p.Name);
+				var param = target is MethodBuilder 
+					? ((MethodBuilder)target).DefineParameter(p.Index, (System.Reflection.ParameterAttributes) p.Attributes, p.Name)
+					: ((DynamicMethod)target).DefineParameter(p.Index, (System.Reflection.ParameterAttributes)p.Attributes, p.Name);
 				parameters.Add(param);
 			}
 			var locals = new List<LocalBuilder>();
 
-			foreach (var var in Variables)
+			foreach (var var in method.Body.Variables)
 			{
 				var vartype = TypeLoader.Instance.Load(var.VariableType);
 				if(vartype == null)
@@ -73,16 +73,16 @@ namespace Mono.Cecil.Fluent
 			var labelstomark = new Dictionary<int, string>(); // key is instruction index, value is labelname
 			var labels = new Dictionary<int, Label>();
 
-			foreach (var instr in Body.Instructions.Where(i => i.Operand is Instruction))
+			foreach (var instr in method.Body.Instructions.Where(i => i.Operand is Instruction))
 			{	try
 				{
-					labels.Add(Body.Instructions.IndexOf((Instruction) instr.Operand), ilgen.DefineLabel());
+					labels.Add(method.Body.Instructions.IndexOf((Instruction) instr.Operand), ilgen.DefineLabel());
 				}
 				catch (ArgumentException) { }
 			}
 
 			var index = 0;
-			foreach (var instruction in Body.Instructions)
+			foreach (var instruction in method.Body.Instructions)
 			{
 				if(labels.ContainsKey(index))
 					ilgen.MarkLabel(labels[index]);
@@ -145,14 +145,14 @@ namespace Mono.Cecil.Fluent
 				else if (instruction.Operand is double)
 					ilgen.Emit(opcode, (double)instruction.Operand);
 				else if (instruction.Operand is Instruction)
-					ilgen.Emit(opcode, labels[Body.Instructions.IndexOf((Instruction)instruction.Operand)]);
+					ilgen.Emit(opcode, labels[method.Body.Instructions.IndexOf((Instruction)instruction.Operand)]);
 				else 
 					throw new NotImplementedException(instruction.Operand.GetType().FullName);
 
 				++index;
 			}
 
-			return method;
+			return target;
 		}
 	}
 }

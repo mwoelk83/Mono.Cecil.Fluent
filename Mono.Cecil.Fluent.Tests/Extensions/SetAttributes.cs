@@ -49,21 +49,21 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 		It should_set_attributes_for_method_generic_part1 = () =>
 			TestMethod
 				.UnsetAllMethodAttributes()
-				.SetAttributes<MemberAccessMask, Private, FamANDAssem, HideBySig, NewSlot, Public, Final, Virtual>()
+				.SetMethodAttributes<MemberAccessMask, Private, FamANDAssem, HideBySig, NewSlot, Public, Final, Virtual>()
 				.Attributes.Should().Equal(MethodAttributes.MemberAccessMask | MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.HideBySig | MethodAttributes.NewSlot 
 					| MethodAttributes.Public | MethodAttributes.Final | MethodAttributes.Virtual);
 
 		It should_set_attributes_for_method_generic_part2 = () =>
 			TestMethod
 				.UnsetAllMethodAttributes()
-				.SetAttributes<Assembly, Family, Static, VtableLayoutMask, CheckAccessOnOverride, Abstract, SpecialName, PInvokeImpl>()
+				.SetMethodAttributes<Assembly, Family, Static, VtableLayoutMask, CheckAccessOnOverride, Abstract, SpecialName, PInvokeImpl>()
 				.Attributes.Should().Equal(MethodAttributes.Assembly | MethodAttributes.Static | MethodAttributes.VtableLayoutMask | MethodAttributes.CheckAccessOnOverride
 				| MethodAttributes.Family | MethodAttributes.Abstract | MethodAttributes.SpecialName | MethodAttributes.PInvokeImpl);
 
 		It should_set_attributes_for_method_generic_part3 = () =>
 			TestMethod
 				.UnsetAllMethodAttributes()
-				.SetAttributes<FamORAssem, UnmanagedExport, RTSpecialName, HasSecurity, RequireSecObject, ReuseSlot, CompilerControlled>() // last two are 0
+				.SetMethodAttributes<FamORAssem, UnmanagedExport, RTSpecialName, HasSecurity, RequireSecObject, ReuseSlot, CompilerControlled>() // last two are 0
 				.Attributes.Should().Equal(MethodAttributes.FamORAssem | MethodAttributes.UnmanagedExport | MethodAttributes.RTSpecialName | MethodAttributes.HasSecurity | MethodAttributes.RequireSecObject);
 		
 	// improve code coverage ...
@@ -71,7 +71,6 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 		It should_set_attributes_for_method_generic_part4 = () =>
 			TestMethod
 				.UnsetAllMethodAttributes()
-				.MethodDefinition
 				.SetMethodAttributes<MemberAccessMask, Private, FamANDAssem, HideBySig, NewSlot, Public, Final, Virtual>()
 				.Attributes.Should().Equal(MethodAttributes.MemberAccessMask | MethodAttributes.Private | MethodAttributes.FamANDAssem | MethodAttributes.HideBySig | MethodAttributes.NewSlot
 					| MethodAttributes.Public | MethodAttributes.Final | MethodAttributes.Virtual);

@@ -13,11 +13,11 @@ namespace Mono.Cecil.Fluent
 		public OpCode OpCode;
 	}
 
-	partial class FluentMethodBody
+	partial class FluentEmitter
 	{
 		internal readonly Stack<IfBlock> IfBlocks = new Stack<IfBlock>();
 
-		public FluentMethodBody IfTrue()
+		public FluentEmitter IfTrue()
 		{
 			Pop();
 			var block = new IfBlock() { StartInstruction = LastEmittedInstruction, OpCode = OpCodes.Brfalse }; // it jumps if value top on stack is false
@@ -25,7 +25,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody IfNot()
+		public FluentEmitter IfNot()
 		{
 			Pop();
 			var block = new IfBlock() { StartInstruction = LastEmittedInstruction, OpCode = OpCodes.Brtrue }; // it jumps if value top on stack is true
@@ -33,7 +33,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Iflt()
+		public FluentEmitter Iflt()
 		{
 			Pop();
 			var pop1 = LastEmittedInstruction;
@@ -43,7 +43,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ifgt()
+		public FluentEmitter Ifgt()
 		{
 			Pop();
 			var pop1 = LastEmittedInstruction;
@@ -53,7 +53,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Iflte()
+		public FluentEmitter Iflte()
 		{
 			Pop();
 			var pop1 = LastEmittedInstruction;
@@ -63,7 +63,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Ifgte()
+		public FluentEmitter Ifgte()
 		{
 			Pop();
 			var pop1 = LastEmittedInstruction;
@@ -73,7 +73,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody Else()
+		public FluentEmitter Else()
 		{
 			if(IfBlocks.Count == 0 || IfBlocks.Peek().OpCode == OpCodes.Br)
 				throw new Exception("no if blfor else");
@@ -85,7 +85,7 @@ namespace Mono.Cecil.Fluent
 			return this;
 		}
 
-		public FluentMethodBody EndIf()
+		public FluentEmitter EndIf()
 		{
 			if(IfBlocks.Count == 0)
 				throw new NotSupportedException("no if-block to close"); // ncrunch: no coverage
@@ -112,7 +112,7 @@ namespace Mono.Cecil.Fluent
 			Body.GetILProcessor().Replace(block.StartInstruction, newstartinstruction);
 
 			// remove Nops
-			Func<FluentMethodBody, bool> postemitaction = (body) =>
+			Func<FluentEmitter, bool> postemitaction = (body) =>
 			{
 				if (firstinstructionafterblock.Next == null)
 					return false;
