@@ -15,11 +15,11 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
             CreateStaticMethod()
             .ReturnsVoid()
                 .AppendIL()
-                    .DisableStackValidationOnEmit()
+                    .SetStackValidationMode(StackValidationMode.Manual)
                     .Pop()
                     .Ret();
 
-        It should_enable_stack_validation = () =>
+        It should_enable_stack_validation_on_return = () =>
         {
             var exceptionThrown = false;
 
@@ -28,10 +28,27 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
                 CreateStaticMethod()
                     .ReturnsVoid()
                     .AppendIL()
-                        .DisableStackValidationOnEmit()
-                        .EnableStackValidationOnEmit()
+                        .SetStackValidationMode(StackValidationMode.OnReturn)
                         .Pop()
-                        .Ret();
+                        .Ret(); // << must throw exception here
+            } //ncrunch: no coverage
+            catch { exceptionThrown = true; }
+
+            if (!exceptionThrown)
+                throw new Exception(); //ncrunch: no coverage
+        };
+
+        It should_enable_stack_validation_on_emit = () =>
+        {
+            var exceptionThrown = false;
+
+            try
+            {
+                CreateStaticMethod()
+                    .ReturnsVoid()
+                    .AppendIL()
+                        .SetStackValidationMode(StackValidationMode.OnEmit)
+                        .Pop(); // << must throw exception here
             } //ncrunch: no coverage
             catch { exceptionThrown = true; }
 

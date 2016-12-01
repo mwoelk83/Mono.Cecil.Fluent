@@ -37,7 +37,7 @@ namespace Mono.Cecil.Fluent
 
 		public Collection<VariableDefinition> Variables => MethodDefinition.Body.Variables;
 
-		public bool StackValidationOnEmitEnabled { get; set; } = true;
+        public StackValidationMode StackValidationMode = Config.DefaultStackValidationMode;
 
 		internal FluentEmitter(MethodDefinition methodDefinition)
 		{
@@ -45,17 +45,11 @@ namespace Mono.Cecil.Fluent
 			Module = methodDefinition.Module;
 		}
 
-		public FluentEmitter DisableStackValidationOnEmit()
-		{
-			StackValidationOnEmitEnabled = false;
-			return this;
-		}
-
-		public FluentEmitter EnableStackValidationOnEmit()
-		{
-			StackValidationOnEmitEnabled = true;
-			return this;
-		}
+	    public FluentEmitter SetStackValidationMode(StackValidationMode mode)
+	    {
+	        StackValidationMode = mode;
+	        return this;
+	    }
 
         public FluentEmitter WithVariable(SystemTypeOrTypeReference varType, string name = null)
         {
