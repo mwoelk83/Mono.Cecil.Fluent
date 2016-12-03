@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection.Emit;
+﻿using System.Reflection.Emit;
 using Mono.Cecil.Cil;
 using Mono.Collections.Generic;
 

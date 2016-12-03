@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Extensions\IMemberDefinition\Disassemble.cs" />
+    <Compile Include="Extensions\MethodDefinition\DisassembleBody.cs" />
     <Compile Include="StackValidationMode.cs" />
     <Compile Include="Decompiler\Disassembler\DisassemblerHelper.cs" />
     <Compile Include="Decompiler\Disassembler\ILStructure.cs" />
@@ -79,24 +81,19 @@
     <Compile Include="Emit\Parameters.cs" />
     <Compile Include="Emit\System\System.cs" />
     <Compile Include="Extensions\Attributes.cs" />
-    <Compile Include="Extensions\EventDefinition\Disassemble.cs" />
     <Compile Include="Extensions\EventDefinition\EventAttributes.cs" />
-    <Compile Include="Extensions\FieldDefinition\Disassemble.cs" />
     <Compile Include="Extensions\ICustomAttributeProvider\IsCompilerGenerated.cs" />
     <Compile Include="Extensions\IMethodSignature\HasImplicitThis.cs" />
     <Compile Include="Extensions\MethodBody\Disassemble.cs" />
     <Compile Include="Extensions\MethodDefinition\AppendIL.cs" />
     <Compile Include="Extensions\MethodDefinition\Compile.cs" />
-    <Compile Include="Extensions\MethodDefinition\Disassemble.cs" />
     <Compile Include="Extensions\MethodDefinition\Returns.cs" />
     <Compile Include="Extensions\MethodReference\MakeGeneric.cs" />
     <Compile Include="Extensions\OpCodes.cs" />
-    <Compile Include="Extensions\PropertyDefinition\Disassemble.cs" />
     <Compile Include="Extensions\PropertyDefinition\IsIndexer.cs" />
     <Compile Include="Extensions\PropertyDefinition\SetAttributes.cs" />
     <Compile Include="Extensions\MethodDefinition\MethodAttributes.cs" />
     <Compile Include="Extensions\MethodReference\SafeEquals.cs" />
-    <Compile Include="Extensions\TypeDefinition\Disassemble.cs" />
     <Compile Include="Extensions\TypeDefinition\GetDefaultMemberName.cs" />
     <Compile Include="Extensions\TypeDefinition\TypeAttributes.cs" />
     <Compile Include="Extensions\FieldDefinition\FieldAttributes.cs" />

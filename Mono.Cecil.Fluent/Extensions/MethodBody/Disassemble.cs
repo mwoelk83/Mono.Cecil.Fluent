@@ -5,7 +5,7 @@ using Mono.Cecil.Cil;
 // ReSharper disable once CheckNamespace
 namespace Mono.Cecil.Fluent
 {
-	public static partial class MethodDefinitionExtensions
+	public static partial class MethodBodyExtensions
 	{
         public static string Disassemble(this MethodBody body)
         {
