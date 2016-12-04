@@ -29,7 +29,7 @@ namespace Mono.Cecil.Fluent
 				case ILType.R4: value.EmitLdcR4(this); break;
 				default:
 					throw new NotSupportedException( // ncrunch: no coverage
-						"returned type must be primitive valuetype and convertible to I4, I8, R4 or R8");
+						"return type must be primitive valuetype and convertible to I4, I8, R4 or R8");
 			}
 			return Ret();
 		}

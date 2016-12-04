@@ -93,7 +93,7 @@
     <Compile Include="Extensions\PropertyDefinition\IsIndexer.cs" />
     <Compile Include="Extensions\PropertyDefinition\SetAttributes.cs" />
     <Compile Include="Extensions\MethodDefinition\MethodAttributes.cs" />
-    <Compile Include="Extensions\MethodReference\SafeEquals.cs" />
+    <Compile Include="Extensions\MemberReference\SafeEquals.cs" />
     <Compile Include="Extensions\TypeDefinition\GetDefaultMemberName.cs" />
     <Compile Include="Extensions\TypeDefinition\TypeAttributes.cs" />
     <Compile Include="Extensions\FieldDefinition\FieldAttributes.cs" />
