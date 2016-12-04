@@ -1,5 +1,5 @@
-﻿using System;
-
+﻿
+// ReSharper disable CheckNamespace
 namespace Mono.Cecil.Fluent
 {
 	public static partial class MethodDefinitionExtensions

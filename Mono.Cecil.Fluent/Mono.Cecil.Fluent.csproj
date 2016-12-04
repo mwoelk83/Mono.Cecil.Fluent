@@ -124,7 +124,7 @@
     <Compile Include="Emit\Ldc.cs" />
     <Compile Include="Emit\Locals.cs" />
     <Compile Include="Emit\Ret.cs" />
-    <Compile Include="Helpers\GetILTypeExtension.cs" />
+    <Compile Include="Extensions\TypeReference\GetILType.cs" />
     <Compile Include="Helpers\TypeLoader.cs" />
     <Compile Include="MagicNumberArgument\MagicNumberArgument.cs" />
     <Compile Include="MagicNumberArgument\MagicNumberArgument.I4.cs" />

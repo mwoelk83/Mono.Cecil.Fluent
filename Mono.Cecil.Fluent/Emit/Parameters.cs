@@ -16,7 +16,7 @@ namespace Mono.Cecil.Fluent
 			return Emit(OpCodes.Ldarg_0);
 		}
 
-		public ParameterDefinition GetParameter(string paramname)
+	    internal ParameterDefinition GetParameter(string paramname)
 		{
 			if (string.IsNullOrEmpty(paramname))
 				throw new ArgumentException("paramname cannot be null or empty"); //ncrunch: no coverage
