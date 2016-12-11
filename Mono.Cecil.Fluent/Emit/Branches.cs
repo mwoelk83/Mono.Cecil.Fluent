@@ -88,7 +88,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter EndIf()
 		{
 			if(IfBlocks.Count == 0)
-				throw new NotSupportedException("no if-block to close"); // ncrunch: no coverage
+				throw new NotSupportedException("no if-block to close");
 
 			var block = IfBlocks.Pop();
 

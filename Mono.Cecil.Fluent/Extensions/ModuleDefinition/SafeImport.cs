@@ -6,7 +6,7 @@ namespace Mono.Cecil.Fluent
 {
 	partial class ModuleDefinitionExtensions
 	{
-		private static readonly object SyncRoot = new object();
+		private static readonly object SyncRoot = new object(); // todo: really needed?
 
 		public static TypeReference SafeImport(this ModuleDefinition module, Type type)
 		{

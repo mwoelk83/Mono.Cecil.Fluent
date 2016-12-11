@@ -74,7 +74,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Div(MagicNumberArgument divisor)
 		{
 			if (divisor.IsZero)
-				throw new DivideByZeroException("this instruction will cause a DivideByZeroException"); //ncrunch: no coverage
+				throw new DivideByZeroException("this instruction will cause a DivideByZeroException");
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Div);
@@ -88,7 +88,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter DivUn(MagicNumberArgument divisor)
 		{
 			if (divisor.IsZero)
-				throw new DivideByZeroException("this instruction will cause a DivideByZeroException"); //ncrunch: no coverage
+				throw new DivideByZeroException("this instruction will cause a DivideByZeroException");
 
 			return divisor.EmitLdc(this)
 				.Emit(OpCodes.Div_Un);

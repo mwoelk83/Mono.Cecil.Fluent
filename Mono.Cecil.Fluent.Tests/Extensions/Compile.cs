@@ -1,17 +1,18 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Extensions
 {
-	public class ToDynamicMethod : TestsBase
-	{
-		static readonly TypeDefinition TestType = CreateType();
-
-		It should_create_simple_dynamic_method_that_returns_a_string = () =>
+    [TestClass]
+    public class ToDynamicMethod : TestsBase
+    {
+        [TestMethod]
+		public void create_simple_dynamic_method_that_returns_a_string() =>
 			CreateStaticMethod()
 			.Returns<string>()
             .AppendIL()
@@ -20,7 +21,8 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 			.ToDynamicMethod()
 			.Invoke(null, null).Should().Equal("teststring");
 
-		It should_compile_method_to_function = () => 
+        [TestMethod]
+        public void compile_method_to_function () => 
 			CreateStaticMethod()
 			.WithParameter<int>()
 			.Returns<float>()

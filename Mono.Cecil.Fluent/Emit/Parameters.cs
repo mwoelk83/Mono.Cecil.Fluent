@@ -11,7 +11,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter LdThis()
 		{
 			if(!MethodDefinition.HasThis)
-				throw new InvalidOperationException("can not load this parameter for static methods"); // ncrunch: no coverage
+				throw new InvalidOperationException("can not load this parameter for static methods");
 
 			return Emit(OpCodes.Ldarg_0);
 		}
@@ -19,12 +19,12 @@ namespace Mono.Cecil.Fluent
 	    internal ParameterDefinition GetParameter(string paramname)
 		{
 			if (string.IsNullOrEmpty(paramname))
-				throw new ArgumentException("paramname cannot be null or empty"); //ncrunch: no coverage
+				throw new ArgumentException("paramname cannot be null or empty");
 
 			var param = Parameters.FirstOrDefault(v => v.Name == paramname);
 
 			if (param == null)
-				throw new KeyNotFoundException($"found no parameter with name '{paramname}'"); //ncrunch: no coverage
+				throw new KeyNotFoundException($"found no parameter with name '{paramname}'");
 
 			return param;
 		}
@@ -32,7 +32,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter LdParam(params uint[] indexes)
 		{
 			if (indexes == null)
-				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(indexes));
 
 			if (!MethodDefinition.HasThis)
 				return Ldarg(indexes);
@@ -54,12 +54,12 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldarg(params uint[] indexes)
 		{
 			if (indexes == null)
-				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(indexes));
 
 			foreach (var i in indexes)
 			{
 				if (Parameters.Count + (MethodDefinition.HasThis ? 1 : 0) <= i)
-					throw new IndexOutOfRangeException($"no parameter found at index {i}"); //ncrunch: no coverage
+					throw new IndexOutOfRangeException($"no parameter found at index {i}");
 
 				switch (i)
 				{
@@ -87,7 +87,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldarg(params string[] names)
 		{
 			if (names == null)
-				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(names));
 
 			foreach (var name in names)
 				Ldarg((uint) GetParameter(name).Index);
@@ -98,14 +98,14 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldarg(params ParameterDefinition[] @params)
 		{
 			if (@params == null)
-				throw new ArgumentNullException(nameof(@params)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(@params));
 
 			foreach (var param in @params)
 			{
 				if (param == null)
-					throw new ArgumentNullException($"parameter is null"); //ncrunch: no coverage
+					throw new ArgumentNullException($"parameter is null");
 				if (Parameters.All(v => v != param))
-					throw new ArgumentException("parameter must be declared in method definition before using it"); //ncrunch: no coverage
+					throw new ArgumentException("parameter must be declared in method definition before using it");
 
 				Ldarg((uint)param.Index);
 			}
@@ -116,12 +116,12 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Starg(params uint[] indexes)
 		{
 			if (indexes == null)
-				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(indexes));
 
 			foreach (var i in indexes)
 			{
 				if (Parameters.Count <= i)
-					throw new IndexOutOfRangeException($"no parameter found at index {i}"); //ncrunch: no coverage
+					throw new IndexOutOfRangeException($"no parameter found at index {i}");
 				
 				Emit(i < sbyte.MaxValue ? OpCodes.Starg_S : OpCodes.Starg, Parameters[(int)i]);
 			}
@@ -132,7 +132,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Starg(params string[] names)
 		{
 			if (names == null)
-				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(names));
 
 			foreach (var name in names)
 				Starg((uint) GetParameter(name).Index);
@@ -143,7 +143,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Starg(MagicNumberArgument value, params string[] names)
 		{
 			if (names == null)
-				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(names));
 
 			var count = names.Length;
 
@@ -166,7 +166,7 @@ namespace Mono.Cecil.Fluent
 							case ILType.R8: value.EmitLdcR8(this); break;
 							case ILType.R4: value.EmitLdcR4(this); break;
 							default:
-								throw new NotSupportedException( // ncrunch: no coverage
+								throw new NotSupportedException(
 							   "variable type must be primitive valuetype in system namespace and convertible to I4, I8, R4 or R8");
 						}
 						isfirst = false;
@@ -186,14 +186,14 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Starg(params ParameterDefinition[] @params)
 		{
 			if (@params == null)
-				throw new ArgumentNullException(nameof(@params)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(@params));
 
 			foreach (var param in @params)
 			{
 				if (param == null)
-					throw new ArgumentNullException($"parameter is null"); //ncrunch: no coverage
+					throw new ArgumentNullException($"parameter is null");
 				if (Parameters.All(v => v != param))
-					throw new ArgumentException("parameter must be declared in method declaration before using it"); //ncrunch: no coverage
+					throw new ArgumentException("parameter must be declared in method declaration before using it");
 
 				Starg((uint)param.Index);
 			}

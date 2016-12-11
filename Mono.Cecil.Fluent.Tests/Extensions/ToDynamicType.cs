@@ -1,16 +1,19 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mono.Cecil.Fluent.Attributes;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Extensions
 {
-	public class Extensions_ToDynamicType : TestsBase
+    [TestClass]
+    public class Extensions_ToDynamicType : TestsBase
 	{
-		It should_invoke_instance_method_of_created_dynamic_type = () =>
+        [TestMethod]
+		public void invoke_instance_method_of_created_dynamic_type ()
 		{
 			var newtype = TestModule
 				.CreateType()
@@ -27,6 +30,6 @@ namespace Mono.Cecil.Fluent.Tests.Extensions
 			newtype
 				.GetMethod("newmethod")
 				.Invoke(Activator.CreateInstance(newtype), new object[] {20}).Should().Equal(20);
-		};
+		}
 	}
 }

@@ -25,7 +25,7 @@ namespace Mono.Cecil.Fluent
             else if (typeof(T) == typeof(TypeDefinition))
                 dasm.DisassembleType(member as TypeDefinition);
             else
-                throw new NotImplementedException($"the type {typeof(T).FullName} cannot be disassembled."); // ncrunch: no coverage
+                throw new NotImplementedException($"the type {typeof(T).FullName} cannot be disassembled.");
 
             return writer.ToString();
 		}

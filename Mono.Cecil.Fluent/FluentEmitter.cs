@@ -11,12 +11,12 @@ namespace Mono.Cecil.Fluent
 		/// <summary>
 		/// Useful for Debugging.
 		/// </summary>
-		public string DisassembledBody => MethodDefinition.DisassembleBody(); // ncrunch: no coverage
+		public string DisassembledBody => MethodDefinition.DisassembleBody();
 
 		/// <summary>
 		/// Useful for Debugging.
 		/// </summary>
-		public string DisassembledMethod => MethodDefinition.Disassemble(); // ncrunch: no coverage
+		public string DisassembledMethod => MethodDefinition.Disassemble();
 
 		public readonly MethodDefinition MethodDefinition;
 

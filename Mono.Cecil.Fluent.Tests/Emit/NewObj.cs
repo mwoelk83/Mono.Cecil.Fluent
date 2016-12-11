@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mono.Cecil.Cil;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
+    [TestClass]
     public class NewObj : TestsBase
     {
-        static readonly TypeDefinition TestType = CreateType();
-        
-        It should_emit_newobj_instruction = () =>
+        [TestMethod]
+        public void emit_newobj_instruction () =>
             CreateMethod()
                 .AppendIL()
                     .NewObj<object>()
             .Body.Instructions.First().OpCode.Should().Equal(OpCodes.Newobj);
 
-        It should_throw_exception_newobj_primitive_valuetype = () =>
+        [TestMethod]
+        public void throw_exception_newobj_primitive_valuetype ()
         {
             var exceptionThrown = false;
 
@@ -32,14 +33,15 @@ namespace Mono.Cecil.Fluent.Tests.Emit
                         .Ldc(true)
                         .NewObj<bool>()
                         .Ret();
-            } //ncrunch: no coverage
+            }
             catch { exceptionThrown = true; }
 
             if (!exceptionThrown)
-                throw new Exception(); //ncrunch: no coverage
-        };
+                throw new Exception();
+        }
 
-        It should_emit_newobj_valuetype_with_arg_and_return_new_object = () =>
+        [TestMethod]
+        public void emit_newobj_valuetype_with_arg_and_return_new_object () =>
             CreateStaticMethod()
                 .Returns<DateTime>()
                 .AppendIL()

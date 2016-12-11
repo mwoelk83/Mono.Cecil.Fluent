@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Linq;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mono.Cecil.Cil;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class LdArg : TestsBase
+    [TestClass]
+    public class LdArg : TestsBase
 	{
-		static readonly TypeDefinition TestType = CreateType();
-
-		static FluentEmitter NewTestMethod => new FluentEmitter(CreateMethod());
-
-		It should_load_this_parameter = () =>
-			NewTestMethod.LdThis()
+        [TestMethod]
+        public void load_this_parameter () =>
+            CreateMethod()
+                .AppendIL()
+                    .LdThis()
 				.Body.Instructions.First().OpCode.Should().Equal(OpCodes.Ldarg_0);
 
-		It should_load_arg_and_return_parameter = () =>
+        [TestMethod]
+        public void load_arg_and_return_parameter () =>
 			CreateStaticMethod()
 				.Returns<string>()
 				.WithParameter<string>()
@@ -29,7 +31,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<string,string>>()
 			    ("teststring").Should().Equal("teststring");
 
-		It should_load_arg_and_return_parameter_use_ld_param = () =>
+        [TestMethod]
+        public void load_arg_and_return_parameter_use_ld_param () =>
 			CreateStaticMethod()
 				.Returns<double>()
 				.WithParameter<double>()
@@ -39,7 +42,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<double,double>>()
 			    (10.01d).Should().Equal(10.01d);
 
-		It should_load_named_arg_and_return_parameter = () =>
+        [TestMethod]
+        public void load_named_arg_and_return_parameter () =>
 			CreateStaticMethod()
 				.Returns<string>()
 				.WithParameter<string>("arg1")
@@ -49,7 +53,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<string, string>>()
 			    ("teststring1").Should().Equal("teststring1");
 
-		It should_load_named_arg_and_return_parameter_use_ldparam = () =>
+        [TestMethod]
+        public void load_named_arg_and_return_parameter_use_ldparam () =>
 			CreateStaticMethod()
 				.Returns<string>()
 				.WithParameter<string>("arg1")
@@ -61,7 +66,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 
 		static readonly ParameterDefinition testparam  = new ParameterDefinition(TestModule.TypeSystem.String);
 
-		It should_load_arg_and_return_with_parameterdefinition = () =>
+        [TestMethod]
+        public void load_arg_and_return_with_parameterdefinition () =>
 			CreateStaticMethod()
 				.Returns<string>()
 				.WithParameter(testparam)
@@ -71,7 +77,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<string, string>>()
 			    ("teststring2").Should().Equal("teststring2");
 
-		It should_store_arg_with_parameterdefinition = () =>
+        [TestMethod]
+        public void store_arg_with_parameterdefinition () =>
 			CreateStaticMethod()
 				.Returns<string>()
 				.WithParameter(testparam)
@@ -83,7 +90,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<string, string>>()
 			    ("otherstring").Should().Equal("otherstring");
 
-		It should_load_many_args = () =>
+        [TestMethod]
+        public void load_many_args () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithParameter<int>()
@@ -101,7 +109,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int,int,int,int,int,int>>()
 			    (1,2,3,4,5).Should().Equal(1 + 2 + 3 + 4 + 5);
 
-		It should_store_values_in_many_args = () =>
+        [TestMethod]
+        public void store_values_in_many_args () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithParameter<int>()
@@ -121,7 +130,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int, int, int, int, int, int>>()
 			    (1, 2, 3, 4, 5).Should().Equal(6 + 7 + 8 + 9 + 10);
 
-		It should_store_numberparameters_in_args = () =>
+        [TestMethod]
+        public void store_numberparameters_in_args () =>
 			CreateStaticMethod()
 				.Returns<long>()//.DebuggerBreak()
 				.WithParameter<long>("arg1")
@@ -134,7 +144,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<long,long,long>>()
 			    (10,10).Should().Equal(200L);
 
-		It should_store_value_in_named_arg = () =>
+        [TestMethod]
+        public void store_value_in_named_arg () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithParameter<int>("arg1")
@@ -146,7 +157,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int, int>>()
 			    (100).Should().Equal(10);
 
-		It should_store_and_load_params_with_differnt_types = () =>
+        [TestMethod]
+        public void store_and_load_params_with_differnt_types () =>
 			CreateStaticMethod()
 				.Returns<double>()
 				.WithParameter<long>("arg1")

@@ -1,20 +1,19 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mono.Cecil.Cil;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class Locals : TestsBase
+    [TestClass]
+    public class Locals : TestsBase
 	{
-		static readonly TypeDefinition TestType = CreateType();
-
-		static FluentEmitter NewTestMethod => new FluentEmitter(CreateMethod());
-
-		It should_load_and_store_local = () =>
+        [TestMethod]
+        public void load_and_store_local () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithVariable<int>()
@@ -28,7 +27,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int>>()
 			    ().Should().Equal(3);
 
-		It should_load_and_store_named_local = () =>
+        [TestMethod]
+        public void load_and_store_named_local () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithVariable<int>("var1")
@@ -42,7 +42,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int>>()
 			    ().Should().Equal(3);
 
-		It should_store_locals_with_value = () =>
+        [TestMethod]
+        public void store_locals_with_value () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithVariable<int>("var1")
@@ -55,7 +56,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int>>()
 			    ().Should().Equal(2);
 
-		It should_store_and_load_many_locals_with_value = () =>
+        [TestMethod]
+        public void store_and_load_many_locals_with_value () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithVariable<int>("var1")
@@ -76,9 +78,10 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int>>()
 			    ().Should().Equal(6);
 
-		static VariableDefinition vardef = new VariableDefinition(TestModule.SafeImport(typeof(bool)));
+		static readonly VariableDefinition vardef = new VariableDefinition(TestModule.SafeImport(typeof(bool)));
 
-		It should_store_and_load_local_using_variabledefinition = () =>
+        [TestMethod]
+        public void store_and_load_local_using_variabledefinition () =>
 			CreateStaticMethod()
 				.Returns<bool>()
 				.WithVariable(vardef)
@@ -89,8 +92,9 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				    .Ret()
 			    .Compile<Func<bool>>()
 			    ().Should().Equal(true);
-		
-		It should_store_and_load_locals_with_differnt_types_with_manual_convert_instructions = () =>
+
+        [TestMethod]
+        public void store_and_load_locals_with_differnt_types_with_manual_convert_instructions () =>
 			CreateStaticMethod()
 				.Returns<double>()
 				.WithVariable<long>("var1")

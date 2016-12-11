@@ -1,19 +1,18 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class Conv : TestsBase
-	{
-		static readonly TypeDefinition TestType = CreateType();
-
-		static FluentEmitter NewTestMethod => new FluentEmitter(CreateMethod());
-
-		It should_conv_I8_to_I = () =>
+    [TestClass]
+    public class Conv : TestsBase
+    {
+        [TestMethod]
+        public void conv_I8_to_I () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -23,7 +22,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(int.MinValue);
 
-		It should_conv_I8_to_I1 = () =>
+        [TestMethod]
+        public void conv_I8_to_I1 () =>
 			CreateStaticMethod()
 			.Returns<sbyte>()
             .AppendIL()
@@ -33,7 +33,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<sbyte>>()
 			().Should().Equal(sbyte.MinValue);
 
-		It should_conv_I8_to_I2 = () =>
+        [TestMethod]
+        public void conv_I8_to_I2 () =>
 			CreateStaticMethod()
 			.Returns<short>()
             .AppendIL()
@@ -43,7 +44,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<short>>()
 			().Should().Equal(short.MinValue);
 
-		It should_conv_I8_to_I4 = () =>
+        [TestMethod]
+        public void conv_I8_to_I4 () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -53,7 +55,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(int.MinValue);
 
-		It should_conv_I4_to_I8 = () =>
+        [TestMethod]
+        public void conv_I4_to_I8 () =>
 			CreateStaticMethod()
 			.Returns<long>()
             .AppendIL()
@@ -63,7 +66,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<long>>()
 			().Should().Equal(100L);
 
-		It should_conv_I8_to_U = () =>
+        [TestMethod]
+        public void conv_I8_to_U () =>
 			CreateStaticMethod()
 			.Returns<uint>()
             .AppendIL()
@@ -73,7 +77,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<uint>>()
 			().Should().Equal((uint.MaxValue >> 1) + 1);
 
-		It should_conv_I8_to_U1 = () =>
+        [TestMethod]
+        public void conv_I8_to_U1 () =>
 			CreateStaticMethod()
 			.Returns<byte>()
             .AppendIL()
@@ -83,7 +88,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<byte>>()
 			().Should().Equal((byte)128);
 
-		It should_conv_I8_to_U2 = () =>
+        [TestMethod]
+        public void conv_I8_to_U2 () =>
 			CreateStaticMethod()
 			.Returns<ushort>()
             .AppendIL()
@@ -93,7 +99,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<ushort>>()
 			().Should().Equal((ushort)((ushort.MaxValue >> 1) + 1));
 
-		It should_conv_I8_to_U4 = () =>
+        [TestMethod]
+        public void conv_I8_to_U4 () =>
 			CreateStaticMethod()
 			.Returns<uint>()
             .AppendIL()
@@ -103,7 +110,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<uint>>()
 			().Should().Equal((uint.MaxValue >> 1) + 1);
 
-		It should_conv_I4_to_U8 = () =>
+        [TestMethod]
+        public void conv_I4_to_U8 () =>
 			CreateStaticMethod()
 			.Returns<ulong>()//.DebuggerBreak()
             .AppendIL()
@@ -113,7 +121,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<ulong>>()
 			().Should().Equal((ulong.MaxValue >> 33) + 1);
 
-		It should_conv_R4_to_R8 = () =>
+        [TestMethod]
+        public void conv_R4_to_R8 () =>
 			CreateStaticMethod()
 			.Returns<double>()
             .AppendIL()
@@ -123,7 +132,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<double>>()
 			().Should().Equal((double)1.01f);
 
-		It should_conv_R8_to_R4 = () =>
+        [TestMethod]
+        public void conv_R8_to_R4 () =>
 			CreateStaticMethod()
 			.Returns<float>()
             .AppendIL()

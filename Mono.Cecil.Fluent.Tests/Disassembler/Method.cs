@@ -1,19 +1,21 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Disassembler
 {
-	public class Disassembly_Method : TestsBase
+    [TestClass]
+    public class Disassembly_Method : TestsBase
 	{
 		static readonly string LF = Environment.NewLine;
-		static readonly TypeDefinition TestType = CreateType();
 		static readonly MethodDefinition TestMethod = CreateMethod();
 
-		It should_disassemble_method = () =>
+        [TestMethod]
+        public void disassemble_method () =>
 			TestModule.SafeImport(typeof(Uri).GetMethod("GetComponents")).Resolve()
 				.Disassemble()
 				.Should().StartWith(
@@ -28,7 +30,8 @@ namespace Mono.Cecil.Fluent.Tests.Disassembler
 						"	)" + LF +
 						"	// Code size 138 (0x8a)");
 
-		It should_disassemble_fluentmethod = () =>
+        [TestMethod]
+        public void disassemble_fluentmethod () =>
 			TestMethod
 				.ReturnsVoid()
                 .AppendIL()

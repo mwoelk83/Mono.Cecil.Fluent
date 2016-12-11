@@ -1,34 +1,40 @@
 ﻿using System.Collections;
 using System.IO;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Extensions
 {
+    [TestClass]
 	public class Extensions_Returns : TestsBase
 	{
 		static readonly TypeDefinition TestType = CreateType();
 		static readonly MethodDefinition TestMethod = CreateMethod();
 
-		It should_return_void = () => 
+        [TestMethod]
+		public void return_void () => 
 			TestMethod
 			.ReturnsVoid()
 			.ReturnType.Should().Equal(TestModule.TypeSystem.Void);
 
-		It should_return_typereference = () => 
+        [TestMethod]
+        public void return_typereference () => 
 			TestMethod
 			.Returns(TestType)
 			.ReturnType.Should().Equal(TestType);
 
-		It should_return_system_type = () => 
+        [TestMethod]
+        public void return_system_type () => 
 			TestMethod
 			.Returns(typeof(ArrayList))
 			.ReturnType.Should().Equal<ArrayList>();
 
-		It should_return_system_type_generic = () =>
+        [TestMethod]
+        public void return_system_type_generic () =>
 			TestMethod
 			.Returns<FileInfo>()
 			.ReturnType.Should().Equal<FileInfo>();

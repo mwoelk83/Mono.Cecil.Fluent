@@ -1,21 +1,24 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mono.Cecil.Fluent.Utils;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Disassembler
 {
-	public class Disassembly_Property : TestsBase
+    [TestClass]
+    public class Disassembly_Property : TestsBase
 	{
 		static readonly string LF = Environment.NewLine;
+
 		static readonly TypeDefinition TestType = CreateType();
-		
 		static readonly PropertyDefinition testprop = CreateProperty();
 
-		static PropertyDefinition CreateProperty()
+        [TestMethod]
+        static PropertyDefinition CreateProperty()
 		{
 			var prop = new PropertyDefinition(Generate.Name.ForMethod(), PropertyAttributes.None, TestModule.TypeSystem.Boolean);
 			TestType.Properties.Add(prop);
@@ -29,7 +32,8 @@ namespace Mono.Cecil.Fluent.Tests.Disassembler
 			return prop;
 		}
 
-		It should_disassemble_property = () =>
+        [TestMethod]
+        public void disassemble_property () =>
 			testprop
 				.Disassemble()
 				.Should().Equal($".property instance bool {testprop.Name}()" + LF +

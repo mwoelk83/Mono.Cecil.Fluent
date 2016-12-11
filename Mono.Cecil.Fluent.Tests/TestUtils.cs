@@ -8,6 +8,7 @@ namespace Mono.Cecil.Fluent.Tests
 	internal static class TestUtils
 	{
 		[DebuggerStepThrough]
+		// ReSharper disable once UnusedMember.Global
 		public static T DebuggerBreak<T>(this T obj)
 		{
 			Debugger.Break();

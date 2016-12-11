@@ -38,7 +38,7 @@ namespace Mono.Cecil.Fluent.Utils
 				while (true)
 				{
 					if (ret.Length > 16)
-						ret = ret.Substring(0, 2); // ncrunch: no coverage
+						ret = ret.Substring(0, 2);
 
 					ret += IdentifierChars[Rnd.Next(0, IdentifierChars.Length - 1)];
 					ret += IdentifierChars[Rnd.Next(0, IdentifierChars.Length - 1)];
@@ -46,7 +46,7 @@ namespace Mono.Cecil.Fluent.Utils
 					lock (SyncRoot)
 					{
 						if (used.Contains(ret))
-							continue; // ncrunch: no coverage
+							continue;
 						used.Add(ret);
 						return ret;
 					}

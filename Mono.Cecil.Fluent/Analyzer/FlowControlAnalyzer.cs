@@ -48,7 +48,7 @@ namespace Mono.Cecil.Fluent.Analyzer
 			var codePaths = new Dictionary<Instruction, CodePath>();
 
 			if (body.Instructions.Count == 0)
-				return codePaths; // ncrunch: no coverage
+				return codePaths;
 
             var current = body.Instructions[0];
 			var pathstart = current;
@@ -97,7 +97,7 @@ namespace Mono.Cecil.Fluent.Analyzer
 			var jumptargets = new HashSet<Instruction>();
 
 			if (body.Instructions.Count == 0)
-				return jumptargets; // ncrunch: no coverage
+				return jumptargets;
 
 			var current = body.Instructions[0];
 			jumptargets.Add(current);

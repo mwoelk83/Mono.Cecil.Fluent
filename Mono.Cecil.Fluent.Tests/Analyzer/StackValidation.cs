@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mono.Cecil.Fluent.Analyzer;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Analyzer
 {
+    [TestClass]
 	public class StackValidation : TestsBase
     {
-        It should_disable_stack_validation = () =>
+        public void disable_stack_validation () =>
             CreateStaticMethod()
             .ReturnsVoid()
                 .AppendIL()
@@ -19,7 +21,8 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
                     .Pop()
                     .Ret();
 
-        It should_enable_stack_validation_on_return = () =>
+        [TestMethod]
+        public void enable_stack_validation_on_return ()
         {
             var exceptionThrown = false;
 
@@ -31,14 +34,15 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
                         .SetStackValidationMode(StackValidationMode.OnReturn)
                         .Pop()
                         .Ret(); // << must throw exception here
-            } //ncrunch: no coverage
+            }
             catch { exceptionThrown = true; }
 
             if (!exceptionThrown)
-                throw new Exception(); //ncrunch: no coverage
-        };
+                throw new Exception();
+        }
 
-        It should_enable_stack_validation_on_emit = () =>
+        [TestMethod]
+        public void enable_stack_validation_on_emit ()
         {
             var exceptionThrown = false;
 
@@ -49,14 +53,15 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
                     .AppendIL()
                         .SetStackValidationMode(StackValidationMode.OnEmit)
                         .Pop(); // << must throw exception here
-            } //ncrunch: no coverage
+            }
             catch { exceptionThrown = true; }
 
             if (!exceptionThrown)
-                throw new Exception(); //ncrunch: no coverage
-        };
+                throw new Exception();
+        }
 
-        It should_validate_all_methods_of_types_in_system_namespace = () =>
+        [TestMethod]
+        public void validate_all_methods_of_types_in_system_namespace ()
 		{
 			foreach (var method in typeof(string).Assembly.GetTypes().Where(t => t.Namespace == "System")
 				.SelectMany(t => t.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)))
@@ -65,6 +70,6 @@ namespace Mono.Cecil.Fluent.Tests.Analyzer
                 var analyzer = new FlowControlAnalyzer(body);
 				analyzer.ValidateFullStackOrThrow();
 			}
-		};
+		}
 	}
 }

@@ -1,17 +1,18 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class Branches : TestsBase
-	{
-		static readonly TypeDefinition TestType = CreateType();
-
-		It should_emit_if_block = () =>
+    [TestClass]
+    public class Branches : TestsBase
+    {
+        [TestMethod]
+        public void emit_if_block () =>
 			CreateStaticMethod()
                 .Returns<int>()
 				.WithParameter<bool>()
@@ -24,7 +25,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<bool,int>>()
 			    (false).Should().Equal(100);
 
-		It should_emit_ifnot_block = () =>
+        [TestMethod]
+        public void emit_ifnot_block () =>
 			CreateStaticMethod()
 				.Returns<int>()
 				.WithParameter<bool>()
@@ -50,8 +52,11 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ret(false)
 			.Compile<Func<long,long,bool>>();
 
-		It should_be_less_than = () => LessThenMethod(50, 100).Should().Equal(true);
-		It should_not_be_less_than = () => LessThenMethod(500, 100).Should().Equal(false);
+        [TestMethod]
+        public void be_less_than () => LessThenMethod(50, 100).Should().Equal(true);
+
+        [TestMethod]
+        public void not_be_less_than () => LessThenMethod(500, 100).Should().Equal(false);
 
 		static Func<int, int, bool> GreaterThanMethod => CreateStaticMethod()
 			.Returns<bool>()
@@ -66,8 +71,11 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ret(false)
 			.Compile<Func<int,int,bool>>();
 
-		It should_be_greater_than = () => GreaterThanMethod(500, 100).Should().Equal(true);
-		It should_not_be_greater_than = () => GreaterThanMethod(50, 100).Should().Equal(false);
+        [TestMethod]
+        public void be_greater_than () => GreaterThanMethod(500, 100).Should().Equal(true);
+
+        [TestMethod]
+        public void not_be_greater_than () => GreaterThanMethod(50, 100).Should().Equal(false);
 
 		static Func<long, long, bool> LessThenOrEqualMethod => CreateStaticMethod()
 			.Returns<bool>()
@@ -82,9 +90,14 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ret(false)
 			.Compile<Func<long, long, bool>>();
 
-		It should_be_less_than_or_equal = () => LessThenOrEqualMethod(100, 100).Should().Equal(true);
-		It should_be_less_than_or_equal_2 = () => LessThenOrEqualMethod(7, 100).Should().Equal(true);
-		It should_not_be_less_than_or_equal = () => LessThenOrEqualMethod(500, 100).Should().Equal(false);
+        [TestMethod]
+        public void be_less_than_or_equal () => LessThenOrEqualMethod(100, 100).Should().Equal(true);
+
+        [TestMethod]
+        public void be_less_than_or_equal_2 () => LessThenOrEqualMethod(7, 100).Should().Equal(true);
+
+        [TestMethod]
+        public void not_be_less_than_or_equal () => LessThenOrEqualMethod(500, 100).Should().Equal(false);
 
 		static  Func<int, int, bool> GreaterThanOrEqualMethod => CreateStaticMethod()
 			.Returns<bool>()
@@ -99,9 +112,14 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.Ret(false)
 			.Compile<Func<int, int, bool>>();
 
-		It should_be_greater_than_or_equal = () => GreaterThanOrEqualMethod(100, 100).Should().Equal(true);
-		It should_be_greater_than_or_equal_2 = () => GreaterThanOrEqualMethod(1000, 100).Should().Equal(true);
-		It should_not_be_greater_than_or_equal = () => GreaterThanOrEqualMethod(5, 100).Should().Equal(false);
+        [TestMethod]
+        public void be_greater_than_or_equal () => GreaterThanOrEqualMethod(100, 100).Should().Equal(true);
+
+        [TestMethod]
+        public void be_greater_than_or_equal_2 () => GreaterThanOrEqualMethod(1000, 100).Should().Equal(true);
+
+        [TestMethod]
+        public void not_be_greater_than_or_equal () => GreaterThanOrEqualMethod(5, 100).Should().Equal(false);
 
 		static Func<int, int, int> NestedNumberComparisonFunction => CreateStaticMethod()
 			.Returns<int>()
@@ -123,11 +141,16 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.EndIf()
 			.Compile<Func<int, int, int>>();
 
-		It should_compare_numbers = () => NestedNumberComparisonFunction(100, 100).Should().Equal(0);
-		It should_compare_numbers_2 = () => NestedNumberComparisonFunction(1000, 100).Should().Equal(1);
-		It should_compare_numbers_3 = () => NestedNumberComparisonFunction(5, 100).Should().Equal(-1);
+        [TestMethod]
+        public void compare_numbers () => NestedNumberComparisonFunction(100, 100).Should().Equal(0);
 
-		static Func<int, int, int> NestedNumberComparisonFunctionWithLocal => CreateStaticMethod()
+        [TestMethod]
+        public void compare_numbers_2 () => NestedNumberComparisonFunction(1000, 100).Should().Equal(1);
+
+        [TestMethod]
+        public void compare_numbers_3 () => NestedNumberComparisonFunction(5, 100).Should().Equal(-1);
+        
+        static Func<int, int, int> NestedNumberComparisonFunctionWithLocal => CreateStaticMethod()
 			.Returns<int>()
 			.WithParameter<int>()
 			.WithParameter<int>()
@@ -149,8 +172,13 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				.RetLoc("ret")
 			.Compile<Func<int, int, int>>();
 
-		It should_compare_numbers_with_locals = () => NestedNumberComparisonFunctionWithLocal(100, 100).Should().Equal(0);
-		It should_compare_numbers_with_locals_2 = () => NestedNumberComparisonFunctionWithLocal(1000, 100).Should().Equal(1);
-		It should_compare_numbers_with_locals_3 = () => NestedNumberComparisonFunctionWithLocal(5, 100).Should().Equal(-1);
+        [TestMethod]
+        public void compare_numbers_with_locals () => NestedNumberComparisonFunctionWithLocal(100, 100).Should().Equal(0);
+
+        [TestMethod]
+        public void compare_numbers_with_locals_2 () => NestedNumberComparisonFunctionWithLocal(1000, 100).Should().Equal(1);
+
+        [TestMethod]
+        public void compare_numbers_with_locals_3 () => NestedNumberComparisonFunctionWithLocal(5, 100).Should().Equal(-1);
 	}
 }

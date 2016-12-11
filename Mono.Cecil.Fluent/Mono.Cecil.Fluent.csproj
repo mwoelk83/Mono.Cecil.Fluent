@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__DEMO__,__DEMO_EXPERIMENTAL__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="Extensions\IMemberDefinition\Disassemble.cs" />
+    <Compile Include="Extensions\IMemberDefinition\WithFieldInternal.cs" />
     <Compile Include="Extensions\MethodDefinition\DisassembleBody.cs" />
     <Compile Include="StackValidationMode.cs" />
     <Compile Include="Decompiler\Disassembler\DisassemblerHelper.cs" />
@@ -77,9 +78,7 @@
     <Compile Include="Emit\Branches.cs" />
     <Compile Include="Emit\Call.cs" />
     <Compile Include="Emit\NewObj.cs" />
-    <Compile Include="Emit\System\System.Math.cs" />
     <Compile Include="Emit\Parameters.cs" />
-    <Compile Include="Emit\System\System.cs" />
     <Compile Include="Extensions\Attributes.cs" />
     <Compile Include="Extensions\EventDefinition\EventAttributes.cs" />
     <Compile Include="Extensions\ICustomAttributeProvider\IsCompilerGenerated.cs" />

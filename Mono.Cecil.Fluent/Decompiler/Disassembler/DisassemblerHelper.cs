@@ -306,7 +306,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 		public static void WriteOperand(PlainTextOutput writer, object operand)
 		{
 			if (operand == null)
-				throw new ArgumentNullException(nameof(operand)); // ncrunch: no coverage
+				throw new ArgumentNullException(nameof(operand));
 			var targetInstruction = operand as Instruction;
 			if (targetInstruction != null)
 			{

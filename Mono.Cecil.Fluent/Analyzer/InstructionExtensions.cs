@@ -53,9 +53,9 @@ namespace Mono.Cecil.Fluent.Analyzer
         public static int GetPopCount(this Instruction self, MethodReference method, int currentstacksize = 0)
 		{
 			if (self == null)
-				throw new ArgumentException("self"); // ncrunch: no coverage
+				throw new ArgumentException("self");
             if (method == null)
-				throw new ArgumentException("method"); // ncrunch: no coverage
+				throw new ArgumentException("method");
 
             var sbp = self.OpCode.StackBehaviourPop;
 
@@ -84,7 +84,7 @@ namespace Mono.Cecil.Fluent.Analyzer
 		public static int GetPushCount(this Instruction self)
 		{
 			if (self == null)
-				throw new ArgumentNullException(nameof(self)); // ncrunch: no coverage
+				throw new ArgumentNullException(nameof(self));
 
 			var stackbehaviourpush = self.OpCode.StackBehaviourPush;
 

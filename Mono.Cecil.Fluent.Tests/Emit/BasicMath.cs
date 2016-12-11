@@ -1,19 +1,18 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class BasicMath : TestsBase
-	{
-		static readonly TypeDefinition TestType = CreateType();
-
-		static FluentEmitter NewTestMethod => new FluentEmitter(CreateMethod());
-
-		It should_return_remainder_of_ten_by_four = () =>
+    [TestClass]
+    public class BasicMath : TestsBase
+    {
+        [TestMethod]
+        public void return_remainder_of_ten_by_four () =>
 			CreateStaticMethod()
 			.Returns<byte>()
             .AppendIL()
@@ -23,7 +22,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<byte>>()
 			().Should().Equal((byte)2);
 
-		It should_return_remainder_of_twenty_by_seven = () =>
+        [TestMethod]
+        public void return_remainder_of_twenty_by_seven () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -34,7 +34,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(6);
 
-		It should_return_remainder_of_twenty_by_seven_unsigned = () =>
+        [TestMethod]
+        public void return_remainder_of_twenty_by_seven_unsigned () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -44,7 +45,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(6);
 
-		It should_return_remainder_of_tenmillion_by_1303 = () =>
+        [TestMethod]
+        public void return_remainder_of_tenmillion_by_1303 () =>
 			CreateStaticMethod()
 			.Returns<uint>()
             .AppendIL()
@@ -55,7 +57,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<uint>>()
 			().Should().Equal(778U);
 
-		It should_return_remainder_of_tenmillion_by_1303_ulong = () =>
+        [TestMethod]
+        public void return_remainder_of_tenmillion_by_1303_ulong () =>
 			CreateStaticMethod()
 			.Returns<ulong>()
             .AppendIL()
@@ -66,7 +69,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<ulong>>()
 			().Should().Equal(778UL);
 
-		It should_add_3 = () =>
+        [TestMethod]
+        public void add_3 () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -77,7 +81,7 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(3);
 
-		It should_add_3_with_arg = () =>
+		public void add_3_with_arg () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -87,7 +91,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(3);
 
-		It should_sub_3 = () =>
+        [TestMethod]
+        public void sub_3 () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -98,7 +103,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(-3);
 
-		It should_sub_3_with_arg = () =>
+        [TestMethod]
+        public void sub_3_with_arg () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -108,7 +114,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(-3);
 
-		It should_mul_by_3 = () =>
+        [TestMethod]
+        public void mul_by_3 () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -119,7 +126,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(15);
 
-		It should_mul_by_3_with_arg = () =>
+        [TestMethod]
+        public void mul_by_3_with_arg () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -129,7 +137,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(15);
 
-		It should_div_by_3 = () =>
+        [TestMethod]
+        public void div_by_3 () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -140,7 +149,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(5);
 
-		It should_div_by_3_with_arg = () =>
+        [TestMethod]
+        public void div_by_3_with_arg () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -150,7 +160,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(5);
 
-		It should_div_by_3_un = () =>
+        [TestMethod]
+        public void div_by_3_un () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -161,7 +172,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(5);
 
-		It should_div_by_3_with_arg_un = () =>
+        [TestMethod]
+        public void div_by_3_with_arg_un () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .AppendIL()
@@ -171,8 +183,9 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			.Compile<Func<int>>()
 			().Should().Equal(5);
 
-		// improves code coverage
-		It should_add_a_bool_and_a_sbyte = () => 
+        [TestMethod]
+        // improves code coverage
+        public void add_a_bool_and_a_sbyte () => 
 			CreateStaticMethod()
 			.Returns<byte>()
             .AppendIL()

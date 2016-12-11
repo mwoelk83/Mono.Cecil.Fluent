@@ -95,7 +95,7 @@ namespace Mono.Cecil.Fluent
 		private static void CopyBranchStackSize(ref Dictionary<Instruction, int> stackSizes, Instruction target, int stackSize)
 		{
 			if (stackSizes == null)
-				stackSizes = new Dictionary<Instruction, int>(); // ncrunch: no coverage
+				stackSizes = new Dictionary<Instruction, int>();
             var branchStackSize = stackSize;
 			int computedSize;
 			if (stackSizes.TryGetValue(target, out computedSize))

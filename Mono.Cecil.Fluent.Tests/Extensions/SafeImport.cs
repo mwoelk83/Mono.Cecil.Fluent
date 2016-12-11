@@ -3,64 +3,68 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
-using Machine.Specifications;
-using Machine.Specifications.Utility;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Extensions
 {
+    [TestClass]
 	public class Extensions_SafeImport : TestsBase
 	{
-		static readonly TypeDefinition TestType = CreateType();
-
-		static MethodDefinition NewTestMethod => CreateMethod();
-
-		static FieldDefinition NewTestField => CreateField();
-
-		It should_import_typereference = () =>
+        [TestMethod]
+		public void import_typereference () =>
 			TestModule
 			.SafeImport(CreateType())
 			.Should().Not.Be.Null();
 
-		It should_import_methodreference = () =>
+        [TestMethod]
+        public void import_methodreference () =>
 			TestModule
 			.SafeImport(CreateMethod())
 			.Should().Not.Be.Null();
 
-		It should_import_fieldreference = () =>
+        [TestMethod]
+        public void import_fieldreference () =>
 			TestModule
 			.SafeImport(CreateField())
 			.Should().Not.Be.Null();
 
-		It should_import_system_type_generic = () => 
+        [TestMethod]
+        public void import_system_type_generic () => 
 			TestModule
 			.SafeImport<FileInfo>()
 			.Should().Not.Be.Null();
 
-		It should_import_system_type = () =>
+        [TestMethod]
+        public void import_system_type () =>
 			TestModule
 			.SafeImport(typeof(XNode))
 			.Should().Not.Be.Null();
 
-		It should_import_system_typeinfo = () =>
+        [TestMethod]
+        public void import_system_typeinfo () =>
 			TestModule
 			.SafeImport(typeof(XNode).GetTypeInfo())
 			.Should().Not.Be.Null();
 
-		It should_import_system_fieldinfo = () =>
+        [TestMethod]
+        public void import_system_fieldinfo () =>
 			TestModule
-			.SafeImport(typeof(Tuple<string, string>).GetInstanceFields().First())
+			.SafeImport(typeof(Tuple<string, string>).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).First())
 			.Should().Not.Be.Null();
 
-		It should_import_system_methodinfo = () =>
+        [TestMethod]
+        public void import_system_methodinfo () =>
 			TestModule
 			.SafeImport(typeof(Console).GetMethods().First())
 			.Should().Not.Be.Null();
 
-		It should_import_system_constructorinfo = () =>
+        [TestMethod]
+        public void import_system_constructorinfo () =>
 			TestModule
 			.SafeImport(typeof(Tuple<string, string>).GetConstructors().First())
 			.Should().Not.Be.Null();

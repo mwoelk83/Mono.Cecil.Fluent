@@ -55,7 +55,7 @@ namespace Mono.Cecil.Fluent
         {
             Type[] paramTypes = methodReference.Parameters.Select(p => Load(p.ParameterType)).ToArray();
             if (paramTypes.Any(t => t == null))
-                return null; // ncrunch: no coverage
+                return null;
 
             return Load(methodReference.DeclaringType)?
                 .GetMethod(methodReference.Name, paramTypes);
@@ -64,11 +64,11 @@ namespace Mono.Cecil.Fluent
         public ConstructorInfo LoadConstructor(MethodReference methodReference)
         {
             if (methodReference.Name != ".ctor")
-                throw new Exception($"the method {methodReference.FullName} is not a constructor"); // ncrunch: no coverage
+                throw new Exception($"the method {methodReference.FullName} is not a constructor");
 
             Type[] paramTypes = methodReference.Parameters.Select(p => Load(p.ParameterType)).ToArray();
             if (paramTypes.Any(t => t == null))
-                return null; // ncrunch: no coverage
+                return null;
 
             return Load(methodReference.DeclaringType)?
                 .GetConstructor(paramTypes);

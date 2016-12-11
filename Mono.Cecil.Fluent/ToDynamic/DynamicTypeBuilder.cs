@@ -29,7 +29,7 @@ namespace Mono.Cecil.Fluent
 			{
 				parent = importer.Load(_type.BaseType);
 				if (parent == null)
-					throw new Exception($"can not resolve base type '{_type.BaseType.FullName}' in current app domain"); // ncrunch: no coverage
+					throw new Exception($"can not resolve base type '{_type.BaseType.FullName}' in current app domain");
 			}
 			if (_type.Interfaces.Count != 0)
 			{
@@ -37,7 +37,7 @@ namespace Mono.Cecil.Fluent
 				{
 					var iface = importer.Load(@interface);
 					if (iface == null)
-						throw new Exception($"can not resolve interface type '{@interface.FullName}' in current app domain"); // ncrunch: no coverage
+						throw new Exception($"can not resolve interface type '{@interface.FullName}' in current app domain");
                     interfaces.Add(iface);
 				}
 			}
@@ -48,7 +48,7 @@ namespace Mono.Cecil.Fluent
 			{
 				var fieldtype = importer.Load(field.FieldType);
 				if (fieldtype == null)
-					throw new Exception($"can not resolve type '{field.FieldType.FullName}' for field '{field.Name}' in current app domain"); // ncrunch: no coverage
+					throw new Exception($"can not resolve type '{field.FieldType.FullName}' for field '{field.Name}' in current app domain");
                 typebuilder.DefineField(field.Name, fieldtype, (System.Reflection.FieldAttributes) field.Attributes);
 			}
 
@@ -56,13 +56,13 @@ namespace Mono.Cecil.Fluent
 			{
 				var returntype = importer.Load(method.ReturnType);
 				if (returntype == null)
-					throw new Exception($"can not resolve type '{method.ReturnType.FullName}' for method '{method.Name}' in current app domain"); // ncrunch: no coverage
+					throw new Exception($"can not resolve type '{method.ReturnType.FullName}' for method '{method.Name}' in current app domain");
                 var paramtypes = new List<Type>();
 				foreach (var param in method.Parameters)
 				{
 					var t = importer.Load(param.ParameterType);
 					if (t == null)
-						throw new Exception($"can not resolve type '{method.ReturnType.FullName}' for method '{method.Name}' parameter '{param.Name}' in current app domain"); // ncrunch: no coverage
+						throw new Exception($"can not resolve type '{method.ReturnType.FullName}' for method '{method.Name}' parameter '{param.Name}' in current app domain");
                     paramtypes.Add(t);
 				}
 				var mb = typebuilder.DefineMethod(method.Name, (System.Reflection.MethodAttributes) method.Attributes, returntype, paramtypes.ToArray());

@@ -1,17 +1,18 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Emit
 {
-	public class Basics : TestsBase
-	{
-		static readonly TypeDefinition TestType = CreateType();
-
-		It should_dup_value = () =>
+    [TestClass]
+    public class Basics : TestsBase
+    {
+        [TestMethod]
+        public void dup_value () =>
 			CreateStaticMethod()
 				.Returns<int>()
                 .AppendIL()
@@ -22,7 +23,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int>>()
 			    ().Should().Equal(20);
 
-		It should_add_nops = () =>
+        [TestMethod]
+        public void add_nops () =>
 			CreateStaticMethod()
 				.ReturnsVoid()
                 .AppendIL()
@@ -31,7 +33,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				    .Nop()
 			    .Body.Instructions.Count.Should().Equal(3);
 
-		It should_pop_value = () =>
+        [TestMethod]
+        public void pop_value () =>
 			CreateStaticMethod()
 				.ReturnsVoid()
                 .AppendIL()
@@ -40,7 +43,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 				    .Ret()
 			    .Compile<Action>()();
 
-		It should_invert_bitwise = () =>
+        [TestMethod]
+        public void invert_bitwise () =>
 			CreateStaticMethod()
 				.Returns<ushort>()
                 .AppendIL()
@@ -50,7 +54,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<ushort>>()
 			    ().Should().Equal((ushort)0xFF00);
 
-		It should_ldnull = () =>
+        [TestMethod]
+        public void ldnull () =>
 			CreateStaticMethod()
 				.Returns<object>()
                 .AppendIL()
@@ -59,7 +64,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<object>>()
 			    ().Should().Equal(null);
 
-		It should_ret_int = () =>
+        [TestMethod]
+        public void ret_int () =>
 			CreateStaticMethod()
 				.Returns<int>()
                 .AppendIL()
@@ -67,7 +73,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int>>()
 			    ().Should().Equal(10);
 
-		It should_ret_long = () =>
+        [TestMethod]
+        public void ret_long () =>
 			CreateStaticMethod()
 				.Returns<long>()
                 .AppendIL()
@@ -75,7 +82,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<long>>()
 			    ().Should().Equal(1L);
 
-		It should_ret_float = () =>
+        [TestMethod]
+        public void ret_float () =>
 			CreateStaticMethod()
 				.Returns<float>()
                 .AppendIL()
@@ -83,7 +91,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<float>>()
 			    ().Should().Equal(10f);
 
-		It should_ret_double = () =>
+        [TestMethod]
+        public void ret_double () =>
 			CreateStaticMethod()
 				.Returns<double>()
                 .AppendIL()
@@ -91,7 +100,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .ToDynamicMethod()
 			    .Invoke(null, null).Should().Equal(10d);
 
-		It should_ret_loc_with_name = () =>
+        [TestMethod]
+        public void ret_loc_with_name () =>
 			CreateStaticMethod()
 				.WithVariable<int>("ret")
 				.Returns<int>()
@@ -101,7 +111,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int>>()
 			    ().Should().Equal(100);
 
-		It should_ret_loc_with_index = () =>
+        [TestMethod]
+        public void ret_loc_with_index () =>
 			CreateStaticMethod()
 				.WithVariable<int>("ret")
 				.Returns<int>()
@@ -111,7 +122,8 @@ namespace Mono.Cecil.Fluent.Tests.Emit
 			    .Compile<Func<int>>()
 			    ().Should().Equal(1100);
 
-		It should_ret_arg_with_name = () =>
+        [TestMethod]
+        public void ret_arg_with_name () =>
 			CreateStaticMethod()
 				.WithParameter<int>("ret")
 				.Returns<int>()

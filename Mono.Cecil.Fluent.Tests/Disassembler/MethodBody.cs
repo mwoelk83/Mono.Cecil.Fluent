@@ -1,17 +1,20 @@
 ﻿using System;
-using Machine.Specifications;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should.Fluent;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
+// ReSharper disable UnusedMember.Global
 
 namespace Mono.Cecil.Fluent.Tests.Disassembler
 {
-	public class Disassembly_MethodBody : TestsBase
+    [TestClass]
+    public class Disassembly_MethodBody : TestsBase
 	{
 		static readonly string LF = Environment.NewLine;
 
-		It should_disassemble_body = () =>
+        [TestMethod]
+        public void disassemble_body () =>
 			CreateStaticMethod()
 			.Returns<int>()
             .WithVariable<int>()
@@ -36,28 +39,32 @@ namespace Mono.Cecil.Fluent.Tests.Disassembler
 							"IL_0004: add" + LF +
 							"IL_0005: ret" + LF);
 
-		It should_disassemble_big_method_body_with_branches = () =>
+        [TestMethod]
+        public void disassemble_big_method_body_with_branches () =>
 			TestModule.SafeImport(typeof (Uri).GetMethod("GetComponents")).Resolve()
 				.DisassembleBody()
 				.Should().Contain("IL_003d: ldarg.0" + LF +
 								  "IL_003e: call instance bool System.Uri::get_IsNotAbsoluteUri()" + LF +
 								  "IL_0043: brfalse.s IL_0065");
 
-		It should_disassemble_method_with_loop = () =>
+        [TestMethod]
+        public void disassemble_method_with_loop () =>
 			TestModule.SafeImport(typeof (string).GetMethod("Join", new[] {typeof (string), typeof (object[])})).Resolve()
 				.DisassembleBody()
 				.Should().Contain("\tIL_006f: conv.i4" + LF +
 								  "\tIL_0070: blt.s IL_0047" + LF +
 								  "// end loop");
 
-		It should_disassemble_method_with_try_catch = () =>
+        [TestMethod]
+        public void disassemble_method_with_try_catch () =>
 			TestModule.SafeImport(typeof (decimal).GetMethod("ToInt16")).Resolve()
 				.DisassembleBody()
 				.Should().Contain("} // end .try" + LF +
 								  "catch System.OverflowException" + LF +
 								  "{");
 
-		It should_disassemble_method_with_try_finally = () =>
+        [TestMethod]
+        public void disassemble_method_with_try_finally () =>
 			TestModule.SafeImport(typeof(Console).GetProperty("IsInputRedirected").GetMethod).Resolve()
 				.DisassembleBody()
 				.Should().Contain("} // end .try" + LF +

@@ -11,12 +11,12 @@ namespace Mono.Cecil.Fluent
 		public VariableDefinition GetVariable(string varname)
 		{
 			if(string.IsNullOrEmpty(varname))
-				throw new ArgumentException("varname cannot be null or empty"); //ncrunch: no coverage
+				throw new ArgumentException("varname cannot be null or empty");
 
 			var var = Variables.FirstOrDefault(v => v.Name == varname);
 
 			if (var == null)
-				throw new KeyNotFoundException($"found no variable with name '{varname}'"); //ncrunch: no coverage
+				throw new KeyNotFoundException($"found no variable with name '{varname}'");
 
 			return var;
 		}
@@ -24,12 +24,12 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldloc(params uint[] indexes)
 		{
 			if(indexes == null)
-				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(indexes));
 
 			foreach (var i in indexes)
 			{
 				if(Variables.Count <= i)
-					throw new IndexOutOfRangeException($"no variable found at index {i}"); //ncrunch: no coverage
+					throw new IndexOutOfRangeException($"no variable found at index {i}");
 
 				switch (i)
 				{
@@ -57,7 +57,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldloc(params string[] names)
 		{
 			if (names == null)
-				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(names));
 
 			foreach (var name in names)
 				Ldloc((uint) GetVariable(name).Index);
@@ -68,14 +68,14 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldloc(params VariableDefinition[] vars)
 		{
 			if (vars == null)
-				throw new ArgumentNullException(nameof(vars)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(vars));
 
 			foreach (var var in vars)
 			{
 				if (var == null)
-					throw new ArgumentNullException($"variable is null"); //ncrunch: no coverage
+					throw new ArgumentNullException($"variable is null");
 				if (Variables.All(v => v != var))
-					throw new ArgumentException("variable must be declared in method body before using it"); //ncrunch: no coverage
+					throw new ArgumentException("variable must be declared in method body before using it");
 
 				Ldloc((uint)var.Index);
 			}
@@ -86,14 +86,14 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldloca(params VariableDefinition[] vars)
 		{
 			if (vars == null)
-				throw new ArgumentNullException(nameof(vars)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(vars));
 
 			foreach (var var in vars)
 			{
 				if (var == null)
-					throw new ArgumentNullException($"variable is null"); //ncrunch: no coverage
+					throw new ArgumentNullException($"variable is null");
 				if (Variables.All(v => v != var))
-					throw new ArgumentException("variable must be declared in method body before using it"); //ncrunch: no coverage
+					throw new ArgumentException("variable must be declared in method body before using it");
 
 				Ldloca((uint)var.Index);
 			}
@@ -104,7 +104,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldloca(params string[] names)
 		{
 			if (names == null)
-				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(names));
 
 			foreach (var name in names)
 				Ldloca((uint)GetVariable(name).Index);
@@ -115,12 +115,12 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Ldloca(params uint[] indexes)
 		{
 			if (indexes == null)
-				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(indexes));
 
 			foreach (var i in indexes)
 			{
 				if (Variables.Count <= i)
-					throw new IndexOutOfRangeException($"no variable found at index {i}"); //ncrunch: no coverage
+					throw new IndexOutOfRangeException($"no variable found at index {i}");
 				
 				Emit(i < sbyte.MaxValue ? OpCodes.Ldloca_S : OpCodes.Ldloca, Variables[(int)i]);
 				break;
@@ -132,12 +132,12 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Stloc(params uint[] indexes)
 		{
 			if (indexes == null)
-				throw new ArgumentNullException(nameof(indexes)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(indexes));
 
 			foreach (var i in indexes)
 			{
 				if (Variables.Count <= i)
-					throw new IndexOutOfRangeException($"no variable found at index {i}"); //ncrunch: no coverage
+					throw new IndexOutOfRangeException($"no variable found at index {i}");
 
 				switch (i)
 				{
@@ -165,7 +165,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Stloc(params string[] names)
 		{
 			if (names == null)
-				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(names));
 
 			foreach (var name in names)
 				Stloc((uint) GetVariable(name).Index);
@@ -176,7 +176,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Stloc(MagicNumberArgument value, params string[] names)
 		{
 			if (names == null)
-				throw new ArgumentNullException(nameof(names)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(names));
 
 			var count = names.Length;
 
@@ -198,7 +198,7 @@ namespace Mono.Cecil.Fluent
 							case ILType.I8: value.EmitLdcI8(this); break;
 							case ILType.R8: value.EmitLdcR8(this); break;
 							case ILType.R4: value.EmitLdcR4(this); break;
-							default: throw new NotSupportedException( // ncrunch: no coverage
+							default: throw new NotSupportedException(
 									"variable type must be primitive valuetype in system namespace and convertible to I4, I8, R4 or R8");
 						}
 						isfirst = false;
@@ -218,14 +218,14 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter Stloc(params VariableDefinition[] vars)
 		{
 			if (vars == null)
-				throw new ArgumentNullException(nameof(vars)); //ncrunch: no coverage
+				throw new ArgumentNullException(nameof(vars));
 
 			foreach (var var in vars)
 			{
 				if (var == null)
-					throw new ArgumentNullException($"variable is null"); //ncrunch: no coverage
+					throw new ArgumentNullException($"variable is null");
 				if (Variables.All(v => v != var))
-					throw new ArgumentException("variable must be declared in method body before using it"); //ncrunch: no coverage
+					throw new ArgumentException("variable must be declared in method body before using it");
 
 				Stloc((uint)var.Index);
 			}

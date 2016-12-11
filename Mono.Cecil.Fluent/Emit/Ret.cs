@@ -10,7 +10,7 @@ namespace Mono.Cecil.Fluent
         {
             // todo: better check, e.g. for inherited classes or generics
             if (!a.SafeEquals(b))
-                throw new InvalidOperationException("return type does not match"); // ncrunch: no coverage
+                throw new InvalidOperationException("return type does not match");
         }
 
 		public FluentEmitter Ret()
@@ -28,7 +28,7 @@ namespace Mono.Cecil.Fluent
 				case ILType.R8: value.EmitLdcR8(this); break;
 				case ILType.R4: value.EmitLdcR4(this); break;
 				default:
-					throw new NotSupportedException( // ncrunch: no coverage
+					throw new NotSupportedException(
 						"return type must be primitive valuetype and convertible to I4, I8, R4 or R8");
 			}
 			return Ret();
@@ -42,7 +42,7 @@ namespace Mono.Cecil.Fluent
 		public FluentEmitter RetLoc(uint varindex)
 		{
 			if (varindex >= Variables.Count)
-				throw new ArgumentException($"no variable at index {varindex}"); // ncrunch: no coverage
+				throw new ArgumentException($"no variable at index {varindex}");
 
 			var var = Variables[(int)varindex];
 

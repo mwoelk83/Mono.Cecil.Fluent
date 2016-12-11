@@ -34,7 +34,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 		public MethodBodyDisassembler(PlainTextOutput output)
 		{
 			if (output == null)
-				throw new ArgumentNullException(nameof(output)); // ncrunch: no coverage
+				throw new ArgumentNullException(nameof(output));
 			_o = output;
 		}
 
@@ -143,7 +143,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 							_o.WriteLine("fault");
 							break;
 						default:
-							throw new NotSupportedException(); // ncrunch: no coverage
+							throw new NotSupportedException();
 					}
 					_o.WriteLine("{");
 					break;
@@ -152,7 +152,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 					_o.WriteLine("{");
 					break;
 				default:
-					throw new NotSupportedException(); // ncrunch: no coverage
+					throw new NotSupportedException();
 			}
 			_o.Indent();
 		}
@@ -211,7 +211,7 @@ namespace ICSharpCode.Decompiler.Disassembler
 					_o.WriteLine("} // end filter");
 					break;
 				default:
-					throw new NotSupportedException(); // ncrunch: no coverage
+					throw new NotSupportedException();
 			}
 		}
 	}
